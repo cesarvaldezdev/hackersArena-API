@@ -1,0 +1,25 @@
+{
+  "name": "hackersarena-api",
+  "version": "1.0.0",
+  "description": "The API used for hackersArena. Ok :3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatchaFierce/hackersArena-API.git"
+  },
+  "author": "Fernando López Parra",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MatchaFierce/hackersArena-API/issues"
+  },
+  "homepage": "https://github.com/MatchaFierce/hackersArena-API#readme",
+  "devDependencies": {
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1"
+  }
+}
