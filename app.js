@@ -2,8 +2,15 @@ const express = require('express');
 
 const app = express();
 
-const router = require('./routes');
+app.get('/', (req, res) => {
+  res.status(200).send('Hello, world!').end();
+});
 
+const router = require('./routes');
 app.use(router);
 
-app.listen(3000, () => console.log('Example app listening on poort 3000!'));
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
+  console.log('Press Ctrl+C to quit.');
+});
