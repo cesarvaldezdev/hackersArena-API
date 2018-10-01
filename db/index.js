@@ -20,8 +20,9 @@ class DB{
 
   selectOne(table,id){
     return this.knex
-      .select(id)
+      .select('*')
       .from(table)
+      .where('id',id)
       .then((results)=>{
         return results;
       }).catch(function(error) {
