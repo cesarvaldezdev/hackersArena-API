@@ -23,14 +23,12 @@ class VerdictCtrl {
 
   async getAll(req, res) {
     let data = await Verdict.getAll();
-
     const json = {
       data: data,
       total_count: data.length,
       per_page: data.length,
       page: 0,
     };
-
     // In case user was not found
     if (data.length === 0) {
       res.status(204);
