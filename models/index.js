@@ -1,0 +1,1 @@
+exports.Verdict = require('./verdict');
