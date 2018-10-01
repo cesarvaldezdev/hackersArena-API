@@ -3,7 +3,7 @@
 El llamado a la funcion se hace de la siguiente manera selectAll(table,columns,filters,order,asc,limit)  
 Donde cada uno de los parametro puede tomar los siguientes valores:  
 Parametro | Descripcion  
-:---: | :---:
+--- | ---  
 table | Este parametro nunca se puede dejar vacio, ej. 'User'  
 columns | Este parametro se puede dejar vacio de la siguiente manera: '', con dobles comillas sin espacio entre ellas, o especificar las columnas que queremos obtener ej. ['id','type']  
 filters | Este parametro se puede dejar vacio de la siguiente manera: '', con dobles comillas sin espacio entre ellas, o especificar los filtros de la siguiente manera: entre llaves {} debemos encapsular cada una de los filtros que vayamos a añadir a continuacion, a su vez cada uno de los filtros se encapsula entre corchetes [] y debe de contener el atributo con el que se hara la validacion, el operador y el valor a validar, ej. [{attr:'id',oper:'=',val:'1'},{logic:'or',attr:'id',oper:'=',val:'2'}] donde el resultado de esta query seria: "WHERE id = 1 or id = 2"  
