@@ -14,7 +14,7 @@ class DB{
       filters.forEach((i, index) => {
         if (index !== 0) filts += `${i.logic} `;
         filts += `${i.attr.replace('`', '').replace('`', '')} ${i.oper} `;
-        if (i.oper === 'LIKE') extra += `'%${i.val.replace('\'', '').replace('\'', '')}%' `;
+        if (i.oper === 'LIKE') filts += `'%${i.val.replace('\'', '').replace('\'', '')}%' `;
         else filts += `${i.val} `;
       });
     }
@@ -31,12 +31,23 @@ class DB{
       }).catch(function(e) { console.error(e); });
   }
 
-  selectOne(table,columns,filter){
+  selectOne(table,columns,filters){
+    let filts='';
+    if (filters!='') {
+      filters.forEach((i, index) => {
+        if (index !== 0) filts += `${i.logic} `;
+        filts += `${i.attr.replace('`', '').replace('`', '')} ${i.oper} `;
+        if (i.oper === 'LIKE') filts += `'%${i.val.replace('\'', '').replace('\'', '')}%' `;
+        else filts += `${i.val} `;
+      });
+    }
+    if(columns=='') columns='*';
     return this.knex
-      .select('*')
+      .select(columns)
       .from(table)
-      .where('id',id)
-      .then((results)=>{
+      .whereRaw(filts)
+      .limit(1)
+      .then((results) => {
         return results;
       }).catch(function(e) { console.error(e); });
   }

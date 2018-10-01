@@ -12,7 +12,7 @@ class Verdict {
   }
 
   static async get(verdictId) {
-    const data = await db.selectOne('Verdict', verdictId);
+    const data = await db.selectOne('Verdict', '',[{attr:'id',oper:'=',val:verdictId}]);
     return data.length !== 0 ? new Verdict(data[0]) : data;
   }
 

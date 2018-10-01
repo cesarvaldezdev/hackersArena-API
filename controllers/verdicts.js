@@ -39,7 +39,6 @@ class VerdictCtrl {
 
   async get(req, res) {
     let data = await Verdict.get(req.params.verdictId);
-
     // In case user was not found
     if (data.length === 0) {
       res.status(404);
