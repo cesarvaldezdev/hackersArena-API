@@ -13,7 +13,7 @@ class User {
   }
 
   static async getAll() {
-    const data = processResult(await db.selectAll('Contest','','','','','','','','','id',true,10));
+    const data = processResult(await db.selectAll('Contest','','','id',true,10));
     return data;
   }
 

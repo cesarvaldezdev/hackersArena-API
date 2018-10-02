@@ -25,7 +25,7 @@ class Solution {
   }
 
   static async getAll() {
-    const data = processResult(await db.selectAll('Solution','','','','','','','','','id',true,10));
+    const data = processResult(await db.selectAll('Solution','','','id',true,10));
     return data;
   }
 

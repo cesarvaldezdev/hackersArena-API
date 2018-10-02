@@ -26,7 +26,7 @@ class Problem {
   }
 
   static async getAll() {
-    const data = processResult(await db.selectAll('Problem','','','','','','','','','id',true,10));
+    const data = processResult(await db.selectAll('Problem','','','id',true,10));
     return data;
   }
 

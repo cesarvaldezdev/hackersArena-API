@@ -13,7 +13,7 @@ class Country {
   }
 
   static async getAll() {
-    const data = processResult(await db.selectAll('Country','','','','id',true,10));
+    const data = processResult(await db.selectAll('Country','','','id',true,10));
     return data;
   }
 

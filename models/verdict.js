@@ -1,5 +1,9 @@
 const db = require('../db');
-
+/**
+ * [Class for the differents veredicts for any problem]
+ * @param {[type]} id   [id of the veredict]
+ * @param {[type]} type [type of the veredict]
+ */
 class Verdict {
   constructor({ id, type }) {
     this.id = id;
