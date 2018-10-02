@@ -51,6 +51,51 @@ class DB{
         return results;
       }).catch(function(e) { console.error(e); });
   }
+
+  insert(table,post){
+    return this.knex
+      .insert(table,post)
+      .then((results)=>{
+        return results;
+      }).catch(function(e) { console.error(e); });
+  }
+
+  update(table,post,filters){
+    let filts='';
+    if (filters!='') {
+      filters.forEach((i, index) => {
+        if (index !== 0) filts += `${i.logic} `;
+        filts += `${i.attr.replace('`', '').replace('`', '')} ${i.oper} `;
+        if (i.oper === 'LIKE') filts += `'%${i.val.replace('\'', '').replace('\'', '')}%' `;
+        else filts += `${i.val} `;
+      });
+    }
+    return this.kenx(table)
+      .whereRaw(filts)
+      .update(post)
+      .then((results)=>{
+        return results;
+      }).catch(function(e) { console.error(e); });
+  }
+
+  delete(table,filters){
+    let filts='';
+    if (filters!='') {
+      filters.forEach((i, index) => {
+        if (index !== 0) filts += `${i.logic} `;
+        filts += `${i.attr.replace('`', '').replace('`', '')} ${i.oper} `;
+        if (i.oper === 'LIKE') filts += `'%${i.val.replace('\'', '').replace('\'', '')}%' `;
+        else filts += `${i.val} `;
+      });
+    }
+    return this.knex(table)
+      .whereRaw(filters)
+      .del()
+      .then((results)=>{
+        return results;
+      }).catch(function(e) { console.error(e); });
+  }
+
 }
 
 function connect () {
@@ -71,15 +116,3 @@ function connect () {
 }
 
 module.exports = new DB();
-
-
-// selectAll(table){
-//   return this.knex
-//     .select('*')
-//     .from(table)
-//     .then((results) => {
-//       return results;
-//     }).catch(function(error) {
-//       console.error(error);
-//     });
-// }
