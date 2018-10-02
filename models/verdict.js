@@ -34,4 +34,4 @@ function processResult(data) {
   return result;
 }
 
-module.exports = Verdict;
+module.exports = new Verdict();
