@@ -2,22 +2,11 @@ const { Verdict } = require('../models');
 
 class VerdictCtrl {
   constructor() {
-    // User data temporary hardcoded
-    this.data = [
-      {
-        id: 1,
-        type: 'This is a verdict',
-      },
-      {
-        id: 2,
-        type: 'This is another verdict',
-      },
-    ];
-
     // Binding this to not loose context on router
     this.getAll = this.getAll.bind(this);
     this.get = this.get.bind(this);
     this.create = this.create.bind(this);
+    this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
   }
 
@@ -33,7 +22,6 @@ class VerdictCtrl {
     if (data.length === 0) {
       res.status(204);
     }
-
     res.send(json);
   }
 
@@ -43,7 +31,6 @@ class VerdictCtrl {
     if (data.length === 0) {
       res.status(404);
     }
-
     res.send(data);
   }
 
@@ -52,7 +39,11 @@ class VerdictCtrl {
     res.status(201).send(data);
   }
 
-  delete(req, res) {
+  async update(req, res){
+    
+  }
+
+  async delete(req, res) {
     const index = this.data.findIndex(el => el.id === Number(req.params.verdictId));
     this.data.splice(index, 1);
     res.send();
