@@ -1,0 +1,9 @@
+exports.CategoryCtrl = require('./categories');
+exports.ContestCtrl = require('./contests');
+exports.CountryCtrl = require('./countries');
+exports.LanguageCtrl = require('./languages');
+exports.ProblemCtrl = require('./problems');
+exports.SolutionCtrl = require('./solutions');
+exports.SolutionCtrl = require('./universities');
+exports.UserCtrl = require('./users');
+exports.VerdictCtrl = require('./verdicts');

@@ -1,32 +1,11 @@
 const { Router } = require('express');
 
 // const addDate = require('../middlewares');
+const { UserCtrl } = require('../controllers'); // destructuring
 
 const router = Router();
 
-router.get('/', (req, res) => {
-  const users = [
-    {
-      id: 1,
-      name: 'juan',
-      email: 'juan@correo',
-    },
-    {
-      id: 2,
-      name: 'juan2',
-      email: 'juan2@correo',
-    },
-  ];
-
-  const json = {
-    response: 'ok',
-    data: users,
-    data2: req.body,
-    total: 2,
-  };
-
-  res.send(json);
-});
+router.get('/', UserCtrl.getAll); // lo busca en controllers
 
 router.get('/:userId', (req, res) => {
   const user = {
