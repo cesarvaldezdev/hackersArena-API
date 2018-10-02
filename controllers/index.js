@@ -1,0 +1,1 @@
+exports.verdictsCtrl = require('./verdicts');

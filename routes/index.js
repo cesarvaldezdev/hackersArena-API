@@ -1,18 +1,8 @@
-const { Router } = require('express');
+const router = require('express').Router();
+const verdictsRouter = require('./verdicts');
 
-const router = Router();
+router.get('/', (req, res) => res.send('ExpressJS 101 API'));
 
-// Cargamos los middlewares
-const bodyParser = require('body-parser');
-
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: true }));
-
-// Cargamos las rutas por modulos
-const usersRouter = require('./users');
-
-router.get('/', (req, res) => res.send('Hello World!'));
-
-router.use('/users', usersRouter);
+router.use('/verdicts', verdictsRouter);
 
 module.exports = router;
