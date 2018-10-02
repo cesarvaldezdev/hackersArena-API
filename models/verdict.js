@@ -24,6 +24,19 @@ class Verdict {
     }
     return [];
   }
+
+  static async update() {
+    if (this.id !== undefined && await db.update('Verdict', this, [{ attr: 'id', oper: '=', val: this.id }])) return 0;
+    return 1;
+  }
+
+  static async delete() {
+    if (this.id !== undefined && processResult(await db.get('Verdict', 'id', [{ attr: 'id', oper: '=', val: this.id }])).length !== 0) {
+      if (this.id !== undefined && await db.delete('Verdict', [{ attr: 'id', oper: '=', val: this.id }]) !== undefined) return 0;
+      return 1;
+    }
+    return 2;
+  }
 }
 
 function processResult(data) {
