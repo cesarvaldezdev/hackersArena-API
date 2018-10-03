@@ -7,8 +7,8 @@ router.get('/:verdictId', verdictsCtrl.get);
 router.post('/', (req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
-      type: 'type,required',
-      unwanted: 'required',
+      type: 'word,required',
+      //unwanted: 'required',
     },
   });
 }, verdictsCtrl.create);
