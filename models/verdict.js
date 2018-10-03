@@ -1,7 +1,7 @@
 const db = require('../db');
 
 class Verdict {
-  constructor({ id, type }) {
+  constructor({ id, type },) {
     this.id = id;
     this.type = type;
   }
@@ -16,9 +16,9 @@ class Verdict {
     return data.length !== 0 ? new Verdict(data[0]) : data;
   }
   // Actualiza el elemento en la tabla si este ya existe, sino lo crea
-  static async save(){
+   async save(){
     if (this.id !== undefined && this.processResult(await db.get('Verdict', 'id', [{ attr: 'id', oper: '=', val: this.id }])).length !== 0) return this.update();
-    if (await db.create('Verdicts', this)) return 0;
+    if (await db.insert('Verdict', this)) return 0;
     return 1;
   }
   // Actualiza el elemento

@@ -1,20 +1,17 @@
+// Colocar aqui todas las variables para conexion de DB para correr localmente
 const express = require('express');
-const process = require('process');
-const crypto = require('crypto');
-const Knex = require('knex');
-
+const router = require('./routes');
+const bodyParser = require('body-parser');
 const app = express();
-app.enable('trust proxy');
 
-process.env.SQL_DATABASE = "hackersarenadb";
-process.env.INSTANCE_CONNECTION_NAME = "hackersarena00:us-central1:hackersarenadb";
+app.enable('trust proxy');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(router);
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello, world!').end();
 });
-
-const router = require('./routes');
-app.use(router);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

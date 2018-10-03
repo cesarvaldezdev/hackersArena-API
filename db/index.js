@@ -53,8 +53,8 @@ class DB{
   }
 
   insert(table,post){
-    return this.knex
-      .insert(table,post)
+    return this.knex(table)
+      .insert(post)
       .then((results)=>{
         return results;
       }).catch(function(e) { console.error(e); });
