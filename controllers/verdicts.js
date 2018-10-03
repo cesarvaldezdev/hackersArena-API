@@ -35,12 +35,17 @@ class VerdictCtrl {
   }
 
   async create(req, res, next) {
-    let data = await Verdict.create(req.body);
-    res.status(201).send(data);
+    try {
+      //let data = await Verdict.create(req.body);
+      let data = await new Verdict(req.body).save();
+      res.status(201).send(data);
+    } catch (e) {
+      next(e);
+    }
   }
 
   async update(req, res){
-    
+
   }
 
   async delete(req, res) {
