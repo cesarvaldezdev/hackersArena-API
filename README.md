@@ -1,43 +1,70 @@
-# hackersArena-API
+# Hacker's Arena - API
 
-## Descripción general
-
-La API usada para Hackers Arena. 
-
-## Módulos y funcionalidades
+Hacker's Arena is an space where programmers around the world can improve their coding skills and prove who are the best coder. 
 
 
-## Usuarios y permisos
+## Modules and funtionalities
 
-## Características técnicas de instalación
+In Hacker's Arena you can: 
+- Submit new problems 
+  - If you have a challenge, you can submit it with a solution and other people we'll be able to solve your challenge. 
+- Solve problems submited by another programmers like you
+  - You can checkout the available problems and prove your coding skills. 
+- Evaluate the problems before  
+  - If you think a problem is not good enough, you can also evaluate before it is available for everyone.
+- See how you are ranked in contests
+  - Once a while you'll see the medall you win in a contest. 
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+## Users and permissions
 
-### Prerrequisitos
+### Unregistered users 
+- The users can only see other users challenges, and  leaderboards. 
 
-What things you need to install the software and how to install them
+### Registered users
+For register you can create an account filling a formulary with an email.
+- The users can customize their profiles: Add a profile picture, university, country, etc.  
+- The users can submit problems.  
+- The users can review another people's problems. 
+- The users can see their ranks in contests, and leaderboards. 
+
+### Admin users
+Only can be created by another admin. 
+- The users can do everything as a registred user. 
+- Can add, update, and delete registered users. 
+- Checkout the webpage. 
+ 
+## Get Hacker's Arena API
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+### Before you get started
+
+For this project you need: 
+- [Node.js](https://nodejs.org/en/)
+- [Async](https://caolan.github.io/async/)
+- [Google-Cloud](https://cloud.google.com/storage/docs/gsutil_install)
+- [Crypto](https://www.npmjs.com/package/crypto-js)
+- [Express](http://expressjs.com/es/starter/installing.html)
+- [Knex](https://knexjs.org/)
+- [MySQL](https://www.npmjs.com/package/mysql#install)
+- [Process](https://www.npmjs.com/package/process)
+- [Prompt]()
+- [Body-parser](https://nodejs.org/en/)
+
+### Install
+
+First you need to clone this repository
 
 ```
-Give examples
+$ git clone https://github.com/MatchaFierce/hackersArena-API.git
 ```
 
-### Instalación
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+And move to the repository. 
 
 ```
-Give the example
+$ cd hackersArena-API 
 ```
 
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Demos
 
@@ -63,22 +90,14 @@ Give an example
 
 Add additional notes about how to deploy this on a live system
 
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
 
 ## Colaboradores
 
-* **Daniela Hérnandez** - *Initial work* - [naekkeoya](https://github.com/naekkeoya)
-* **César Valdez** - *Initial work* - [MatchaFierce](https://github.com/MatchaFierce)
-* **Franco Ramirez** - *Initial work* - [Franco1010](https://github.com/Franco1010)
-* **Fernando** - *Initial work* - [fernandolp98](https://github.com/fernandolp98)
-
-La lista completa la puedes ver aquí: [contributors](https://github.com/MatchaFierce/hackersArena-API/graphs/contributors) 
+* **Daniela Hérnandez** - [naekkeoya](https://github.com/naekkeoya)
+* **César Valdez** - [MatchaFierce](https://github.com/MatchaFierce)
+* **Franco Ramirez**  - [Franco1010](https://github.com/Franco1010)
+* **Fernando**  - [fernandolp98](https://github.com/fernandolp98)
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License. 
