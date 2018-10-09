@@ -1,0 +1,70 @@
+const { Solution } = require('../models');
+
+class SolutionCtrl {
+  constructor() {
+    this.getAll = this.getAll.bind(this);
+    this.get = this.get.bind(this);
+    this.create = this.create.bind(this);
+    this.delete = this.delete.bind(this);
+    this.processResult = this.processResult.bind(this);
+  }
+
+  processResult(data) {
+    const result = [];
+    data.forEach((res) => {
+      result.push(new Solution(res));
+    });
+    return result;
+  }
+
+  async getAll(req, res) {
+    let data = await Solution.getAll();
+    data = this.processResult(data);
+    if (data.length === 0) {
+      res.status(400).send({ message: 'No existen elementos que cumplan con la peticion' });
+    } else {
+      res.status(200).send({ data });
+    }
+  }
+
+  async get(req, res) {
+    let data = await Solution.get(req.params.solutionId);
+    if (data.length === 0) {
+      res.status(400).send({message: 'No se encontro el elemento'});
+    }
+    res.send({data});
+  }
+
+  async create(req, res) {
+    let data = await new Solution({
+                id: req.body.id,
+                date: req.body.date,
+                userId: req.body.userId,
+                problemId: req.body.problemId,
+                verdictId: req.body.verdictId,
+                time: req.body.time,
+                memory: req.body.memory,
+                size: req.body.size,
+                languageId: req.body.languageId})
+                .save();
+    if(data===0) res.status(201).send({message: 'Guardado correctamente'});
+    else if (data===1) res.status(400).send({message: 'No se pudo guardar correctamente'});
+    else if (data===2) res.status(400).send({message: 'No existe el usuario al que se quiere asignar'});
+    else if (data===3) res.status(400).send({message: 'No existe el problema que se quiere asignar'});
+    else if (data===4) res.status(400).send({message: 'No existe el veredicto que se quiere asignar'});
+    else if (data===5) res.status(400).send({message: 'No existe el lenguaje que se quiere asignar'});
+  }
+
+  async delete(req, res) {
+    let data = await new Solution({id: req.params.solutionId}).delete();
+    if(data === 0){
+      res.status(200).send({ message: 'Eliminado correctamente' });
+    } else if (data === 1) {
+      res.status(400).send({ error: 'No se pudo eliminar' });
+    } else if (data === 2) {
+      res.status(404).send({ error: 'No existe el elemento a eliminar' });
+    }
+  }
+}
+
+module.exports = new SolutionCtrl();

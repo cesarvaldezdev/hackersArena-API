@@ -1,4 +1,6 @@
 const db = require('../db');
+
+
 /**
  * Contest class, the class describes a contest.
  * @param {[int]} id         [id of a contest]

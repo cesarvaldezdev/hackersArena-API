@@ -1,6 +1,10 @@
 const db = require('../db');
+
+
 class User {
-  constructor({alias, name, lastName, score, email, password, id_University, id_Country}) {
+  constructor({
+    alias, name, lastName, score, email, password, id_University, id_Country
+  }) {
     this.alias = alias;
     this.name = name;
     this.lastName = lastName;

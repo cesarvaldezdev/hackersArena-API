@@ -1,4 +1,6 @@
 const db = require('../db');
+
+
 /**
  * [Class for the University of the users]
  * @param {[type]} id      [id of the university]
@@ -13,37 +15,41 @@ class University {
     this.id_logo = id_logo;
     this.id_Country = id_Country;
   }
+
   // Regresa todos los elementos que cumplen con las restricciones establecidas
   static async getAll() {
-    try{
+    try {
       const data = await db.selectAll('University','','','id',true,20,0);
       const response = [];
       data.forEach((res) => {
         response.push(new University(res));
       });
       return response;
-    }catch(e){
+    } catch (e) {
       throw e;
-    }
+
+ }
   }
+
   // Regresa un solo elemento que cumple con las restricciones establecidas
   static async get(universityId) {
-    try{
+    try {
       const data = await db.selectOne('University', '',[{attr:'id',oper:'=',val:universityId}]);
       return data.length !== 0 ? new University(data[0]) : data;
-    }catch(e){
+    } catch (e) {
       throw e;
     }
   }
+
   // Actualiza el elemento en la tabla si este ya existe, sino lo crea
-  async save(){
-    try{
-      if ( (await db.selectOne('Country','',[{attr:'id',oper:'=',val:this.id_Country}])).length !== 0){
+  async save() {
+    try {
+      if ((await db.selectOne('Country','',[{attr:'id',oper:'=',val:this.id_Country}])).length !== 0) {
         if (this.id !== undefined && (await this.exists()).length !== 0) return this.update();
         if (await db.insert('University', this)) return 0;
         return 1;
-      }else return 2;
-    }catch(e){
+      } return 2;
+    } catch (e) {
       throw e;
     }
   }

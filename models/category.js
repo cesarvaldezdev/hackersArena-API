@@ -1,4 +1,6 @@
 const db = require('../db');
+
+
 /**
  * [Class for the differents categories]
  * @param {[type]} id   [id of the Category]

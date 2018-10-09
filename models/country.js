@@ -1,4 +1,6 @@
 const db = require('../db');
+
+
 /**
  * [Country : The class for the countries of each user]
  * @param {[int]} id        [id of the country]

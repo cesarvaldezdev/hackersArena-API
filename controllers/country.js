@@ -21,9 +21,9 @@ class CountryCtrl {
     let data = await Country.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
-      res.status(400).send({message: 'No existen elementos que cumplan con la peticion'});
-    }else{
-      res.status(200).send({data});
+      res.status(400).send({ message: 'No existen elementos que cumplan con la peticion ' });
+    } else {
+      res.status(200).send({ data });
     }
   }
 
@@ -49,7 +49,7 @@ class CountryCtrl {
 
   async delete(req, res) {
     let data = await new Country({id: req.params.countryId}).delete();
-    if(data === 0){
+    if(data === 0) {
       res.status(200).send({ message: 'Eliminado correctamente' });
     } else if (data === 1) {
       res.status(400).send({ error: 'No se pudo eliminar' });

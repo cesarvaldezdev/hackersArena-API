@@ -1,5 +1,6 @@
 const db = require('../db');
 
+
 class Verdict {
   constructor({ id, type },) {
     this.id = id;
@@ -37,6 +38,7 @@ class Verdict {
       throw e;
     }
   }
+
   // Actualiza el elemento
   async update() {
     try{
