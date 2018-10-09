@@ -16,7 +16,8 @@ class Problem {
   constructor(id, title, difficulty, author, score, testTime, memory, description, input, output) {
     this.id = id;
     this.title = title;
-    this.difficulty = author;
+    this.difficulty = difficulty;
+    this.author = author;
     this.score = score;
     this.testTime = testTime;
     this.memory = memory;
