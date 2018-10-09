@@ -4,6 +4,8 @@
   "description": "The API used for hackersArena. Ok :3",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",
+    "deploy": "gcloud app deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,9 +19,21 @@
   },
   "homepage": "https://github.com/MatchaFierce/hackersArena-API#readme",
   "devDependencies": {
+    "dotenv": "^6.0.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.11.1"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^2.0.3",
+    "async": "^2.6.0",
+    "crypto": "^1.0.1",
+    "eslint": "^5.6.1",
+    "express": "^4.16.3",
+    "knex": "^0.15.2",
+    "mysql": "^2.16.0",
+    "process": "^0.11.10",
+    "prompt": "^1.0.0"
   }
 }

@@ -1,4 +1,2 @@
-exports.addDate = (req, res, next) => {
-    req.body.date = Date.now();
-    next();
-};
+exports.validator = require('./validator');
+exports.errorHandler = require('./errorHandler');

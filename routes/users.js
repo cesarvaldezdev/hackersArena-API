@@ -1,59 +1,39 @@
-const { Router } = require('express');
+const router = require('express').Router();
+const { UserCtrl } = require('../controllers');
+const middlewares = require('../middlewares');
 
-// const addDate = require('../middlewares');
+router.get('/', UserCtrl.getAll);
+router.get('/:userAlias', UserCtrl.get);
 
-const router = Router();
-
-router.get('/', (req, res) => {
-  const users = [
-    {
-      id: 1,
-      name: 'juan',
-      email: 'juan@correo',
+router.post('/',(req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      alias: 'alias,required',
+      name: 'word,required',
+      lastName: 'word,required',
+      email: 'email,required',
+      password: 'password,required',
+      id_University: 'number,required',
+      id_Country: 'number,required',
     },
-    {
-      id: 2,
-      name: 'juan2',
-      email: 'juan2@correo',
-    },
-  ];
+  });
+},UserCtrl.create);
 
-  const json = {
-    response: 'ok',
-    data: users,
-    data2: req.body,
-    total: 2,
-  };
+router.put('/:userAlias',[(req, res, next) => {
+      middlewares.validator.validate(req, res, next, {
+        body: {
+          alias: 'alias,required',
+          name: 'word,required',
+          lastName: 'word,required',
+          score: 'number',
+          email: 'email,required',
+          password: 'password,required',
+          id_University: 'number,required',
+          id_Country: 'number,required',
+        },
+      });
+    }],UserCtrl.create);
 
-  res.send(json);
-});
-
-router.get('/:userId', (req, res) => {
-  const user = {
-    id: req.params.userId,
-    name: `juan${req.params.userId}`,
-    email: `juan${req.params.userId}@correo`,
-  };
-
-  res.send(user);
-});
-
-router.post('/', (req, res) => {
-  console.log(req.body);
-  const json = {
-    response: 'ok',
-    data: {
-      id: 100,
-      name: req.body.name,
-    },
-  };
-
-  res.send(json);
-});
-
-router.put('/:userId', (req, res) => {
-  res.send('editado lindo');
-});
-
+router.delete('/:userAlias', UserCtrl.delete);
 
 module.exports = router;
