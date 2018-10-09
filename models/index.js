@@ -1,1 +1,9 @@
 exports.Verdict = require('./verdict');
+exports.User = require('./user');
+exports.University = require('./university');
+exports.Solution = require('./solution');
+exports.Problem = require('./problem');
+exports.Language = require('./language');
+exports.Country = require('./country');
+exports.Contest = require('./contest');
+exports.Category = require('./category');

@@ -2,7 +2,7 @@
 ## selectAll(params)
 El llamado a la funcion se hace de la siguiente manera
 ``` javascript
-selectAll(table,columns,filters,order,asc,limit);
+selectAll(table,columns,filters,order,asc,limit,offset);
 ```
 Donde cada uno de los parametro puede tomar los siguientes valores:  
 
@@ -14,6 +14,7 @@ filters | Este parametro se puede dejar vacio de la siguiente manera: '', con do
 order | Este campo no puede quedar vacio, y se coloca la columna por la cual queremos ordenar, ej. 'id'.  
 asc | Esta campo no puede quedar vacio, y se coloca un booleano indicando el tipo de orden que tendra, ej. true si queremos que se muestren ascendentemente o false si queremos que se muestren descendentemente.  
 limit | Este campo no puede quedar vacio, es para indicar el numero maximo de elementos que queremos que regrese la consulta, ej. 10.  
+offset | Este campo no puede quedar vacio, indica desde cual indice se regresaran los elementos, cumpliendo con el limite establecido en el parametro anterior
 
 
 ## selectOne(params)

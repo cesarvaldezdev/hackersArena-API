@@ -7,7 +7,7 @@ class DB{
   constructor(){
     this.knex=connect();
   }
-  selectAll(table,columns,filters,order,asc,limit){
+  selectAll(table,columns,filters,order,asc,limit,offset){
     let filts='';
     let ord='asc';
     if (filters!='') {
@@ -26,6 +26,7 @@ class DB{
       .whereRaw(filts)
       .orderBy(order,ord)
       .limit(limit)
+      .offset(offset)
       .then((results) => {
         return results;
       }).catch(function(e) { console.error(e); });
@@ -70,7 +71,7 @@ class DB{
         else filts += `${i.val} `;
       });
     }
-    return this.kenx(table)
+    return this.knex(table)
       .whereRaw(filts)
       .update(post)
       .then((results)=>{
@@ -89,7 +90,7 @@ class DB{
       });
     }
     return this.knex(table)
-      .whereRaw(filters)
+      .whereRaw(filts)
       .del()
       .then((results)=>{
         return results;
