@@ -80,7 +80,8 @@ $ npm start
 ```
 
 ## Hosting
-The server is hosted in Google App Engine using Google Cloud 
+The server is hosted in Google App Engine using Google Cloud:
+  - Url
 ```
 https://hackersarena00.appspot.com
 ```
