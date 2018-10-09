@@ -79,7 +79,7 @@ And run the app
 $ npm start 
 ```
 
-## Colaboradores
+## Collaboration
 
 * **Daniela Hérnandez** - [naekkeoya](https://github.com/naekkeoya)
 * **César Valdez** - [MatchaFierce](https://github.com/MatchaFierce)
