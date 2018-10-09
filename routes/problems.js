@@ -3,20 +3,18 @@ const { ProblemCtrl } = require('../controllers');
 const middlewares = require('../middlewares');
 
 router.get('/', ProblemCtrl.getAll);
-router.get('/:userAlias', ProblemCtrl.get);
+router.get('/:problemId', ProblemCtrl.get);
 
 router.post('/',(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
-      title: 'word,required',
-      difficulty: 'word,required',
-      id_author: 'number,required',
-      score: 'number,required',
-      testTime: 'word,required',
-      memory: 'number,required',
-      description: 'word,required',
-      input: 'word,required',
-      output: 'word,required',
+      id_doc: 'number,required',
+      testTime: 'number,required',
+      testMemory: 'number,required',
+      attempts: 'number,required',
+      solved: 'number,required',
+      alias_User: 'alias,required',
+      id_Category: 'number,required',
     },
   });
 },ProblemCtrl.create);
@@ -24,15 +22,13 @@ router.post('/',(req, res, next) => {
 router.put('/:problemId',[(req, res, next) => {
       middlewares.validator.validate(req, res, next, {
         body: {
-          title: 'word,required',
-          difficulty: 'word,required',
-          id_author: 'number,required',
-          score: 'number,required',
-          testTime: 'word,required',
-          memory: 'number,required',
-          description: 'word,required',
-          input: 'word,required',
-          output: 'word,required',
+          id_doc: 'number,required',
+          testTime: 'number,required',
+          testMemory: 'number,required',
+          attempts: 'number,required',
+          solved: 'number,required',
+          alias_User: 'alias,required',
+          id_Category: 'number,required',
         },
       });
     }],ProblemCtrl.create);

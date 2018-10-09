@@ -28,7 +28,7 @@ class ProblemCtrl {
   }
 
   async get(req, res) {
-    let data = await User.get(req.params.problemId);
+    let data = await Problem.get(req.params.problemId);
     if (data.length === 0) {
       res.status(400).send({message: 'No se encontro el elemento'});
     }
@@ -37,23 +37,24 @@ class ProblemCtrl {
 
   async create(req, res) {
     let data = await new Problem({
-                id: req.body.problemId,
-                title: req.body.title,
-                difficulty: req.body.difficulty,
-                id_author:req.body.id_author,
-                score:req.body.score,
-                testTime:req.body.testTime,
-                memory:req.body.memory,
-                description:req.body.description,
-                input:req.body.input,
-                output:req.body.output})
+                id: req.params.problemId,
+                id_doc: req.body.id_doc,
+                testTime: req.body.testTime,
+                testMemory: req.body.testMemory,
+                attempts: req.body.attempts,
+                solved: req.body.solved,
+                alias_User: req.body.alias_User,
+                id_Category: req.body.id_Category
+                })
                 .save();
     if(data===0) res.status(201).send({message: 'Guardado correctamente'});
-    else if (data===1) res.status(400).send({message: 'No existe el autor que se quiere asignar'});
+    else if (data===1) res.status(400).send({message: 'No se ha podido guardar'});
+    else if (data===2) res.status(400).send({message: 'No existe el alias que se quiere asignar'});
+    else if (data===3) res.status(400).send({message: 'No existe la categoria que se quiere asignar'});
   }
 
   async delete(req, res) {
-    let data = await new Problem({alias: req.params.problemId}).delete();
+    let data = await new Problem({id: req.params.problemId}).delete();
     if(data === 0){
       res.status(200).send({ message: 'Eliminado correctamente' });
     } else if (data === 1) {

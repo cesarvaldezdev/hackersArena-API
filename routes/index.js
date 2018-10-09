@@ -7,6 +7,7 @@ const categoriesRouter = require('./categories');
 const languagesRouter = require('./languages');
 const problemsRouter = require('./problems');
 const contestsRouter = require('./contests');
+const solutionsRouter = require('./solutions');
 
 //router.get('/', (req, res) => res.send('ExpressJS 101 API'));
 
@@ -18,5 +19,6 @@ router.use('/categories',categoriesRouter);
 router.use('/languages',languagesRouter);
 router.use('/problems',problemsRouter);
 router.use('/contests',contestsRouter);
+router.use('/solutions',solutionsRouter);
 
 module.exports = router;

@@ -8,7 +8,7 @@ router.get('/:languageId', LanguageCtrl.get);
 router.post('/',(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
-      name: 'word,required',
+      name: 'language,required',
     },
   });
 },LanguageCtrl.create);
@@ -16,7 +16,7 @@ router.post('/',(req, res, next) => {
 router.put('/:languageId',[(req, res, next) => {
       middlewares.validator.validate(req, res, next, {
         body: {
-          name: 'word,required',
+          name: 'language,required',
         },
       });
     }],LanguageCtrl.create);

@@ -28,7 +28,7 @@ class CategoryCtrl {
   }
 
   async get(req, res) {
-    let data = await Language.get(req.params.languageId);
+    let data = await Category.get(req.params.categoryId);
     if (data.length === 0) {
       res.status(400).send({message: 'No se encontro el elemento'});
     }
@@ -36,8 +36,8 @@ class CategoryCtrl {
   }
 
   async create(req, res) {
-    let data = await new Language({
-                id:req.params.languageId,
+    let data = await new Category({
+                id:req.params.categoryId,
                 name:req.body.name,
               })
               .save();

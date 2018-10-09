@@ -12,7 +12,7 @@ const db = require('../db');
  * @param {[arr]} medal      [medalls of the contest]
  */
 class Contest {
-  constructor(id, name, start, end, type, penalty, frozenTime, deadTime, medal) {
+  constructor({id, name, start, end, type, penalty, frozenTime, deadTime, medal}) {
     this.id = id;
     this.name = name;
     this.start = start;
@@ -25,7 +25,7 @@ class Contest {
   }
 
   static async getAll() {
-    const data = processResult(await db.selectAll('Contest','','','id',true,10));
+    const data = processResult(await db.selectAll('Contest','','','id',true,10,0));
     return data;
   }
 

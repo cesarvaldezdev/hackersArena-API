@@ -1,6 +1,6 @@
-const { Contest } = require('../models');
+const { Solution } = require('../models');
 
-class ContestCtrl {
+class SolutionCtrl {
   constructor() {
     this.getAll = this.getAll.bind(this);
     this.get = this.get.bind(this);
@@ -12,13 +12,13 @@ class ContestCtrl {
   processResult(data) {
     const result = [];
     data.forEach((res) => {
-      result.push(new Contest(res));
+      result.push(new Solution(res));
     });
     return result;
   }
 
   async getAll(req, res) {
-    let data = await Contest.getAll();
+    let data = await Solution.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
       res.status(400).send({message: 'No existen elementos que cumplan con la peticion'});
@@ -28,7 +28,7 @@ class ContestCtrl {
   }
 
   async get(req, res) {
-    let data = await Contest.get(req.params.contestId);
+    let data = await Solution.get(req.params.solutionId);
     if (data.length === 0) {
       res.status(400).send({message: 'No se encontro el elemento'});
     }
@@ -36,22 +36,28 @@ class ContestCtrl {
   }
 
   async create(req, res) {
-    let data = await new Contest({
-                name: req.body.name,
-                start: req.body.start,
-                end:req.body.end,
-                type:req.body.type,
-                penalty:req.body.penalty,
-                frozenTime:req.body.frozenTime,
-                deadTime:req.body.deadTime,
-                medal:req.body.medal})
+    let data = await new Solution({
+                id : req.params.solutionId,
+                date : req.body.date,
+                time : req.body.time,
+                memory : req.body.memory,
+                size : req.body.size,
+                alias_User : req.body.alias_User,
+                id_Problem : req.body.id_Problem,
+                id_Language : req.body.id_Language,
+                id_Verdict : req.body.id_Verdict,
+                })
                 .save();
     if(data===0) res.status(201).send({message: 'Guardado correctamente'});
     else if (data===1) res.status(400).send({message: 'No se pudo guardar correctamente'});
+    else if (data===2) res.status(400).send({message: 'No existe el problema que se quiere asignar'});
+    else if (data===3) res.status(400).send({message: 'No existe el lenguaje que se quiere asignar'});
+    else if (data===4) res.status(400).send({message: 'No existe el usuario que se quiere asignar'});
+    else if (data===5) res.status(400).send({message: 'No existe el veredicto que se quiere asignar'});
   }
 
   async delete(req, res) {
-    let data = await new Contest({alias: req.params.contestId}).delete();
+    let data = await new Solution({id: req.params.solutionId}).delete();
     if(data === 0){
       res.status(200).send({ message: 'Eliminado correctamente' });
     } else if (data === 1) {
@@ -62,4 +68,4 @@ class ContestCtrl {
   }
 }
 
-module.exports = new ContestCtrl();
+module.exports = new SolutionCtrl();
