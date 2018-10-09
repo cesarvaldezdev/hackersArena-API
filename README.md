@@ -90,7 +90,7 @@ https://hackersarena00.appspot.com
 
 - Download the two files contained in this Drive Folder
 ```
-https://drive.google.com/open?id=1OdT01PyGFaWDrldKXFJmppVxkcisfDdm
+https://www.getpostman.com/collections/e49606021924977b848a
 ``` 
 - Open Postman App and Import File for both files (one by one)
 - Set Params to avoid conflicts
