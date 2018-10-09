@@ -1,17 +1,26 @@
 const router = require('express').Router();
-const { verdictsCtrl } = require('../controllers');
+const { VerdictCtrl } = require('../controllers');
 const middlewares = require('../middlewares');
 
-router.get('/', verdictsCtrl.getAll);
-router.get('/:verdictId', verdictsCtrl.get);
-router.post('/', (req, res, next) => {
+router.get('/', VerdictCtrl.getAll);
+router.get('/:verdictId', VerdictCtrl.get);
+
+router.post('/',(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
       type: 'word,required',
-      //unwanted: 'required',
     },
   });
-}, verdictsCtrl.create);
-router.delete('/:verdictId', verdictsCtrl.delete);
+},VerdictCtrl.create);
+
+router.put('/:verdictId',[(req, res, next) => {
+      middlewares.validator.validate(req, res, next, {
+        body: {
+          type: 'word,required',
+        },
+      });
+    }],VerdictCtrl.create);
+
+router.delete('/:verdictId', VerdictCtrl.delete);
 
 module.exports = router;
