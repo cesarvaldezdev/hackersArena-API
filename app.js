@@ -1,9 +1,20 @@
+// Colocar aqui todas las variables para conexion de DB para correr localmente
 const express = require('express');
-
+const router = require('./routes');
+const bodyParser = require('body-parser');
 const app = express();
 
-const router = require('./routes');
-
+app.enable('trust proxy');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(router);
 
-app.listen(3000, () => console.log('Example app listening on poort 3000!'));
+app.get('/', (req, res) => {
+  res.status(200).send('Hello, world!').end();
+});
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
+  console.log('Press Ctrl+C to quit.');
+});
