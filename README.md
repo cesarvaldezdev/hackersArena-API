@@ -1,7 +1,14 @@
 # Hacker's Arena - API
 
-Hacker's Arena is an space where programmers around the world can improve their coding skills and prove who are the best coder. 
+Compete with the best developers and challenge yourself!
+Hacker's Arena is a web-space where programmers around the world can improve their coding skills and prove who are the best coder.
+Everyday you can learn something new, and show everyone other ways to solve problems.
 
+## Our goal
+
+Give to all the programmers around the world a web-page where they can learn, practice and challenge others (and theirselves) everyday, solving problems made and approved by the community.  
+
+We hope to finish in the first weeks of december, and let everyone try this project. 
 
 ## Modules and funtionalities
 
@@ -35,7 +42,7 @@ Only can be created by another admin.
  
 ## Get Hacker's Arena API
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+These instructions will help you to get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Before you get started
 
@@ -51,6 +58,7 @@ For this project you need:
 - [Prompt]()
 - [Body-parser](https://nodejs.org/en/)
 
+
 ### Install
 
 First you need to clone this repository
@@ -58,38 +66,18 @@ First you need to clone this repository
 ```
 $ git clone https://github.com/MatchaFierce/hackersArena-API.git
 ```
-
 And move to the repository. 
-
 ```
 $ cd hackersArena-API 
 ```
-
-
-## Demos
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
+Then install dependencies
 ```
-Give an example
+$ npm install 
 ```
-
-### And coding style tests
-
-Explain what these tests test and why
-
+And run the app
 ```
-Give an example
+$ npm start 
 ```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
 
 ## Colaboradores
 
