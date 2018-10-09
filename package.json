@@ -28,6 +28,7 @@
   "dependencies": {
     "@google-cloud/storage": "^2.0.3",
     "async": "^2.6.0",
+    "body-parser": "^1.18.3",
     "crypto": "^1.0.1",
     "eslint": "^5.6.1",
     "express": "^4.16.3",
