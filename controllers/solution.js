@@ -37,22 +37,23 @@ class SolutionCtrl {
 
   async create(req, res) {
     let data = await new Solution({
-                id: req.body.id,
-                date: req.body.date,
-                userId: req.body.userId,
-                problemId: req.body.problemId,
-                verdictId: req.body.verdictId,
-                time: req.body.time,
-                memory: req.body.memory,
-                size: req.body.size,
-                languageId: req.body.languageId})
+                id : req.params.solutionId,
+                date : req.body.date,
+                time : req.body.time,
+                memory : req.body.memory,
+                size : req.body.size,
+                alias_User : req.body.alias_User,
+                id_Problem : req.body.id_Problem,
+                id_Language : req.body.id_Language,
+                id_Verdict : req.body.id_Verdict,
+                })
                 .save();
     if(data===0) res.status(201).send({message: 'Guardado correctamente'});
     else if (data===1) res.status(400).send({message: 'No se pudo guardar correctamente'});
-    else if (data===2) res.status(400).send({message: 'No existe el usuario al que se quiere asignar'});
-    else if (data===3) res.status(400).send({message: 'No existe el problema que se quiere asignar'});
-    else if (data===4) res.status(400).send({message: 'No existe el veredicto que se quiere asignar'});
-    else if (data===5) res.status(400).send({message: 'No existe el lenguaje que se quiere asignar'});
+    else if (data===2) res.status(400).send({message: 'No existe el problema que se quiere asignar'});
+    else if (data===3) res.status(400).send({message: 'No existe el lenguaje que se quiere asignar'});
+    else if (data===4) res.status(400).send({message: 'No existe el usuario que se quiere asignar'});
+    else if (data===5) res.status(400).send({message: 'No existe el veredicto que se quiere asignar'});
   }
 
   async delete(req, res) {
