@@ -79,6 +79,26 @@ And run the app
 $ npm start 
 ```
 
+<<<<<<< HEAD
+=======
+## Hosting
+The server is hosted in Google App Engine using Google Cloud:
+  - Url
+```
+https://hackersarena00.appspot.com
+```
+
+## Postman
+
+- Download the two files contained in this Drive Folder
+```
+https://www.getpostman.com/collections/e49606021924977b848a
+``` 
+- Open Postman App and Import File for both files (one by one)
+- Set Params to avoid conflicts
+- Open Runner in Postman App (Use the provided Enviroment)
+
+>>>>>>> 1be5cc1ae1119f5216a6954df44254b7e99ec759
 ## Collaboration
 
 * **Daniela Hérnandez** - [naekkeoya](https://github.com/naekkeoya)
