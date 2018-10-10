@@ -60,8 +60,4 @@ function processResult(data) {
   return result;
 }
 
-<<<<<<< HEAD
 module.export = new Contest();
-=======
-module.exports = Contest;
->>>>>>> 1be5cc1ae1119f5216a6954df44254b7e99ec759

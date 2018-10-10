@@ -1,6 +1,5 @@
 const db = require('../db');
 class User {
-<<<<<<< HEAD
   constructor(id, name, lastName, email, alias, country, score, password, university) {
     this.id = id;
     this.name = name;
@@ -125,5 +124,4 @@ module.export = new User();
   }
 }
 
-module.exports = User;
->>>>>>> 1be5cc1ae1119f5216a6954df44254b7e99ec759
+module.exports = new User();

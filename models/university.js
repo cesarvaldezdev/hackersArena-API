@@ -7,7 +7,6 @@ const db = require('../db');
  * @param {[type]} logoId  [id for the university logo]
  */
 class University {
-<<<<<<< HEAD
   constructor(id, name, country, logoId) {
     this.id = id;
     this.name = name;
@@ -119,5 +118,4 @@ module.exports = new University();
   }
 }
 
-module.exports = University;
->>>>>>> 1be5cc1ae1119f5216a6954df44254b7e99ec759
+module.exports = new University();

@@ -118,5 +118,4 @@ class Country {
   }
 }
 
-module.exports = Country;
->>>>>>> 1be5cc1ae1119f5216a6954df44254b7e99ec759
+module.exports = new Country();

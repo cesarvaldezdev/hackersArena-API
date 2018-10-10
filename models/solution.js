@@ -12,7 +12,6 @@ const db = require('../db');
  * @param {[type]} languageId [language for the solution]
  */
 class Solution {
-<<<<<<< HEAD
   constructor(id, date, userId, problemId, veredictId, time, memory, size, languageId) {
     this.id = id;
     this.date = date;
@@ -140,5 +139,4 @@ module.export = new Solution();
     }
   }
 }
-module.exports = Solution;
->>>>>>> 1be5cc1ae1119f5216a6954df44254b7e99ec759
+module.exports = new Solution();
