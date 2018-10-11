@@ -14,7 +14,9 @@ const db = require('../db');
  * @param {[arr]} medal      [medalls of the contest]
  */
 class Contest {
-  constructor({id, name, start, end, type, penalty, frozenTime, deadTime, medal}) {
+  constructor({
+    id, name, start, end, type, penalty, frozenTime, deadTime, medal,
+  }) {
     this.id = id;
     this.name = name;
     this.start = start;
@@ -27,12 +29,12 @@ class Contest {
   }
 
   static async getAll() {
-    const data = processResult(await db.selectAll('Contest','','','id',true,10,0));
+    const data = processResult(await db.selectAll('Contest', '', '', 'id', true, 10, 0));
     return data;
   }
 
   static async get(contestId) {
-    const data = await db.selectOne('Contest', '',[{attr:'id',oper:'=',val:contestId}]);
+    const data = await db.selectOne('Contest', '', [{ attr: 'id', oper: '=', val: contestId }]);
     return data.length !== 0 ? new Contest(data[0]) : data;
   }
 
@@ -40,7 +42,9 @@ class Contest {
     let response = await db.insert('Contest', { name, start, end });
     const id = response.insertId;
     if (id > 0) {
-      return new Contest({ id, name, start, end });
+      return new Contest({
+        id, name, start, end,
+      });
     }
     return [];
   }
