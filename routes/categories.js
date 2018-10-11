@@ -13,7 +13,7 @@ router.post('/',(req, res, next) => {
   });
 },CategoryCtrl.create);
 
-router.put('/:categoryId',[(req, res, next) => {
+router.put('/:categoryId', [(req, res, next) => {
       middlewares.validator.validate(req, res, next, {
         body: {
           name: 'word,required',
