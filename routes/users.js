@@ -5,7 +5,7 @@ const middlewares = require('../middlewares');
 router.get('/', UserCtrl.getAll);
 router.get('/:userAlias', UserCtrl.get);
 
-router.post('/',(req, res, next) => {
+router.post('/', (req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
       alias: 'alias,required',
@@ -17,22 +17,22 @@ router.post('/',(req, res, next) => {
       id_Country: 'number,required',
     },
   });
-},UserCtrl.create);
+}, UserCtrl.create);
 
-router.put('/:userAlias',[(req, res, next) => {
-      middlewares.validator.validate(req, res, next, {
-        body: {
-          alias: 'alias,required',
-          name: 'word,required',
-          lastName: 'word,required',
-          score: 'number',
-          email: 'email,required',
-          password: 'password,required',
-          id_University: 'number,required',
-          id_Country: 'number,required',
-        },
-      });
-    }],UserCtrl.create);
+router.put('/:userAlias', [(req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      alias: 'alias,required',
+      name: 'word,required',
+      lastName: 'word,required',
+      score: 'number',
+      email: 'email,required',
+      password: 'password,required',
+      id_University: 'number,required',
+      id_Country: 'number,required',
+    },
+  });
+}], UserCtrl.create);
 
 router.delete('/:userAlias', UserCtrl.delete);
 
