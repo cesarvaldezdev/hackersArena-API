@@ -88,13 +88,14 @@ https://hackersarena00.appspot.com
 
 ## Postman
 
-- Download the two files contained in this Drive Folder
+- Download the collection from this link
 ```
 https://www.getpostman.com/collections/e49606021924977b848a
 ```
-- Open Postman App and Import File for both files (one by one)
+- Open Postman App and Import via link
+- Create a new enviroment with a variable 'url' with the value 'hackersarena00.appspot.com
 - Set Params to avoid conflicts
-- Open Runner in Postman App (Use the provided Enviroment)
+- Open Runner in Postman App (Use the created Enviroment)
 
 ## Collaboration
 
