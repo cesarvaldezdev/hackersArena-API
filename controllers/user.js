@@ -9,7 +9,7 @@ class UserCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
-  processResult(data) {
+  static processResult(data) {
     const result = [];
     data.forEach((res) => {
       result.push(new User(res));
@@ -21,40 +21,41 @@ class UserCtrl {
     let data = await User.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
-      res.status(400).send({message: 'No items satisfy the petition'});
-    }else{
-      res.status(200).send({data});
+      res.status(400).send({ message: 'No items satisfy the petition' });
+    } else {
+      res.status(200).send({ data });
     }
   }
 
-  async get(req, res) {
-    let data = await User.get(req.params.userAlias);
+  static async get(req, res) {
+    const data = await User.get(req.params.userAlias);
     if (data.length === 0) {
-      res.status(400).send({message: 'Item not found'});
+      res.status(400).send({ message: 'Item not found' });
     }
-    res.send({data});
+    res.send({ data });
   }
 
-  async create(req, res) {
-    let data = await new User({
-                alias: req.body.alias,
-                name: req.body.name,
-                lastName: req.body.lastName,
-                score:req.body.score,
-                email:req.body.email,
-                password:req.body.password,
-                id_University:req.body.id_University,
-                id_Country:req.body.id_Country})
-                .save();
-    if(data===0) res.status(201).send({message: 'Item saved'});
-    else if (data===1) res.status(400).send({message: 'Oops! Trouble saving'});
-    else if (data===2) res.status(400).send({message: 'Oops! Country not found'});
-    else if (data===3) res.status(400).send({message: 'Oops! University not found'});
+  static async create(req, res) {
+    const data = await new User({
+      alias: req.body.alias,
+      name: req.body.name,
+      lastName: req.body.lastName,
+      score: req.body.score,
+      email: req.body.email,
+      password: req.body.password,
+      idUniversity: req.body.idUniversity,
+      idCountry: req.body.idCountry,
+    })
+      .save();
+    if (data === 0) res.status(201).send({ message: 'Item saved' });
+    else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
+    else if (data === 2) res.status(400).send({ message: 'Oops! Country not found' });
+    else if (data === 3) res.status(400).send({ message: 'Oops! University not found' });
   }
 
-  async delete(req, res) {
-    let data = await new User({alias: req.params.userAlias}).delete();
-    if(data === 0){
+  static async delete(req, res) {
+    const data = await new User({ alias: req.params.userAlias }).delete();
+    if (data === 0) {
       res.status(200).send({ message: 'Item deleted' });
     } else if (data === 1) {
       res.status(400).send({ error: 'Oops! Trouble deleting' });

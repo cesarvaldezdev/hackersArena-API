@@ -1,16 +1,17 @@
 const process = require('process');
-const crypto = require('crypto');
+// const crypto = require('crypto');
 const Knex = require('knex');
 
 
-class DB{
-  constructor(){
-    this.knex=connect();
+class DB {
+  constructor() {
+    this.knex = connect();
   }
-  selectAll(table,columns,filters,order,asc,limit,offset){
-    let filts='';
-    let ord='asc';
-    if (filters!='') {
+
+  selectAll(table, columns, filters, order, asc, limit, offset) {
+    let filts = '';
+    let ord = 'asc';
+    if (filters !== '') {
       filters.forEach((i, index) => {
         if (index !== 0) filts += `${i.logic} `;
         filts += `${i.attr.replace('`', '').replace('`', '')} ${i.oper} `;
@@ -18,23 +19,22 @@ class DB{
         else filts += `${i.val} `;
       });
     }
-    if(columns=='') columns='*';
-    if(!asc) ord='desc';
+    if (columns === '') columns.concat('*');
+    if (!asc) ord = 'desc';
     return this.knex
       .select(columns)
       .from(table)
       .whereRaw(filts)
-      .orderBy(order,ord)
+      .orderBy(order, ord)
       .limit(limit)
       .offset(offset)
-      .then((results) => {
-        return results;
-      }).catch(function(e) { console.error(e); });
+      .then(results => results)
+      .catch(e => console.error(e));
   }
 
-  selectOne(table,columns,filters){
-    let filts='';
-    if (filters!='') {
+  selectOne(table, columns, filters) {
+    let filts = '';
+    if (filters !== '') {
       filters.forEach((i, index) => {
         if (index !== 0) filts += `${i.logic} `;
         filts += `${i.attr.replace('`', '').replace('`', '')} ${i.oper} `;
@@ -42,28 +42,26 @@ class DB{
         else filts += `${i.val} `;
       });
     }
-    if(columns=='') columns='*';
+    if (columns === '') columns.concat('*');
     return this.knex
       .select(columns)
       .from(table)
       .whereRaw(filts)
       .limit(1)
-      .then((results) => {
-        return results;
-      }).catch(function(e) { console.error(e); });
+      .then(results => results)
+      .catch(e => console.error(e));
   }
 
-  insert(table,post){
+  insert(table, post) {
     return this.knex(table)
       .insert(post)
-      .then((results)=>{
-        return results;
-      }).catch(function(e) { console.error(e); });
+      .then(results => results)
+      .catch(e => console.error(e));
   }
 
-  update(table,post,filters){
-    let filts='';
-    if (filters!='') {
+  update(table, post, filters) {
+    let filts = '';
+    if (filters !== '') {
       filters.forEach((i, index) => {
         if (index !== 0) filts += `${i.logic} `;
         filts += `${i.attr.replace('`', '').replace('`', '')} ${i.oper} `;
@@ -74,14 +72,13 @@ class DB{
     return this.knex(table)
       .whereRaw(filts)
       .update(post)
-      .then((results)=>{
-        return results;
-      }).catch(function(e) { console.error(e); });
+      .then(results => results)
+      .catch(e => console.error(e));
   }
 
-  delete(table,filters){
-    let filts='';
-    if (filters!='') {
+  delete(table, filters) {
+    let filts = '';
+    if (filters !== '') {
       filters.forEach((i, index) => {
         if (index !== 0) filts += `${i.logic} `;
         filts += `${i.attr.replace('`', '').replace('`', '')} ${i.oper} `;
@@ -92,18 +89,16 @@ class DB{
     return this.knex(table)
       .whereRaw(filts)
       .del()
-      .then((results)=>{
-        return results;
-      }).catch(function(e) { console.error(e); });
+      .then(results => results)
+      .catch(e => console.error(e));
   }
-
 }
 
-function connect () {
+function connect() {
   const config = {
     user: process.env.SQL_USER,
     password: process.env.SQL_PASSWORD,
-    database: process.env.SQL_DATABASE
+    database: process.env.SQL_DATABASE,
   };
   if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production') {
     config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
@@ -111,7 +106,7 @@ function connect () {
   config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
   const knex = Knex({
     client: 'mysql',
-    connection: config
+    connection: config,
   });
   return knex;
 }

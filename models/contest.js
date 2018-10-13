@@ -1,4 +1,6 @@
 const db = require('../db');
+
+
 /**
  * Contest class, the class describes a contest.
  * @param {[int]} id         [id of a contest]
@@ -12,11 +14,9 @@ const db = require('../db');
  * @param {[arr]} medal      [medalls of the contest]
  */
 class Contest {
-<<<<<<< HEAD
-  constructor(id, name, start, end, type, penalty, frozenTime, deadTime, medal) {
-=======
-  constructor({id, name, start, end, type, penalty, frozenTime, deadTime, medal}) {
->>>>>>> 1be5cc1ae1119f5216a6954df44254b7e99ec759
+  constructor({
+    id, name, start, end, type, penalty, frozenTime, deadTime, medal,
+  }) {
     this.id = id;
     this.name = name;
     this.start = start;
@@ -29,24 +29,22 @@ class Contest {
   }
 
   static async getAll() {
-<<<<<<< HEAD
-    const data = processResult(await db.selectAll('Contest','','','id',true,10));
-=======
-    const data = processResult(await db.selectAll('Contest','','','id',true,10,0));
->>>>>>> 1be5cc1ae1119f5216a6954df44254b7e99ec759
+    const data = processResult(await db.selectAll('Contest', '', '', 'id', true, 10, 0));
     return data;
   }
 
   static async get(contestId) {
-    const data = await db.selectOne('Contest', '',[{attr:'id',oper:'=',val:contestId}]);
+    const data = await db.selectOne('Contest', '', [{ attr: 'id', oper: '=', val: contestId }]);
     return data.length !== 0 ? new Contest(data[0]) : data;
   }
 
   static async create({ type }) {
-    let response = await db.insert('Contest', { name, start, end });
+    const response = await db.insert('Contest', { name, start, end });
     const id = response.insertId;
     if (id > 0) {
-      return new Contest({ id, name, start, end });
+      return new Contest({
+        id, name, start, end,
+      });
     }
     return [];
   }

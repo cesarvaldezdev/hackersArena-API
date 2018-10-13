@@ -9,7 +9,7 @@ class LanguageCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
-  processResult(data) {
+  static processResult(data) {
     const result = [];
     data.forEach((res) => {
       result.push(new Language(res));
@@ -21,34 +21,34 @@ class LanguageCtrl {
     let data = await Language.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
-      res.status(400).send({message: 'No items satisfy the petition'});
-    }else{
-      res.status(200).send({data});
+      res.status(400).send({ message: 'No items satisfy the petition' });
+    } else {
+      res.status(200).send({ data });
     }
   }
 
-  async get(req, res) {
-    let data = await Language.get(req.params.languageId);
+  static async get(req, res) {
+    const data = await Language.get(req.params.languageId);
     if (data.length === 0) {
-      res.status(400).send({message: 'Item not found'});
+      res.status(400).send({ message: 'Item not found' });
     }
-    res.send({data});
+    res.send({ data });
   }
 
-  async create(req, res) {
-    let data = await new Language({
-                id:req.params.languageId,
-                name:req.body.name,
-              })
-              .save();
-    if(data===0) res.status(201).send({message: 'Item saved'});
-    else if (data===1) res.status(400).send({message: 'Oops! Trouble saving'})
 
+  static async create(req, res) {
+    const data = await new Language({
+      id: req.params.languageId,
+      name: req.body.name,
+    })
+      .save();
+    if (data === 0) res.status(201).send({ message: 'Item saved' });
+    else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
   }
 
-  async delete(req, res) {
-    let data = await new Language({id: req.params.languageId}).delete();
-    if(data === 0){
+  static async delete(req, res) {
+    const data = await new Language({ id: req.params.languageId }).delete();
+    if (data === 0) {
       res.status(200).send({ message: 'Item deleted' });
     } else if (data === 1) {
       res.status(400).send({ error: 'Oops! Trouble deleting' });

@@ -5,21 +5,21 @@ const middlewares = require('../middlewares');
 router.get('/', CategoryCtrl.getAll);
 router.get('/:categoryId', CategoryCtrl.get);
 
-router.post('/',(req, res, next) => {
+router.post('/', (req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
       name: 'word,required',
     },
   });
-},CategoryCtrl.create);
+}, CategoryCtrl.create);
 
-router.put('/:categoryId',[(req, res, next) => {
-      middlewares.validator.validate(req, res, next, {
-        body: {
-          name: 'word,required',
-        },
-      });
-    }],CategoryCtrl.create);
+router.put('/:categoryId', [(req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      name: 'word,required',
+    },
+  });
+}], CategoryCtrl.create);
 
 router.delete('/:categoryId', CategoryCtrl.delete);
 

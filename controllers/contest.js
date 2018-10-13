@@ -9,7 +9,7 @@ class ContestCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
-  processResult(data) {
+  static processResult(data) {
     const result = [];
     data.forEach((res) => {
       result.push(new Contest(res));
@@ -17,42 +17,43 @@ class ContestCtrl {
     return result;
   }
 
-  async getAll(req, res) {
+  static async getAll(req, res) {
     let data = await Contest.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
-      res.status(400).send({message: 'Oops! No items satisfy the petition'});
-    }else{
-      res.status(200).send({data});
+      res.status(400).send({ message: 'Oops! No items satisfy the petition' });
+    } else {
+      res.status(200).send({ data });
     }
   }
 
-  async get(req, res) {
-    let data = await Contest.get(req.params.contestId);
+  static async get(req, res) {
+    const data = await Contest.get(req.params.contestId);
     if (data.length === 0) {
-      res.status(400).send({message: 'Item not found'});
+      res.status(400).send({ message: 'Item not found' });
     }
-    res.send({data});
+    res.send({ data });
   }
 
-  async create(req, res) {
-    let data = await new Contest({
-                name: req.body.name,
-                start: req.body.start,
-                end:req.body.end,
-                type:req.body.type,
-                penalty:req.body.penalty,
-                frozenTime:req.body.frozenTime,
-                deadTime:req.body.deadTime,
-                medal:req.body.medal})
-                .save();
-    if(data===0) res.status(201).send({message: 'Item saved'});
-    else if (data===1) res.status(400).send({message: 'Oops! Trouble saving'});
+  static async create(req, res) {
+    const data = await new Contest({
+      name: req.body.name,
+      start: req.body.start,
+      end: req.body.end,
+      type: req.body.type,
+      penalty: req.body.penalty,
+      frozenTime: req.body.frozenTime,
+      deadTime: req.body.deadTime,
+      medal: req.body.medal,
+    })
+      .save();
+    if (data === 0) res.status(201).send({ message: 'Item saved' });
+    else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
   }
 
-  async delete(req, res) {
-    let data = await new Contest({alias: req.params.contestId}).delete();
-    if(data === 0){
+  static async delete(req, res) {
+    const data = await new Contest({ alias: req.params.contestId }).delete();
+    if (data === 0) {
       res.status(200).send({ message: 'Item deleted' });
     } else if (data === 1) {
       res.status(400).send({ error: 'Oops! Trouble deleting' });

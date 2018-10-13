@@ -1,5 +1,6 @@
 const { Country } = require('../models');
 
+
 class CountryCtrl {
   constructor() {
     this.getAll = this.getAll.bind(this);
@@ -9,7 +10,7 @@ class CountryCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
-  processResult(data) {
+  static processResult(data) {
     const result = [];
     data.forEach((res) => {
       result.push(new Country(res));
@@ -21,35 +22,34 @@ class CountryCtrl {
     let data = await Country.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
-      res.status(400).send({message: 'No items satisfy the petition'});
-    }else{
-      res.status(200).send({data});
+      res.status(400).send({ message: 'No items satisfy the petition' });
+    } else {
+      res.status(200).send({ data });
     }
   }
 
-  async get(req, res) {
-    let data = await Country.get(req.params.countryId);
+  static async get(req, res) {
+    const data = await Country.get(req.params.countryId);
     if (data.length === 0) {
-      res.status(400).send({message: 'Item not found'});
+      res.status(400).send({ message: 'Item not found' });
     }
-    res.send({data});
+    res.send({ data });
   }
 
-  async create(req, res) {
-    let data = await new Country({
-                id:req.params.countryId,
-                name:req.body.name,
-                id_flag:req.body.id_flag
-              })
-              .save();
-    if(data===0) res.status(201).send({message: 'Item saved'});
-    else if (data===1) res.status(400).send({message: 'Oops! Trouble saving'})
-
+  static async create(req, res) {
+    const data = await new Country({
+      id: req.params.countryId,
+      name: req.body.name,
+      id_flag: req.body.id_flag,
+    })
+      .save();
+    if (data === 0) res.status(201).send({ message: 'Item saved' });
+    else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
   }
 
-  async delete(req, res) {
-    let data = await new Country({id: req.params.countryId}).delete();
-    if(data === 0){
+  static async delete(req, res) {
+    const data = await new Country({ id: req.params.countryId }).delete();
+    if (data === 0) {
       res.status(200).send({ message: 'Item deleted' });
     } else if (data === 1) {
       res.status(400).send({ error: 'Oops! Trouble deleting' });
