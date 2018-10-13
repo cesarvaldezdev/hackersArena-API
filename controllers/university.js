@@ -9,7 +9,7 @@ class UniversityCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
-  processResult(data) {
+  static processResult(data) {
     const result = [];
     data.forEach((res) => {
       result.push(new University(res));
@@ -21,42 +21,41 @@ class UniversityCtrl {
     let data = await University.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
-      res.status(400).send({message: 'No existen elementos que cumplan con la peticion'});
-    }else{
-      res.status(200).send({data});
+      res.status(400).send({ message: 'There are no elements that match request' });
+    } else {
+      res.status(200).send({ data });
     }
   }
 
-  async get(req, res) {
-    let data = await University.get(req.params.universityId);
+  static async get(req, res) {
+    const data = await University.get(req.params.universityId);
     if (data.length === 0) {
-      res.status(400).send({message: 'No se encontro el elemento'});
+      res.status(400).send({ message: 'Element not found' });
     }
-    res.send({data});
+    res.send({ data });
   }
 
-  async create(req, res) {
-    let data = await new University({
-                id:req.params.universityId,
-                name:req.body.name,
-                id_logo:req.body.id_logo,
-                id_Country:req.body.id_Country
-              })
-              .save();
-    if(data===0) res.status(201).send({message: 'Guardado correctamente'});
-    else if (data===1) res.status(400).send({message: 'No se pudo guardar correctamente'})
-    else if (data===2) res.status(400).send({message: 'No existe el pais que se quiere asignar'})
-
+  static async create(req, res) {
+    const data = await new University({
+      id: req.params.universityId,
+      name: req.body.name,
+      idLogo: req.body.idLogo,
+      idCountry: req.body.idCountry,
+    })
+      .save();
+    if (data === 0) res.status(201).send({ message: 'Saved succesfully' });
+    else if (data === 1) res.status(400).send({ message: 'Could not be saved' });
+    else if (data === 2) res.status(400).send({ message: 'Country does not exist' });
   }
 
-  async delete(req, res) {
-    let data = await new University({id: req.params.universityId}).delete();
-    if(data === 0){
-      res.status(200).send({ message: 'Eliminado correctamente' });
+  static async delete(req, res) {
+    const data = await new University({ id: req.params.universityId }).delete();
+    if (data === 0) {
+      res.status(200).send({ message: 'Deleted succesfully' });
     } else if (data === 1) {
-      res.status(400).send({ error: 'No se pudo eliminar' });
+      res.status(400).send({ error: 'Could not be deleted' });
     } else if (data === 2) {
-      res.status(404).send({ error: 'No existe el elemento a eliminar' });
+      res.status(404).send({ error: 'There is no element to delete' });
     }
   }
 }

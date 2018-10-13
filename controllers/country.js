@@ -10,7 +10,7 @@ class CountryCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
-  processResult(data) {
+  static processResult(data) {
     const result = [];
     data.forEach((res) => {
       result.push(new Country(res));
@@ -28,7 +28,7 @@ class CountryCtrl {
     }
   }
 
-  async get(req, res) {
+  static async get(req, res) {
     const data = await Country.get(req.params.countryId);
     if (data.length === 0) {
       res.status(400).send({ message: 'Element not found' });
@@ -36,7 +36,7 @@ class CountryCtrl {
     res.send({ data });
   }
 
-  async create(req, res) {
+  static async create(req, res) {
     const data = await new Country({
       id: req.params.countryId,
       name: req.body.name,
@@ -47,7 +47,7 @@ class CountryCtrl {
     else if (data === 1) res.status(400).send({ message: 'Could not be saved' });
   }
 
-  async delete(req, res) {
+  static async delete(req, res) {
     const data = await new Country({ id: req.params.countryId }).delete();
     if (data === 0) {
       res.status(200).send({ message: 'Deleted succesfully' });

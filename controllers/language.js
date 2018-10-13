@@ -9,7 +9,7 @@ class LanguageCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
-  processResult(data) {
+  static processResult(data) {
     const result = [];
     data.forEach((res) => {
       result.push(new Language(res));
@@ -27,7 +27,7 @@ class LanguageCtrl {
     }
   }
 
-  async get(req, res) {
+  static async get(req, res) {
     const data = await Language.get(req.params.languageId);
     if (data.length === 0) {
       res.status(400).send({ message: 'Element not found' });
@@ -35,7 +35,7 @@ class LanguageCtrl {
     res.send({ data });
   }
 
-  async create(req, res) {
+  static async create(req, res) {
     const data = await new Language({
       id: req.params.languageId,
       name: req.body.name,
@@ -45,7 +45,7 @@ class LanguageCtrl {
     else if (data === 1) res.status(400).send({ message: 'Could not be saved' });
   }
 
-  async delete(req, res) {
+  static async delete(req, res) {
     const data = await new Language({ id: req.params.languageId }).delete();
     if (data === 0) {
       res.status(200).send({ message: 'Deleted succesfully' });

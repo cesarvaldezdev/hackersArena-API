@@ -9,7 +9,7 @@ class VerdictCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
-  processResult(data) {
+  static processResult(data) {
     const result = [];
     data.forEach((res) => {
       result.push(new Verdict(res));
@@ -33,7 +33,7 @@ class VerdictCtrl {
     }
   }
 
-  async get(req, res) {
+  static async get(req, res) {
     const data = await Verdict.get(req.params.verdictId);
     if (data.length === 0) {
       res.status(400).send({ message: 'Element not found' });
@@ -41,13 +41,13 @@ class VerdictCtrl {
     res.send({ data });
   }
 
-  async create(req, res) {
+  static async create(req, res) {
     const data = await new Verdict({ id: req.params.verdictId, type: req.body.type }).save();
     if (data === 0) res.status(201).send({ message: 'Succesfully saved' });
     else if (data === 1) res.status(400).send({ message: 'Could not be saved' });
   }
 
-  async delete(req, res) {
+  static async delete(req, res) {
     const data = await new Verdict({ id: req.params.verdictId }).delete();
     if (data === 0) {
       res.status(200).send({ message: 'Eliminado correctamente' });

@@ -9,7 +9,7 @@ class UserCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
-  processResult(data) {
+  static processResult(data) {
     const result = [];
     data.forEach((res) => {
       result.push(new User(res));
@@ -27,7 +27,7 @@ class UserCtrl {
     }
   }
 
-  async get(req, res) {
+  static async get(req, res) {
     const data = await User.get(req.params.userAlias);
     if (data.length === 0) {
       res.status(400).send({ message: 'Element not found' });
@@ -35,7 +35,7 @@ class UserCtrl {
     res.send({ data });
   }
 
-  async create(req, res) {
+  static async create(req, res) {
     const data = await new User({
       alias: req.body.alias,
       name: req.body.name,
@@ -53,7 +53,7 @@ class UserCtrl {
     else if (data === 3) res.status(400).send({ message: 'University does not exist' });
   }
 
-  async delete(req, res) {
+  static async delete(req, res) {
     const data = await new User({ alias: req.params.userAlias }).delete();
     if (data === 0) {
       res.status(200).send({ message: 'Succesfully deleted' });
