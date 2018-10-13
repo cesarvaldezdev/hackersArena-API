@@ -3,29 +3,27 @@ const db = require('../db');
 
 /**
  * [Class for every coding problem]
- * @param {[type]} id          [id of the problem]
- * @param {[type]} title       [title of the problem]
- * @param {[type]} difficulty  [difficulty of the problem]
- * @param {[type]} author      [author of the problem]
- * @param {[type]} score       [score for the problem]
- * @param {[type]} testTime    [test time of the problem]
- * @param {[type]} memory      [memory needed for the problem]
- * @param {[type]} description [aditional description of the problem]
- * @param {[type]} input       [expected input]
- * @param {[type]} output      [expected output]
+ * @param {[type]} id         [id of the problem]
+ * @param {[type]} idDoc      [id of the document]
+ * @param {[type]} testTime   [time of the test]
+ * @param {[type]} testMemory [memory used in test]
+ * @param {[type]} attempts   [number of attempts]
+ * @param {[type]} solved     [true if problem is solved]
+ * @param {[type]} aliasUser  [alias of the user]
+ * @param {[type]} idCategory [id of the category]
  */
 class Problem {
   constructor({
     id, docId, testTime, testMemory, attempts, solved, aliasUser, idCategory,
   }) {
     this.id = id;
-    this.id_doc = docId;
+    this.idDoc = docId;
     this.testTime = testTime;
     this.testMemory = testMemory;
     this.attempts = attempts;
     this.solved = solved;
-    this.alias_User = aliasUser;
-    this.id_Category = idCategory;
+    this.aliasUser = aliasUser;
+    this.idCategory = idCategory;
   }
 
   // Regresa todos los elementos que cumplen con las restricciones establecidas
@@ -104,4 +102,4 @@ class Problem {
   }
 }
 
-module.exports = Problem;
+module.exports = new Problem();

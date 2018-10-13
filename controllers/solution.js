@@ -21,7 +21,7 @@ class SolutionCtrl {
     let data = await Solution.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
-      res.status(400).send({ message: 'No existen elementos que cumplan con la peticion' });
+      res.status(400).send({ message: 'No items satisfy the petition' });
     } else {
       res.status(200).send({ data });
     }
@@ -30,7 +30,7 @@ class SolutionCtrl {
   static async get(req, res) {
     const data = await Solution.get(req.params.solutionId);
     if (data.length === 0) {
-      res.status(400).send({ message: 'Element could not be found' });
+      res.status(400).send({ message: 'Item not found' });
     }
     res.send({ data });
   }
@@ -48,22 +48,22 @@ class SolutionCtrl {
       idVerdict: req.body.idVerdict,
     })
       .save();
-    if (data === 0) res.status(201).send({ message: 'Saved successfully' });
-    else if (data === 1) res.status(400).send({ message: 'Could not be saved' });
-    else if (data === 2) res.status(400).send({ message: 'Problem does not exist' });
-    else if (data === 3) res.status(400).send({ message: 'No existe el lenguaje que se quiere asignar' });
-    else if (data === 4) res.status(400).send({ message: 'No existe el usuario que se quiere asignar' });
-    else if (data === 5) res.status(400).send({ message: 'No existe el veredicto que se quiere asignar' });
+    if (data === 0) res.status(201).send({ message: 'Item saved' });
+    else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
+    else if (data === 2) res.status(400).send({ message: 'Oops! Problem not found' });
+    else if (data === 3) res.status(400).send({ message: 'Oops! Language not found' });
+    else if (data === 4) res.status(400).send({ message: 'Oops! User not found' });
+    else if (data === 5) res.status(400).send({ message: 'Oops! Verdict not found' });
   }
 
   static async delete(req, res) {
     const data = await new Solution({ id: req.params.solutionId }).delete();
     if (data === 0) {
-      res.status(200).send({ message: 'Deleted successfully' });
+      res.status(200).send({ message: 'Item deleted' });
     } else if (data === 1) {
-      res.status(400).send({ error: 'No se pudo eliminar' });
+      res.status(400).send({ error: 'Oops! Trouble deleting' });
     } else if (data === 2) {
-      res.status(404).send({ error: 'No existe el elemento a eliminar' });
+      res.status(404).send({ error: 'Item not found' });
     }
   }
 }

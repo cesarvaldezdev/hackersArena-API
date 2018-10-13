@@ -21,7 +21,7 @@ class UniversityCtrl {
     let data = await University.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
-      res.status(400).send({ message: 'There are no elements that match request' });
+      res.status(400).send({ message: 'No items satisfy the petition' });
     } else {
       res.status(200).send({ data });
     }
@@ -30,7 +30,7 @@ class UniversityCtrl {
   static async get(req, res) {
     const data = await University.get(req.params.universityId);
     if (data.length === 0) {
-      res.status(400).send({ message: 'Element not found' });
+      res.status(400).send({ message: 'Item not found' });
     }
     res.send({ data });
   }
@@ -43,19 +43,19 @@ class UniversityCtrl {
       idCountry: req.body.idCountry,
     })
       .save();
-    if (data === 0) res.status(201).send({ message: 'Saved succesfully' });
-    else if (data === 1) res.status(400).send({ message: 'Could not be saved' });
-    else if (data === 2) res.status(400).send({ message: 'Country does not exist' });
+    if (data === 0) res.status(201).send({ message: 'Item saved' });
+    else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
+    else if (data === 2) res.status(400).send({ message: 'Oops! Country not found' });
   }
 
   static async delete(req, res) {
     const data = await new University({ id: req.params.universityId }).delete();
     if (data === 0) {
-      res.status(200).send({ message: 'Deleted succesfully' });
+      res.status(200).send({ message: 'Item deleted' });
     } else if (data === 1) {
-      res.status(400).send({ error: 'Could not be deleted' });
+      res.status(400).send({ error: 'Oops! Trouble deleting' });
     } else if (data === 2) {
-      res.status(404).send({ error: 'There is no element to delete' });
+      res.status(404).send({ error: 'Item not found' });
     }
   }
 }

@@ -84,4 +84,4 @@ class Language {
   }
 }
 
-module.exports = Language;
+module.exports = new Language();

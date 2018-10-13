@@ -92,4 +92,4 @@ class University {
   }
 }
 
-module.exports = University;
+module.exports = new University();

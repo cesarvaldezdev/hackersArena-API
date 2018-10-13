@@ -21,7 +21,7 @@ class ProblemCtrl {
     let data = await Problem.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
-      res.status(400).send({ message: 'There are no elements that match request' });
+      res.status(400).send({ message: 'No items satisfy the petition' });
     } else {
       res.status(200).send({ data });
     }
@@ -30,7 +30,7 @@ class ProblemCtrl {
   static async get(req, res) {
     const data = await Problem.get(req.params.problemId);
     if (data.length === 0) {
-      res.status(400).send({ message: 'Element not found' });
+      res.status(400).send({ message: 'Item not found' });
     }
     res.send({ data });
   }
@@ -47,10 +47,10 @@ class ProblemCtrl {
       idCategory: req.body.id_Category,
     })
       .save();
-    if (data === 0) res.status(201).send({ message: 'Saved succesfully' });
-    else if (data === 1) res.status(400).send({ message: 'Could not be saved' });
-    else if (data === 2) res.status(400).send({ message: 'Alias does not exist' });
-    else if (data === 3) res.status(400).send({ message: 'Category does not exist' });
+    if (data === 0) res.status(201).send({ message: 'Item saved' });
+    else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
+    else if (data === 2) res.status(400).send({ message: 'Oops! Alias not found' });
+    else if (data === 3) res.status(400).send({ message: 'Oops! Category not found' });
   }
 
   static async delete(req, res) {
@@ -58,9 +58,9 @@ class ProblemCtrl {
     if (data === 0) {
       res.status(200).send({ message: 'Deleted succesfully' });
     } else if (data === 1) {
-      res.status(400).send({ error: 'Could not be saved' });
+      res.status(400).send({ error: 'Oops! Trouble deleting' });
     } else if (data === 2) {
-      res.status(404).send({ error: 'There is no element to delete' });
+      res.status(404).send({ error: 'Item not found' });
     }
   }
 }

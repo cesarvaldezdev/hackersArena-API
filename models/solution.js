@@ -107,4 +107,4 @@ class Solution {
     }
   }
 }
-module.exports = Solution;
+module.exports = new Solution();

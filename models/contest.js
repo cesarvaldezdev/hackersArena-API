@@ -58,4 +58,4 @@ function processResult(data) {
   return result;
 }
 
-module.exports = Contest;
+module.export = new Contest();

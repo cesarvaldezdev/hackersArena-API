@@ -21,7 +21,7 @@ class CategoryCtrl {
     let data = await Category.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
-      res.status(400).send({ message: 'There are no elements that match request' });
+      res.status(400).send({ message: 'Oops! No items satisfy the petition' });
     } else {
       res.status(200).send({ data });
     }
@@ -30,7 +30,7 @@ class CategoryCtrl {
   static async get(req, res) {
     const data = await Category.get(req.params.categoryId);
     if (data.length === 0) {
-      res.status(400).send({ message: 'Element not found' });
+      res.status(400).send({ message: 'Item not found' });
     }
     res.send({ data });
   }
@@ -41,18 +41,18 @@ class CategoryCtrl {
       name: req.body.name,
     })
       .save();
-    if (data === 0) res.status(201).send({ message: 'Saved succesfully' });
-    else if (data === 1) res.status(400).send({ message: 'Could not be saved' });
+    if (data === 0) res.status(201).send({ message: 'Item saved' });
+    else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
   }
 
   static async delete(req, res) {
     const data = await new Category({ id: req.params.categoryId }).delete();
     if (data === 0) {
-      res.status(200).send({ message: 'Deleted succesfully' });
+      res.status(200).send({ message: 'Item deleted' });
     } else if (data === 1) {
-      res.status(400).send({ error: 'Could not be deleted' });
+      res.status(400).send({ error: 'Oops! Trouble deleting' });
     } else if (data === 2) {
-      res.status(404).send({ error: 'There is no element to delete' });
+      res.status(404).send({ error: 'Item not found' });
     }
   }
 }

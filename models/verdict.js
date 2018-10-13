@@ -1,6 +1,11 @@
 const db = require('../db');
 
 
+/**
+ * [Class for the differents veredicts for any problem]
+ * @param {[type]} id   [id of the veredict]
+ * @param {[type]} type [type of the veredict]
+ */
 class Verdict {
   constructor({ id, type }) {
     this.id = id;
@@ -42,7 +47,7 @@ class Verdict {
     }
   }
 
-  // Actualiza el elemento
+  // Updates the element
   async update() {
     try {
       if (this.id !== undefined && await db.update('Verdict', this, [{ attr: 'id', oper: '=', val: this.id }])) return 0;
@@ -79,4 +84,4 @@ class Verdict {
   }
 }
 
-module.exports = Verdict;
+module.exports = new Verdict();

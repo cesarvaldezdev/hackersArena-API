@@ -86,4 +86,4 @@ class Country {
   }
 }
 
-module.exports = Country;
+module.exports = new Country();
