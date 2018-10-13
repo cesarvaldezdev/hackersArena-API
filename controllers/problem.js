@@ -21,7 +21,7 @@ class ProblemCtrl {
     let data = await Problem.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
-      res.status(400).send({message: 'No existen elementos que cumplan con la peticion'});
+      res.status(400).send({message: 'No items satisfy the petition'});
     }else{
       res.status(200).send({data});
     }
@@ -30,7 +30,7 @@ class ProblemCtrl {
   async get(req, res) {
     let data = await Problem.get(req.params.problemId);
     if (data.length === 0) {
-      res.status(400).send({message: 'No se encontro el elemento'});
+      res.status(400).send({message: 'Item not found'});
     }
     res.send({data});
   }
@@ -47,20 +47,20 @@ class ProblemCtrl {
                 id_Category: req.body.id_Category
                 })
                 .save();
-    if(data===0) res.status(201).send({message: 'Guardado correctamente'});
-    else if (data===1) res.status(400).send({message: 'No se ha podido guardar'});
-    else if (data===2) res.status(400).send({message: 'No existe el alias que se quiere asignar'});
-    else if (data===3) res.status(400).send({message: 'No existe la categoria que se quiere asignar'});
+    if(data===0) res.status(201).send({message: 'Item saved'});
+    else if (data===1) res.status(400).send({message: 'Oops! Trouble saving'});
+    else if (data===2) res.status(400).send({message: 'Oops! Alias not found'});
+    else if (data===3) res.status(400).send({message: 'Oops! Category not found'});
   }
 
   async delete(req, res) {
     let data = await new Problem({id: req.params.problemId}).delete();
     if(data === 0){
-      res.status(200).send({ message: 'Eliminado correctamente' });
+      res.status(200).send({ message: 'Item deleted' });
     } else if (data === 1) {
-      res.status(400).send({ error: 'No se pudo eliminar' });
+      res.status(400).send({ error: 'Oops! Trouble deleting' });
     } else if (data === 2) {
-      res.status(404).send({ error: 'No existe el elemento a eliminar' });
+      res.status(404).send({ error: 'Item not found' });
     }
   }
 }

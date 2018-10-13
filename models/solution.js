@@ -12,6 +12,48 @@ const db = require('../db');
  * @param {[type]} languageId [language for the solution]
  */
 class Solution {
+  constructor(id, date, userId, problemId, veredictId, time, memory, size, languageId) {
+    this.id = id;
+    this.date = date;
+    this.userId = userId;
+    this.problemId = problemId;
+    this.veredictId = veredictId;
+    this.time = time;
+    this.memory = memory;
+    this.size = size;
+    this.languageId = languageId;
+  }
+
+  static async getAll() {
+    const data = processResult(await db.selectAll('Solution','','','id',true,10));
+    return data;
+  }
+
+  static async get(solutionId) {
+    const data = await db.selectOne('Solution', '',[{attr:'id',oper:'=',val:solutionId}]);
+    return data.length !== 0 ? new Contest(data[0]) : data;
+  }
+
+  static async create({ date, userId, problemId, veredictId, time, memory, size }) {
+    let response = await db.insert('Solution', { data, userId, problemId, veredictId, time, memory, size });
+    const id = response.insertId;
+    if (id > 0) {
+      return new Solution({ data, userId, problemId, veredictId, time, memory, size });
+    }
+    return [];
+  }
+}
+
+function processResult(data) {
+  const result = [];
+  data.forEach((res) => {
+    result.push(new Solution(res));
+  });
+  return result;
+}
+
+module.export = new Solution();
+=======
   constructor({id, date, time, memory, size, alias_User, id_Problem, id_Language, id_Verdict}) {
     this.id = id;
     this.date = date;
@@ -97,4 +139,4 @@ class Solution {
     }
   }
 }
-module.exports = Solution;
+module.exports = new Solution();

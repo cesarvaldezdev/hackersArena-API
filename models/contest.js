@@ -12,7 +12,11 @@ const db = require('../db');
  * @param {[arr]} medal      [medalls of the contest]
  */
 class Contest {
+<<<<<<< HEAD
+  constructor(id, name, start, end, type, penalty, frozenTime, deadTime, medal) {
+=======
   constructor({id, name, start, end, type, penalty, frozenTime, deadTime, medal}) {
+>>>>>>> 1be5cc1ae1119f5216a6954df44254b7e99ec759
     this.id = id;
     this.name = name;
     this.start = start;
@@ -25,7 +29,11 @@ class Contest {
   }
 
   static async getAll() {
+<<<<<<< HEAD
+    const data = processResult(await db.selectAll('Contest','','','id',true,10));
+=======
     const data = processResult(await db.selectAll('Contest','','','id',true,10,0));
+>>>>>>> 1be5cc1ae1119f5216a6954df44254b7e99ec759
     return data;
   }
 
@@ -52,4 +60,4 @@ function processResult(data) {
   return result;
 }
 
-module.exports = Contest;
+module.export = new Contest();

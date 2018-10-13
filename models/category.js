@@ -9,6 +9,38 @@ class Category {
     this.id = id;
     this.name = name;
   }
+<<<<<<< HEAD
+
+  static async getAll() {
+    const data = processResult(await db.selectAll('Category','','','id',true,10));
+    return data;
+  }
+
+  static async get(categoryId) {
+    const data = await db.selectOne('Category', '',[{attr:'id',oper:'=',val:categoryId}]);
+    return data.length !== 0 ? new Category(data[0]) : data;
+  }
+
+  static async create({ name }) {
+    let response = await db.insert('Category', { name });
+    const id = response.insertId;
+    if (id > 0) {
+      return new Category({ id, name });
+    }
+    return [];
+  }
+}
+
+function processResult(data) {
+  const result = [];
+  data.forEach((res) => {
+    result.push(new Category(res));
+  });
+  return result;
+}
+
+module.exports = new Category();
+=======
   // Regresa todos los elementos que cumplen con las restricciones establecidas
   static async getAll() {
     try{
@@ -78,4 +110,4 @@ class Category {
 }
 
 
-module.exports = Category;
+module.exports = new Category();
