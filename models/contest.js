@@ -39,7 +39,7 @@ class Contest {
   }
 
   static async create({ type }) {
-    let response = await db.insert('Contest', { name, start, end });
+    const response = await db.insert('Contest', { name, start, end });
     const id = response.insertId;
     if (id > 0) {
       return new Contest({

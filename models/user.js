@@ -3,7 +3,7 @@ const db = require('../db');
 
 class User {
   constructor({
-    alias, name, lastName, score, email, password, id_University, id_Country
+    alias, name, lastName, score, email, password, idUniversity, idCountry,
   }) {
     this.alias = alias;
     this.name = name;
@@ -11,73 +11,78 @@ class User {
     this.email = email;
     this.score = score;
     this.password = password;
-    this.id_University = id_University;
-    this.id_Country = id_Country;
+    this.idUniversity = idUniversity;
+    this.idCountry = idCountry;
   }
 
-  // Regresa todos los elementos que cumplen con las restricciones establecidas
+  // Returns all elements that comply with restrictions
   static async getAll() {
-    try{
-      const data = await db.selectAll('User','','','alias',true,20,0);
+    try {
+      const data = await db.selectAll('User', '', '', 'alias', true, 20, 0);
       const response = [];
       data.forEach((res) => {
         response.push(new User(res));
       });
       return response;
-    }catch(e){
+    } catch (e) {
       throw e;
     }
   }
-  // Regresa un solo elemento que cumple con las restricciones establecidas
+
+  // Returns a single element that complies with the established restrictions
   static async get(userAlias) {
-    try{
-      const data = await db.selectOne('User', '',[{attr:'alias',oper:'=',val:`'${userAlias}'`}]);
+    try {
+      const data = await db.selectOne('User', '', [{ attr: 'alias', oper: '=', val: `'${userAlias}'` }]);
       return data.length !== 0 ? new User(data[0]) : data;
-    }catch(e){
+    } catch (e) {
       throw e;
     }
   }
-  // Actualiza el elemento en la tabla si este ya existe, sino lo crea
-  async save(){
-    try{
-      if ( (await db.selectOne('Country','',[{attr:'id',oper:'=',val:this.id_Country}])).length !== 0){
-        if ( (await db.selectOne('University','',[{attr:'id',oper:'=',val:this.id_University}])).length !==0 ){
+
+  // Updates the element in the table if it already exists, otherwise it creates it
+  async save() {
+    try {
+      if ((await db.selectOne('Country', '', [{ attr: 'id', oper: '=', val: this.idCountry }])).length !== 0) {
+        if ((await db.selectOne('University', '', [{ attr: 'id', oper: '=', val: this.idUniversity }])).length !== 0) {
           if (this.alias !== undefined && (await this.exists()).length !== 0) return this.update();
           if (await db.insert('User', this)) return 0;
           return 1;
-        }else return 3;
-      }else return 2;
-    }catch(e){
+        } return 3;
+      } return 2;
+    } catch (e) {
       throw e;
     }
   }
-  // Actualiza el elemento
+
+  // Updates the element
   async update() {
-    try{
+    try {
       if (this.alias !== undefined && await db.update('User', this, [{ attr: 'alias', oper: '=', val: `'${this.alias}'` }])) return 0;
       return 1;
-    }catch(e){
+    } catch (e) {
       throw e;
     }
   }
-  // Elimina el elemento en la tabla por indice
+
+  // Deletes the element in the table by id
   async delete() {
-    try{
+    try {
       if (this.alias !== undefined && (await this.exists()).length !== 0) {
         if (this.alias !== undefined && await db.delete('User', [{ attr: 'alias', oper: '=', val: `'${this.alias}'` }]) !== undefined) return 0;
         return 1;
       }
       return 2;
-    }catch(e){
+    } catch (e) {
       throw e;
     }
   }
-  // Verifica que el elemento exista
+
+  // Verifies that the element exists
   async exists() {
     try {
       if (this.alias !== undefined) {
-        const result = await db.selectOne('User','',[{attr: 'alias',oper: '=',val: `'${this.alias}'`}]);
-        if(result)return result;
+        const result = await db.selectOne('User', '', [{ attr: 'alias', oper: '=', val: `'${this.alias}'` }]);
+        if (result) return result;
       }
       return [];
     } catch (e) {

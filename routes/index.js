@@ -9,16 +9,16 @@ const problemsRouter = require('./problems');
 const contestsRouter = require('./contests');
 const solutionsRouter = require('./solutions');
 
-//router.get('/', (req, res) => res.send('ExpressJS 101 API'));
+// router.get('/', (req, res) => res.send('ExpressJS 101 API'));
 
 router.use('/verdicts', verdictsRouter);
-router.use('/universities',universitiesRouter);
-router.use('/users',usersRouter);
-router.use('/countries',countriesRouter);
-router.use('/categories',categoriesRouter);
-router.use('/languages',languagesRouter);
-router.use('/problems',problemsRouter);
-router.use('/contests',contestsRouter);
-router.use('/solutions',solutionsRouter);
+router.use('/universities', universitiesRouter);
+router.use('/users', usersRouter);
+router.use('/countries', countriesRouter);
+router.use('/categories', categoriesRouter);
+router.use('/languages', languagesRouter);
+router.use('/problems', problemsRouter);
+router.use('/contests', contestsRouter);
+router.use('/solutions', solutionsRouter);
 
 module.exports = router;

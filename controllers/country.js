@@ -1,5 +1,6 @@
 const { Country } = require('../models');
 
+
 class CountryCtrl {
   constructor() {
     this.getAll = this.getAll.bind(this);
@@ -21,40 +22,39 @@ class CountryCtrl {
     let data = await Country.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
-      res.status(400).send({ message: 'No existen elementos que cumplan con la peticion ' });
+      res.status(400).send({ message: 'There are no elements that match request' });
     } else {
       res.status(200).send({ data });
     }
   }
 
   async get(req, res) {
-    let data = await Country.get(req.params.countryId);
+    const data = await Country.get(req.params.countryId);
     if (data.length === 0) {
-      res.status(400).send({message: 'No se encontro el elemento'});
+      res.status(400).send({ message: 'Element not found' });
     }
-    res.send({data});
+    res.send({ data });
   }
 
   async create(req, res) {
-    let data = await new Country({
-                id:req.params.countryId,
-                name:req.body.name,
-                id_flag:req.body.id_flag
-              })
-              .save();
-    if(data===0) res.status(201).send({message: 'Guardado correctamente'});
-    else if (data===1) res.status(400).send({message: 'No se pudo guardar correctamente'})
-
+    const data = await new Country({
+      id: req.params.countryId,
+      name: req.body.name,
+      id_flag: req.body.id_flag,
+    })
+      .save();
+    if (data === 0) res.status(201).send({ message: 'Saved succesfully' });
+    else if (data === 1) res.status(400).send({ message: 'Could not be saved' });
   }
 
   async delete(req, res) {
-    let data = await new Country({id: req.params.countryId}).delete();
-    if(data === 0) {
-      res.status(200).send({ message: 'Eliminado correctamente' });
+    const data = await new Country({ id: req.params.countryId }).delete();
+    if (data === 0) {
+      res.status(200).send({ message: 'Deleted succesfully' });
     } else if (data === 1) {
-      res.status(400).send({ error: 'No se pudo eliminar' });
+      res.status(400).send({ error: 'Could not be deleted' });
     } else if (data === 2) {
-      res.status(404).send({ error: 'No existe el elemento a eliminar' });
+      res.status(404).send({ error: 'There is no element to delete' });
     }
   }
 }

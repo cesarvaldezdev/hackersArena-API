@@ -9,7 +9,7 @@ class SolutionCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
-  processResult(data) {
+  static processResult(data) {
     const result = [];
     data.forEach((res) => {
       result.push(new Solution(res));
@@ -27,39 +27,39 @@ class SolutionCtrl {
     }
   }
 
-  async get(req, res) {
-    let data = await Solution.get(req.params.solutionId);
+  static async get(req, res) {
+    const data = await Solution.get(req.params.solutionId);
     if (data.length === 0) {
-      res.status(400).send({message: 'No se encontro el elemento'});
+      res.status(400).send({ message: 'Element could not be found' });
     }
-    res.send({data});
+    res.send({ data });
   }
 
-  async create(req, res) {
-    let data = await new Solution({
-                id : req.params.solutionId,
-                date : req.body.date,
-                time : req.body.time,
-                memory : req.body.memory,
-                size : req.body.size,
-                alias_User : req.body.alias_User,
-                id_Problem : req.body.id_Problem,
-                id_Language : req.body.id_Language,
-                id_Verdict : req.body.id_Verdict,
-                })
-                .save();
-    if(data===0) res.status(201).send({message: 'Guardado correctamente'});
-    else if (data===1) res.status(400).send({message: 'No se pudo guardar correctamente'});
-    else if (data===2) res.status(400).send({message: 'No existe el problema que se quiere asignar'});
-    else if (data===3) res.status(400).send({message: 'No existe el lenguaje que se quiere asignar'});
-    else if (data===4) res.status(400).send({message: 'No existe el usuario que se quiere asignar'});
-    else if (data===5) res.status(400).send({message: 'No existe el veredicto que se quiere asignar'});
+  static async create(req, res) {
+    const data = await new Solution({
+      id: req.params.solutionId,
+      date: req.body.date,
+      time: req.body.time,
+      memory: req.body.memory,
+      size: req.body.size,
+      aliasUser: req.body.aliasUser,
+      idProblem: req.body.idProblem,
+      idLanguage: req.body.idLanguage,
+      idVerdict: req.body.idVerdict,
+    })
+      .save();
+    if (data === 0) res.status(201).send({ message: 'Saved successfully' });
+    else if (data === 1) res.status(400).send({ message: 'Could not be saved' });
+    else if (data === 2) res.status(400).send({ message: 'Problem does not exist' });
+    else if (data === 3) res.status(400).send({ message: 'No existe el lenguaje que se quiere asignar' });
+    else if (data === 4) res.status(400).send({ message: 'No existe el usuario que se quiere asignar' });
+    else if (data === 5) res.status(400).send({ message: 'No existe el veredicto que se quiere asignar' });
   }
 
-  async delete(req, res) {
-    let data = await new Solution({id: req.params.solutionId}).delete();
-    if(data === 0){
-      res.status(200).send({ message: 'Eliminado correctamente' });
+  static async delete(req, res) {
+    const data = await new Solution({ id: req.params.solutionId }).delete();
+    if (data === 0) {
+      res.status(200).send({ message: 'Deleted successfully' });
     } else if (data === 1) {
       res.status(400).send({ error: 'No se pudo eliminar' });
     } else if (data === 2) {

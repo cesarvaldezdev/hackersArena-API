@@ -6,26 +6,26 @@ const db = require('../db');
  * @param {[type]} id         [id of the solution]
  * @param {[type]} date       [date of the solution]
  * @param {[type]} userId     [id of the user who update the solution]
- * @param {[type]} problemId  [id of the problem]
- * @param {[type]} verdictId [results after testing the solution]
+ * @param {[type]} idProblem  [id of the problem]
+ * @param {[type]} idVerdict [results after testing the solution]
  * @param {[type]} time       [time needed for the execution]
  * @param {[type]} memory     [memory needed for the solution]
  * @param {[type]} size       [size of the solution]
- * @param {[type]} languageId [language for the solution]
+ * @param {[type]} idLanguage [language for the solution]
  */
 class Solution {
   constructor({
-    id, date, time, memory, size, userAlias, problemId, languageId, verdictId,
+    id, date, time, memory, size, aliasUser, idProblem, idLanguage, idVerdict,
   }) {
     this.id = id;
     this.date = date;
     this.time = time;
     this.memory = memory;
     this.size = size;
-    this.alias_User = userAlias;
-    this.id_Problem = problemId;
-    this.id_Language = languageId;
-    this.id_Verdict = verdictId;
+    this.aliasUser = aliasUser;
+    this.idProblem = idProblem;
+    this.idLanguage = idLanguage;
+    this.idVerdict = idVerdict;
   }
 
   // Regresa todos los elementos que cumplen con las restricciones establecidas

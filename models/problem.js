@@ -16,7 +16,7 @@ const db = require('../db');
  */
 class Problem {
   constructor({
-    id, docId, testTime, testMemory, attempts, solved, userAlias, categoryId,
+    id, docId, testTime, testMemory, attempts, solved, aliasUser, idCategory,
   }) {
     this.id = id;
     this.id_doc = docId;
@@ -24,8 +24,8 @@ class Problem {
     this.testMemory = testMemory;
     this.attempts = attempts;
     this.solved = solved;
-    this.alias_User = userAlias;
-    this.id_Category = categoryId;
+    this.alias_User = aliasUser;
+    this.id_Category = idCategory;
   }
 
   // Regresa todos los elementos que cumplen con las restricciones establecidas

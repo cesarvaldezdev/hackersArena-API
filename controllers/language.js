@@ -21,39 +21,38 @@ class LanguageCtrl {
     let data = await Language.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
-      res.status(400).send({message: 'No existen elementos que cumplan con la peticion'});
-    }else{
-      res.status(200).send({data});
+      res.status(400).send({ message: 'There are no elements that match request' });
+    } else {
+      res.status(200).send({ data });
     }
   }
 
   async get(req, res) {
-    let data = await Language.get(req.params.languageId);
+    const data = await Language.get(req.params.languageId);
     if (data.length === 0) {
-      res.status(400).send({message: 'No se encontro el elemento'});
+      res.status(400).send({ message: 'Element not found' });
     }
-    res.send({data});
+    res.send({ data });
   }
 
   async create(req, res) {
-    let data = await new Language({
-                id:req.params.languageId,
-                name:req.body.name,
-              })
-              .save();
-    if(data===0) res.status(201).send({message: 'Guardado correctamente'});
-    else if (data===1) res.status(400).send({message: 'No se pudo guardar correctamente'})
-
+    const data = await new Language({
+      id: req.params.languageId,
+      name: req.body.name,
+    })
+      .save();
+    if (data === 0) res.status(201).send({ message: 'Saved succesfully' });
+    else if (data === 1) res.status(400).send({ message: 'Could not be saved' });
   }
 
   async delete(req, res) {
-    let data = await new Language({id: req.params.languageId}).delete();
-    if(data === 0){
-      res.status(200).send({ message: 'Eliminado correctamente' });
+    const data = await new Language({ id: req.params.languageId }).delete();
+    if (data === 0) {
+      res.status(200).send({ message: 'Deleted succesfully' });
     } else if (data === 1) {
-      res.status(400).send({ error: 'No se pudo eliminar' });
+      res.status(400).send({ error: 'Could not be deleted' });
     } else if (data === 2) {
-      res.status(404).send({ error: 'No existe el elemento a eliminar' });
+      res.status(404).send({ error: 'There is no element to delete' });
     }
   }
 }

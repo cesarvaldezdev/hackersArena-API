@@ -1,7 +1,8 @@
-// Colocar aqui todas las variables para conexion de DB para correr localmente
+// Put all DB connection variables for local build run
 const express = require('express');
-const router = require('./routes');
 const bodyParser = require('body-parser');
+const router = require('./routes');
+
 const app = express();
 
 app.enable('trust proxy');
