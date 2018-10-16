@@ -15,7 +15,7 @@ class Token {
     this.expires = expires;
     this.type = type;
     this.status = status;
-    this.alias_User = aliasUser;
+    this.aliasUser = aliasUser;
   }
 
   // Regresa un token
