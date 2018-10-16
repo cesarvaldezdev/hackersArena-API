@@ -1,24 +1,36 @@
 const bcrypt = require('bcrypt');
+const { User, Token } = require('../models');
 
 class Auth {
   register(req, res, next) {
     user = User.create(req);
 
     // Crear el token
-    bcrypt.hash('asdfasd', proces)
+    bcrypt.hash(`${user.name}${date}`, process.env.SECRET, Token.create({
+        token,
+        createdAt: new Date(),
+        duration: 12,
+        type: 's',
+        active: 1,
+        userId: user.id
+      })
+    );
 
     res.send({
       data: {
-        hash
+        hash,
       }
     }).status(201);
   }
 
-
   login(req, res, next) {
     user = User.get(req);
 
-    //Validar si ya hay token
+    if (token.active(token)){
+      
+    } else {
+      //token.create{}
+    }
     // Create token
   }
 
