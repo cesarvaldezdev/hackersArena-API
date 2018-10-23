@@ -1,3 +1,6 @@
+/**
+ * The middleware that validates inputs
+ */
 class Validator {
   static get regex() {
     return {
@@ -51,5 +54,6 @@ class Validator {
     Object.keys(error.details).length ? next(error) : next();
   }
 }
+
 
 module.exports = Validator;

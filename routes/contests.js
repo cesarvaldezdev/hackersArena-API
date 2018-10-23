@@ -1,10 +1,19 @@
+/**
+ * @see https://www.npmjs.com/package/router
+ */
 const router = require('express').Router();
 const { ContestCtrl } = require('../controllers');
 const middlewares = require('../middlewares');
 
+
+/* GET */
+// Get all contests
 router.get('/', ContestCtrl.getAll);
+// Get a contest by id
 router.get('/:contestId', ContestCtrl.get);
 
+
+/* POST */
 router.post('/', (req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
@@ -20,6 +29,8 @@ router.post('/', (req, res, next) => {
   });
 }, ContestCtrl.create);
 
+
+/* PUT */
 router.put('/:contestId', [(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
@@ -35,6 +46,9 @@ router.put('/:contestId', [(req, res, next) => {
   });
 }], ContestCtrl.create);
 
+
+/* DELETE */
 router.delete('/:contestId', ContestCtrl.delete);
+
 
 module.exports = router;

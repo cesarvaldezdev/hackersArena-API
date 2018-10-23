@@ -1,10 +1,19 @@
+/**
+ * @see https://www.npmjs.com/package/router
+ */
 const router = require('express').Router();
 const { UserCtrl } = require('../controllers');
 const middlewares = require('../middlewares');
 
+
+/* GET */
+// Get all users
 router.get('/', UserCtrl.getAll);
+// Get a user by alias
 router.get('/:userAlias', UserCtrl.get);
 
+
+/* POST */
 router.post('/', (req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
@@ -19,6 +28,8 @@ router.post('/', (req, res, next) => {
   });
 }, UserCtrl.create);
 
+
+/* PUT */
 router.put('/:userAlias', [(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
@@ -34,6 +45,9 @@ router.put('/:userAlias', [(req, res, next) => {
   });
 }], UserCtrl.create);
 
+
+/* DELETE*/
 router.delete('/:userAlias', UserCtrl.delete);
+
 
 module.exports = router;

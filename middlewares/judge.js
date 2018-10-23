@@ -10,9 +10,11 @@ class Judge {
     this.config = config;
   }
 
+  static async compile(config, (err, res) => {});
 }
 var config = {};
 config.time_limit = 1;
 config.memory =
 
 modules.exports = Judge;
+modules.exports = hackerEarthConnection;

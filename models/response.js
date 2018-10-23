@@ -1,4 +1,4 @@
-class Responses {
+class Response {
   static notFound(table) {
     const error = {
       message: 'Query results',
@@ -62,4 +62,4 @@ class Responses {
     return error;
   }
 }
-module.exports = Responses;
+module.exports = Response;

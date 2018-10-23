@@ -1,6 +1,14 @@
 const { Language } = require('../models');
 
+
+/**
+ * The controller that manages languages
+ */
 class LanguageCtrl {
+  /**
+   * Method that initializes the LanguageCtrl object
+   * Binds all methods so they don't lose context
+   */
   constructor() {
     this.getAll = this.getAll.bind(this);
     this.get = this.get.bind(this);
@@ -9,6 +17,12 @@ class LanguageCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
+
+  /**
+   * Method that processes the data obtained in getAll
+   * @param  {object} data     all languages obtained from the database
+   * @return {Language[]}      an array containing all existing languages
+   */
   static processResult(data) {
     const result = [];
     data.forEach((res) => {
@@ -17,6 +31,13 @@ class LanguageCtrl {
     return result;
   }
 
+
+  /**
+   * Controls the obtainment of all existing languages
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the obtainment
+   */
   async getAll(req, res) {
     let data = await Language.getAll();
     data = this.processResult(data);
@@ -27,6 +48,13 @@ class LanguageCtrl {
     }
   }
 
+
+  /**
+   * Controls the obtainment of a language
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the obtainment
+   */
   static async get(req, res) {
     const data = await Language.get(req.params.languageId);
     if (data.length === 0) {
@@ -36,6 +64,12 @@ class LanguageCtrl {
   }
 
 
+  /**
+   * Controls the creation of a language
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the creation
+   */
   static async create(req, res) {
     const data = await new Language({
       id: req.params.languageId,
@@ -46,6 +80,13 @@ class LanguageCtrl {
     else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
   }
 
+
+  /**
+   * Controls the deletion of a language
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the deletion
+   */
   static async delete(req, res) {
     const data = await new Language({ id: req.params.languageId }).delete();
     if (data === 0) {
@@ -57,5 +98,6 @@ class LanguageCtrl {
     }
   }
 }
+
 
 module.exports = new LanguageCtrl();

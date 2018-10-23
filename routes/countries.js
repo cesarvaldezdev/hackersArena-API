@@ -1,7 +1,12 @@
+/**
+ * @see https://www.npmjs.com/package/router
+ */
 const router = require('express').Router();
 const { CountryCtrl } = require('../controllers');
 const middlewares = require('../middlewares');
 
+
+/* POST */
 router.get('/', CountryCtrl.getAll);
 router.get('/:countryId', CountryCtrl.get);
 
