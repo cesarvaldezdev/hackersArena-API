@@ -1,6 +1,14 @@
 const { University } = require('../models');
 
+
+/**
+ * Controller that manages the universities
+ */
 class UniversityCtrl {
+  /**
+   * Method that initializes the UniversityCtrl object
+   * Binds all methods so they don't lose context
+   */
   constructor() {
     this.getAll = this.getAll.bind(this);
     this.get = this.get.bind(this);
@@ -9,7 +17,13 @@ class UniversityCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
-  processResult(data) {
+
+  /**
+   * Method that processes thedata obtained in getAll
+   * @param  {object} data     all universities obtained from the database
+   * @return {University[]}    an array containing all existing universities
+   */
+  static processResult(data) {
     const result = [];
     data.forEach((res) => {
       result.push(new University(res));
@@ -17,48 +31,76 @@ class UniversityCtrl {
     return result;
   }
 
+
+  /**
+   * Controls the obtainment of all existing universities
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the obtainment
+   */
   async getAll(req, res) {
     let data = await University.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
-      res.status(400).send({message: 'No existen elementos que cumplan con la peticion'});
-    }else{
-      res.status(200).send({data});
+      res.status(400).send({ message: 'No items satisfy the petition' });
+    } else {
+      res.status(200).send({ data });
     }
   }
 
-  async get(req, res) {
-    let data = await University.get(req.params.universityId);
+
+  /**
+   * Controls the obtainment of a university
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the obtainment
+   */
+  static async get(req, res) {
+    const data = await University.get(req.params.universityId);
     if (data.length === 0) {
-      res.status(400).send({message: 'No se encontro el elemento'});
+      res.status(400).send({ message: 'Item not found' });
     }
-    res.send({data});
+    res.send({ data });
   }
 
-  async create(req, res) {
-    let data = await new University({
-                id:req.params.universityId,
-                name:req.body.name,
-                id_logo:req.body.id_logo,
-                id_Country:req.body.id_Country
-              })
-              .save();
-    if(data===0) res.status(201).send({message: 'Guardado correctamente'});
-    else if (data===1) res.status(400).send({message: 'No se pudo guardar correctamente'})
-    else if (data===2) res.status(400).send({message: 'No existe el pais que se quiere asignar'})
 
+  /**
+   * Controls the creation of a university
+   * @param  {object}  req body of a request
+   * @param  {object}  res body of a response
+   * @return {Promise}     returns data concerning the creation
+   */
+  static async create(req, res) {
+    const data = await new University({
+      id: req.params.universityId,
+      name: req.body.name,
+      idLogo: req.body.idLogo,
+      idCountry: req.body.idCountry,
+    })
+      .save();
+    if (data === 0) res.status(201).send({ message: 'Item saved' });
+    else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
+    else if (data === 2) res.status(400).send({ message: 'Oops! Country not found' });
   }
 
-  async delete(req, res) {
-    let data = await new University({id: req.params.universityId}).delete();
-    if(data === 0){
-      res.status(200).send({ message: 'Eliminado correctamente' });
+
+  /**
+   * Controls the deletion of a university
+   * @param  {object}  req body of a request
+   * @param  {object}  res body of a response
+   * @return {Promise}     [description]
+   */
+  static async delete(req, res) {
+    const data = await new University({ id: req.params.universityId }).delete();
+    if (data === 0) {
+      res.status(200).send({ message: 'Item deleted' });
     } else if (data === 1) {
-      res.status(400).send({ error: 'No se pudo eliminar' });
+      res.status(400).send({ error: 'Oops! Trouble deleting' });
     } else if (data === 2) {
-      res.status(404).send({ error: 'No existe el elemento a eliminar' });
+      res.status(404).send({ error: 'Item not found' });
     }
   }
 }
+
 
 module.exports = new UniversityCtrl();
