@@ -87,4 +87,5 @@ function processResult(data) {
   return result;
 }
 
-module.exports = Contest;
+
+module.exports = new Contest();

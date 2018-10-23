@@ -62,4 +62,6 @@ class Response {
     return error;
   }
 }
-module.exports = Response;
+
+
+module.exports = new Response();

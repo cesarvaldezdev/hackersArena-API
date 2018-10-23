@@ -144,4 +144,4 @@ class Problem {
 }
 
 
-module.exports = Problem;
+module.exports = new Problem();

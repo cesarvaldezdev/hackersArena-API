@@ -43,10 +43,10 @@ router.put('/:userAlias', [(req, res, next) => {
       idCountry: 'number,required',
     },
   });
-}], UserCtrl.create);
+}], middlewares.auth.haveSession, UserCtrl.create);
 
 
-/* DELETE*/
+/* DELETE */
 router.delete('/:userAlias', UserCtrl.delete);
 
 

@@ -125,4 +125,4 @@ class Verdict {
 }
 
 
-module.exports = Verdict;
+module.exports = new Verdict();

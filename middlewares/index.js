@@ -4,5 +4,6 @@ exports.verifyToken = require('./verifyToken');
 
 
 // NOT WORKING
-exports.hackerEarthConnection = require('./judge');
-exports.judge = require('./judge');
+exports.auth = require('./auth');
+// exports.hackerEarthConnection = require('./judge');
+// exports.judge = require('./judge');
