@@ -1,6 +1,14 @@
 const { University } = require('../models');
 
+
+/**
+ * Controller that manages the universities
+ */
 class UniversityCtrl {
+  /**
+   * Method that initializes the UniversityCtrl object
+   * Binds all methods so they don't lose context
+   */
   constructor() {
     this.getAll = this.getAll.bind(this);
     this.get = this.get.bind(this);
@@ -9,6 +17,12 @@ class UniversityCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
+
+  /**
+   * Method that processes thedata obtained in getAll
+   * @param  {object} data     all universities obtained from the database
+   * @return {University[]}    an array containing all existing universities
+   */
   static processResult(data) {
     const result = [];
     data.forEach((res) => {
@@ -17,6 +31,13 @@ class UniversityCtrl {
     return result;
   }
 
+
+  /**
+   * Controls the obtainment of all existing universities
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the obtainment
+   */
   async getAll(req, res) {
     let data = await University.getAll();
     data = this.processResult(data);
@@ -27,6 +48,13 @@ class UniversityCtrl {
     }
   }
 
+
+  /**
+   * Controls the obtainment of a university
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the obtainment
+   */
   static async get(req, res) {
     const data = await University.get(req.params.universityId);
     if (data.length === 0) {
@@ -35,6 +63,13 @@ class UniversityCtrl {
     res.send({ data });
   }
 
+
+  /**
+   * Controls the creation of a university
+   * @param  {object}  req body of a request
+   * @param  {object}  res body of a response
+   * @return {Promise}     returns data concerning the creation
+   */
   static async create(req, res) {
     const data = await new University({
       id: req.params.universityId,
@@ -48,6 +83,13 @@ class UniversityCtrl {
     else if (data === 2) res.status(400).send({ message: 'Oops! Country not found' });
   }
 
+
+  /**
+   * Controls the deletion of a university
+   * @param  {object}  req body of a request
+   * @param  {object}  res body of a response
+   * @return {Promise}     [description]
+   */
   static async delete(req, res) {
     const data = await new University({ id: req.params.universityId }).delete();
     if (data === 0) {
@@ -59,5 +101,6 @@ class UniversityCtrl {
     }
   }
 }
+
 
 module.exports = new UniversityCtrl();

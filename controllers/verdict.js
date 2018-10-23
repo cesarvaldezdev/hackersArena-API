@@ -1,6 +1,14 @@
 const { Verdict } = require('../models');
 
+
+/**
+ * The controller that manages verdicts
+ */
 class VerdictCtrl {
+  /**
+   * Method that initializes the VerdictCtrl object
+   * Binds all methods so they don't lose context
+   */
   constructor() {
     this.getAll = this.getAll.bind(this);
     this.get = this.get.bind(this);
@@ -9,6 +17,12 @@ class VerdictCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
+
+  /**
+   * Method that processes the data obtained in getAll
+   * @param  {object}   data  all verdicts obtained from the database
+   * @return {Verdict[]}      an array containing all the obtained verdicts
+   */
   static processResult(data) {
     const result = [];
     data.forEach((res) => {
@@ -17,6 +31,13 @@ class VerdictCtrl {
     return result;
   }
 
+
+  /**
+   * Controls the obtainment of all existing verdicts
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the obtainment
+   */
   async getAll(req, res) {
     let data = await Verdict.getAll();
     // const json = {
@@ -33,6 +54,13 @@ class VerdictCtrl {
     }
   }
 
+
+  /**
+   * Controls the obtainment of a verdict
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     return data concerning the obtainment
+   */
   static async get(req, res) {
     const data = await Verdict.get(req.params.verdictId);
     if (data.length === 0) {
@@ -41,12 +69,26 @@ class VerdictCtrl {
     res.send({ data });
   }
 
+
+  /**
+   * Controls the creation of a verdict
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the creation
+   */
   static async create(req, res) {
     const data = await new Verdict({ id: req.params.verdictId, type: req.body.type }).save();
     if (data === 0) res.status(201).send({ message: 'Item saved' });
     else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
   }
 
+
+  /**
+   * Controls the deletion of a verdict
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the deletion
+   */
   static async delete(req, res) {
     const data = await new Verdict({ id: req.params.verdictId }).delete();
     if (data === 0) {

@@ -3,11 +3,29 @@ const process = require('process');
 const Knex = require('knex');
 
 
+/**
+ * Class that models the interaction with the database
+ */
 class DB {
+  /**
+   * Method that initializes the connection
+   */
   constructor() {
     this.knex = connect();
   }
 
+
+  /**
+   * Obtains all the rows that match the query
+   * @param  {string} table   the query in which the rows are sought
+   * @param  {string} columns the columns needed in the query
+   * @param  {string} filters the filters wanted to be applied in the query
+   * @param  {string} order   the column used to sort the rows
+   * @param  {boolean} asc    true if order is ascendent, false if descendent
+   * @param  {number} limit   the limit the number of rows to be obtained
+   * @param  {number} offset  the offset of the query
+   * @return {array}         an array containing the rows that match the query
+   */
   selectAll(table, columns, filters, order, asc, limit, offset) {
     let filts = '';
     let ord = 'asc';
@@ -32,6 +50,14 @@ class DB {
       .catch(e => console.error(e));
   }
 
+
+  /**
+   * Obtains a single row that matches the query
+   * @param  {string} table   the table in which the row is sought
+   * @param  {string} columns the columns needed in the query
+   * @param  {string} filters the filters applied to the query
+   * @return {object}         returns a row that matches the query
+   */
   selectOne(table, columns, filters) {
     let filts = '';
     if (filters !== '') {
@@ -52,6 +78,13 @@ class DB {
       .catch(e => console.error(e));
   }
 
+
+  /**
+   * Inserts a row in the table
+   * @param  {string} table the table in which the query acts
+   * @param  {object} post  the row to be inserted
+   * @return {knex}         returns
+   */
   insert(table, post) {
     return this.knex(table)
       .insert(post)
@@ -59,6 +92,14 @@ class DB {
       .catch(e => console.error(e));
   }
 
+
+  /**
+   * Updates rows in the table
+   * @param  {string} table   the table in which the query acts
+   * @param  {object} post    the object to be updated
+   * @param  {string} filters the filters applied to query
+   * @return {knex}           returns the modified table
+   */
   update(table, post, filters) {
     let filts = '';
     if (filters !== '') {
@@ -76,6 +117,13 @@ class DB {
       .catch(e => console.error(e));
   }
 
+
+  /**
+   * Deletes a row that matches the query
+   * @param  {string} table   the table in which the query acts
+   * @param  {string} filters the filters applied to the query
+   * @return {knex}           returns the modified table
+   */
   delete(table, filters) {
     let filts = '';
     if (filters !== '') {
@@ -94,6 +142,11 @@ class DB {
   }
 }
 
+
+/**
+ * Makes a connection to the database
+ * @return {knex} returns the connection
+ */
 function connect() {
   const config = {
     user: process.env.SQL_USER,
@@ -110,5 +163,6 @@ function connect() {
   });
   return knex;
 }
+
 
 module.exports = new DB();

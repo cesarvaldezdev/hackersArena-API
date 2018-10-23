@@ -2,17 +2,20 @@ const db = require('../db');
 
 
 /**
- * [Class for every coding problem]
- * @param {[type]} id         [id of the problem]
- * @param {[type]} idDoc      [id of the document]
- * @param {[type]} testTime   [time of the test]
- * @param {[type]} testMemory [memory used in test]
- * @param {[type]} attempts   [number of attempts]
- * @param {[type]} solved     [true if problem is solved]
- * @param {[type]} aliasUser  [alias of the user]
- * @param {[type]} idCategory [id of the category]
+ * Class that models every coding problem
  */
 class Problem {
+  /**
+   * Method that initializes a Problem object
+   * @param {number} id         the unique number that identifies the problem (system created)
+   * @param {number} idDoc      the id of the document
+   * @param {number} testTime   the time the test took
+   * @param {number} testMemory the memory used in test
+   * @param {number} attempts   the number of attempts the user has made
+   * @param {number} solved     the number that states if problem was solved (1 true, 0 false)
+   * @param {string} aliasUser  the alias of the user that created the problem
+   * @param {number} idCategory the id of the category the problem belongs to
+   */
   constructor({
     id, docId, testTime, testMemory, attempts, solved, aliasUser, idCategory,
   }) {
@@ -26,7 +29,12 @@ class Problem {
     this.idCategory = idCategory;
   }
 
-  // Regresa todos los elementos que cumplen con las restricciones establecidas
+
+  /**
+   * Returns all existing verdicts in the database
+   * @return {Promise} returns an array containing all existing verdicts
+   * @throws {event}   returns the error
+   */
   static async getAll() {
     try {
       const data = await db.selectAll('Problem', '', '', 'id', true, 20, 0);
@@ -40,7 +48,13 @@ class Problem {
     }
   }
 
-  // Regresa un solo elemento que cumple con las restricciones establecidas
+
+  /**
+   * Returns an element if it matches the request
+   * @param  {number}  problemId the unique id that identifies the element (param in the url)
+   * @return {Promise}           returns the requested object
+   * @throws {event}             returns an error
+   */
   static async get(problemId) {
     try {
       const data = await db.selectOne('Problem', '', [{ attr: 'id', oper: '=', val: problemId }]);
@@ -50,7 +64,15 @@ class Problem {
     }
   }
 
-  // Actualiza el elemento en la tabla si este ya existe, sino lo crea
+
+  /**
+   * Updates the element that matches request, if none match, it creates it
+   * @return {Promise} returns 0 if it exists
+   *                           1 if it failed,
+   *                           2 if user was not found,
+   *                           3 if category was not found
+   * @throws {event}   returns an error
+   */
   async save() {
     try {
       if ((await db.selectOne('User', '', [{ attr: 'alias', oper: '=', val: `'${this.alias_User}'` }])).length !== 0) {
@@ -65,7 +87,13 @@ class Problem {
     }
   }
 
-  // Actualiza el elemento
+
+  /**
+   * Updates an element if it matches request
+   * @return {Promise} returns 0 if the problem was updated,
+   *                           1 if it failed
+   * @throws {event}   returns an error
+   */
   async update() {
     try {
       if (this.id !== undefined && await db.update('Problem', this, [{ attr: 'id', oper: '=', val: this.id }])) return 0;
@@ -75,7 +103,14 @@ class Problem {
     }
   }
 
-  // Elimina el elemento en la tabla por indice
+
+  /**
+   * Deletes an element if it matches the request
+   * @return {Promise} returns a 0 if the problem is deleted,
+   *                             1 if the problem could not be deleted,
+   *                             2 if it can't be found
+   * @throws {event}   returns an error
+   */
   async delete() {
     try {
       if (this.id !== undefined && (await this.exists()).length !== 0) {
@@ -88,7 +123,13 @@ class Problem {
     }
   }
 
-  // Verifica que el elemento exista
+
+  /**
+   * Verifies that the element exists
+   * @return {Promise} returns the problem if it exists,
+   *                           an empty array if it fails
+   * @throws {event}   returns an error
+   */
   async exists() {
     try {
       if (this.id !== undefined) {
@@ -102,4 +143,5 @@ class Problem {
   }
 }
 
-module.exports = new Problem();
+
+module.exports = Problem;

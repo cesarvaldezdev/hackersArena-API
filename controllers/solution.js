@@ -1,6 +1,14 @@
 const { Solution } = require('../models');
 
+
+/**
+ * The controller that manages solution
+ */
 class SolutionCtrl {
+  /**
+   * Method that initializes the SolutionCtrl object
+   * Binds all methods so they don't lose context
+   */
   constructor() {
     this.getAll = this.getAll.bind(this);
     this.get = this.get.bind(this);
@@ -9,6 +17,12 @@ class SolutionCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
+
+  /**
+   * Method that processes the data obtained in getAll
+   * @param  {object} data     all solutions obtained from the databse
+   * @return {Solution[]}      an array containing all existing solutions
+   */
   static processResult(data) {
     const result = [];
     data.forEach((res) => {
@@ -17,6 +31,13 @@ class SolutionCtrl {
     return result;
   }
 
+
+  /**
+   * Controls the obtainment of all existing solutions
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the obtainment
+   */
   async getAll(req, res) {
     let data = await Solution.getAll();
     data = this.processResult(data);
@@ -27,6 +48,13 @@ class SolutionCtrl {
     }
   }
 
+
+  /**
+   * Controls the obtainment of a solution
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the obtainment
+   */
   static async get(req, res) {
     const data = await Solution.get(req.params.solutionId);
     if (data.length === 0) {
@@ -35,6 +63,13 @@ class SolutionCtrl {
     res.send({ data });
   }
 
+
+  /**
+   * Controls the creation of a solution
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the creation
+   */
   static async create(req, res) {
     const data = await new Solution({
       id: req.params.solutionId,
@@ -56,6 +91,13 @@ class SolutionCtrl {
     else if (data === 5) res.status(400).send({ message: 'Oops! Verdict not found' });
   }
 
+
+  /**
+   * Controls the deletion of a solution
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the deletion
+   */
   static async delete(req, res) {
     const data = await new Solution({ id: req.params.solutionId }).delete();
     if (data === 0) {
@@ -67,5 +109,6 @@ class SolutionCtrl {
     }
   }
 }
+
 
 module.exports = new SolutionCtrl();

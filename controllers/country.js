@@ -1,7 +1,14 @@
 const { Country } = require('../models');
 
 
+/**
+ * The controller that manages countries
+ */
 class CountryCtrl {
+  /**
+   * Method that initializes a CountryCtrl object
+   * Binds all methods so they don't lose context
+   */
   constructor() {
     this.getAll = this.getAll.bind(this);
     this.get = this.get.bind(this);
@@ -10,6 +17,12 @@ class CountryCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
+
+  /**
+   * Method that processes the data obtained in getAll
+   * @param  {object} data    all countries obtained from the database
+   * @return {Country[]}      an array containing all existing countries
+   */
   static processResult(data) {
     const result = [];
     data.forEach((res) => {
@@ -18,6 +31,13 @@ class CountryCtrl {
     return result;
   }
 
+
+  /**
+   * Controls the obtainment of all existing countries
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the obtainment
+   */
   async getAll(req, res) {
     let data = await Country.getAll();
     data = this.processResult(data);
@@ -28,6 +48,13 @@ class CountryCtrl {
     }
   }
 
+
+  /**
+   * Controls the obtainment of a country
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the obtainment
+   */
   static async get(req, res) {
     const data = await Country.get(req.params.countryId);
     if (data.length === 0) {
@@ -36,6 +63,13 @@ class CountryCtrl {
     res.send({ data });
   }
 
+
+  /**
+   * Controls the creation of a country
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the creation
+   */
   static async create(req, res) {
     const data = await new Country({
       id: req.params.countryId,
@@ -47,6 +81,13 @@ class CountryCtrl {
     else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
   }
 
+
+  /**
+   * Controls the deletion of a country
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the deletion
+   */
   static async delete(req, res) {
     const data = await new Country({ id: req.params.countryId }).delete();
     if (data === 0) {
@@ -58,5 +99,6 @@ class CountryCtrl {
     }
   }
 }
+
 
 module.exports = new CountryCtrl();

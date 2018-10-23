@@ -1,6 +1,14 @@
 const { Contest } = require('../models');
 
+
+/**
+ * The controller that manages contests
+ */
 class ContestCtrl {
+  /**
+   * Method that initializes the ContestCtrl object
+   * Binds all methods so they don't lose context
+   */
   constructor() {
     this.getAll = this.getAll.bind(this);
     this.get = this.get.bind(this);
@@ -9,6 +17,12 @@ class ContestCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
+
+  /**
+   * Methods that processes the data obtained in getAll
+   * @param  {object} data   all contests obtained from the database
+   * @return {Contest[]}     an array containing all existing contests
+   */
   static processResult(data) {
     const result = [];
     data.forEach((res) => {
@@ -17,6 +31,13 @@ class ContestCtrl {
     return result;
   }
 
+
+  /**
+   * Controls the obtainment of all contests
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the obtainment
+   */
   static async getAll(req, res) {
     let data = await Contest.getAll();
     data = this.processResult(data);
@@ -27,6 +48,13 @@ class ContestCtrl {
     }
   }
 
+
+  /**
+   * Controls the obtainment of a contest
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the obtainment
+   */
   static async get(req, res) {
     const data = await Contest.get(req.params.contestId);
     if (data.length === 0) {
@@ -35,6 +63,13 @@ class ContestCtrl {
     res.send({ data });
   }
 
+
+  /**
+   * Controls the creation of a contest
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the creation
+   */
   static async create(req, res) {
     const data = await new Contest({
       name: req.body.name,
@@ -51,6 +86,13 @@ class ContestCtrl {
     else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
   }
 
+
+  /**
+   * Controls the deletion of a contest
+   * @param  {object}  req body of the request
+   * @param  {object}  res body of the response
+   * @return {Promise}     returns data concerning the deletion
+   */
   static async delete(req, res) {
     const data = await new Contest({ alias: req.params.contestId }).delete();
     if (data === 0) {
@@ -62,5 +104,6 @@ class ContestCtrl {
     }
   }
 }
+
 
 module.exports = new ContestCtrl();
