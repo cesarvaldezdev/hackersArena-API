@@ -14,8 +14,18 @@ const solutionsRouter = require('./solutions');
 const universitiesRouter = require('./universities');
 const usersRouter = require('./users');
 const verdictsRouter = require('./verdicts');
+const mailer = require('../mail');
 
-// router.get('/', (req, res) => res.send('ExpressJS 101 API'));
+router.get('/', (req, res) => res.send('ExpressJS 101 API'));
+router.get('/', (req, res) =>{
+  let mailOptions = {
+    to: 'pancho@mail.com',
+    subject: 'Hello testing',
+    text: `algunaUrlVaAqui/${token}`,
+    html: '<b>Hello World</b>',
+  };
+  mailer.sendMail(mailOptions);
+});
 
 /* Router association */
 router.use('/categories', categoriesRouter);
