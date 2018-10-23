@@ -1,48 +1,62 @@
 const bcrypt = require('bcrypt');
+const { TokenCtrl } = require('../controllers');
 const { User, Token } = require('../models');
 
 class Auth {
-  register(req, res, next) {
-    user = User.create(req);
-
+  static async register(req, res, next) {
+    const user = User.create(req);
+    let tkn;
     // Crear el token
-    bcrypt.hash(`${user.name}${date}`, process.env.SECRET, Token.create({
-        token,
+    bcrypt.hash(`${user.name}${new Date()}`, process.env.SECRET, (err, hash) => {
+      TokenCtrl.create({
+        token: hash,
         createdAt: new Date(),
         duration: 12,
-        type: 's',
+        type: 'Loggin session',
         active: 1,
-        userId: user.id
-      })
-    );
-
+        aliasUser: user.aliasUser,
+      });
+      tkn = hash;
+    });
     res.send({
       data: {
-        hash,
-      }
-    }).status(201);
+        tkn,
+      },
+    }).status(201); // Sucesfully created
+    next();
   }
 
-  login(req, res, next) {
-    user = User.get(req);
-
-    if (token.active(token)){
-      
+  static async login(req, res, next) {
+    const user = User.get(req);
+    const token = Token.get(user.aliasUser);
+    if (token.status === 1) {
+      // go to home page
     } else {
-      //token.create{}
+      TokenCtrl.create(req);
+      res.status(200).send({ message: 'Session started' });
     }
-    // Create token
+    next();
   }
 
-  logout(token) {
-    token.destroy();
-  }
-
-  session(token) {
-    if (token.active(token)) {
-      next()
+  static async logout(req, res, next) {
+    const token = Token.get(req.aliasUser);
+    if (token.status === 1) {
+      // Change status to 0
     } else {
-      return next({})
+      // Status alredy 0
+    }
+    res.status(200).send({ message: 'Logout' });
+    next();
+  }
+
+  static async session(req, next) {
+    const token = Token.get(req.aliasUser);
+    if (token.status === 1) {
+      next();
+    } else {
+      // Status is inactive
     }
   }
 }
+
+module.exports = Auth;

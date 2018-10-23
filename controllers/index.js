@@ -7,4 +7,4 @@ exports.LanguageCtrl = require('./language');
 exports.ProblemCtrl = require('./problem');
 exports.ContestCtrl = require('./contest');
 exports.SolutionCtrl = require('./solution');
-exports.TokenCtrls = require('./token');
+exports.TokenCtrl = require('./token');

@@ -1,5 +1,7 @@
+const bcrypt = require('bcrypt');
 const { User } = require('../models');
 
+const saltRounds = 10;
 
 /**
  * The controller that manages users
@@ -71,21 +73,23 @@ class UserCtrl {
    * @return {Promise}     returns data concerning the creation
    */
   static async create(req, res) {
-    const data = await new User({
-      alias: req.body.alias,
-      name: req.body.name,
-      lastName: req.body.lastName,
-      score: req.body.score,
-      email: req.body.email,
-      password: req.body.password,
-      idUniversity: req.body.idUniversity,
-      idCountry: req.body.idCountry,
-    })
-      .save();
-    if (data === 0) res.status(201).send({ message: 'Item saved' });
-    else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
-    else if (data === 2) res.status(400).send({ message: 'Oops! Country not found' });
-    else if (data === 3) res.status(400).send({ message: 'Oops! University not found' });
+    bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+      const data = new User({
+        alias: req.body.alias,
+        name: req.body.name,
+        lastName: req.body.lastName,
+        score: req.body.score,
+        email: req.body.email,
+        password: hash,
+        idUniversity: req.body.idUniversity,
+        idCountry: req.body.idCountry,
+      })
+        .save();
+      if (data === 0) res.status(201).send({ message: 'Item saved' });
+      else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
+      else if (data === 2) res.status(400).send({ message: 'Oops! Country not found' });
+      else if (data === 3) res.status(400).send({ message: 'Oops! University not found' });
+    });
   }
 
 
