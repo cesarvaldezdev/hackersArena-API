@@ -10,11 +10,71 @@ class LanguageCtrl {
    * Binds all methods so they don't lose context
    */
   constructor() {
-    this.getAll = this.getAll.bind(this);
-    this.get = this.get.bind(this);
-    this.create = this.create.bind(this);
-    this.delete = this.delete.bind(this);
-    this.processResult = this.processResult.bind(this);
+    /**
+     * Controls the obtainment of all existing languages
+     * @param  {object}  req body of the request
+     * @param  {object}  res body of the response
+     * @return {Promise}     returns data concerning the obtainment
+     */
+    this.getAll = async (req, res) => {
+      let data = await Language.getAll();
+      data = this.processResult(data);
+      if (data.length === 0) {
+        res.status(400).send({ message: 'No items satisfy the petition' });
+      } else {
+        res.status(200).send({ data });
+      }
+    };
+
+
+    /**
+     * Controls the obtainment of a language
+     * @param  {object}  req body of the request
+     * @param  {object}  res body of the response
+     * @return {Promise}     returns data concerning the obtainment
+     */
+    this.get = async (req, res) => {
+      const data = await Language.get(req.params.languageId);
+      if (data.length === 0) {
+        res.status(400).send({ message: 'Item not found' });
+      }
+      res.send({ data });
+    };
+
+
+    /**
+     * Controls the creation of a language
+     * @param  {object}  req body of the request
+     * @param  {object}  res body of the response
+     * @return {Promise}     returns data concerning the creation
+     */
+    this.create = async (req, res) => {
+      const data = await new Language({
+        id: req.params.languageId,
+        name: req.body.name,
+      })
+        .save();
+      if (data === 0) res.status(201).send({ message: 'Item saved' });
+      else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
+    };
+
+
+    /**
+     * Controls the deletion of a language
+     * @param  {object}  req body of the request
+     * @param  {object}  res body of the response
+     * @return {Promise}     returns data concerning the deletion
+     */
+    this.delete = async (req, res) => {
+      const data = await new Language({ id: req.params.languageId }).delete();
+      if (data === 0) {
+        res.status(200).send({ message: 'Item deleted' });
+      } else if (data === 1) {
+        res.status(400).send({ error: 'Oops! Trouble deleting' });
+      } else if (data === 2) {
+        res.status(404).send({ error: 'Item not found' });
+      }
+    };
   }
 
 
@@ -29,73 +89,6 @@ class LanguageCtrl {
       result.push(new Language(res));
     });
     return result;
-  }
-
-
-  /**
-   * Controls the obtainment of all existing languages
-   * @param  {object}  req body of the request
-   * @param  {object}  res body of the response
-   * @return {Promise}     returns data concerning the obtainment
-   */
-  async getAll(req, res) {
-    let data = await Language.getAll();
-    data = this.processResult(data);
-    if (data.length === 0) {
-      res.status(400).send({ message: 'No items satisfy the petition' });
-    } else {
-      res.status(200).send({ data });
-    }
-  }
-
-
-  /**
-   * Controls the obtainment of a language
-   * @param  {object}  req body of the request
-   * @param  {object}  res body of the response
-   * @return {Promise}     returns data concerning the obtainment
-   */
-  static async get(req, res) {
-    const data = await Language.get(req.params.languageId);
-    if (data.length === 0) {
-      res.status(400).send({ message: 'Item not found' });
-    }
-    res.send({ data });
-  }
-
-
-  /**
-   * Controls the creation of a language
-   * @param  {object}  req body of the request
-   * @param  {object}  res body of the response
-   * @return {Promise}     returns data concerning the creation
-   */
-  static async create(req, res) {
-    const data = await new Language({
-      id: req.params.languageId,
-      name: req.body.name,
-    })
-      .save();
-    if (data === 0) res.status(201).send({ message: 'Item saved' });
-    else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
-  }
-
-
-  /**
-   * Controls the deletion of a language
-   * @param  {object}  req body of the request
-   * @param  {object}  res body of the response
-   * @return {Promise}     returns data concerning the deletion
-   */
-  static async delete(req, res) {
-    const data = await new Language({ id: req.params.languageId }).delete();
-    if (data === 0) {
-      res.status(200).send({ message: 'Item deleted' });
-    } else if (data === 1) {
-      res.status(400).send({ error: 'Oops! Trouble deleting' });
-    } else if (data === 2) {
-      res.status(404).send({ error: 'Item not found' });
-    }
   }
 }
 
