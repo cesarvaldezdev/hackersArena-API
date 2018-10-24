@@ -10,26 +10,6 @@ class VerdictCtrl {
    * Binds all methods so they don't lose context
    */
   constructor() {
-    this.getAll = this.getAll.bind(this);
-    this.get = this.get.bind(this);
-    this.create = this.create.bind(this);
-    this.delete = this.delete.bind(this);
-    this.processResult = this.processResult.bind(this);
-
-    /**
-     * Method that processes the data obtained in getAll
-     * @param  {object}   data  all verdicts obtained from the database
-     * @return {Verdict[]}      an array containing all the obtained verdicts
-     */
-    this.processResult = (data) => {
-      const result = [];
-      data.forEach((res) => {
-        result.push(new Verdict(res));
-      });
-      return result;
-    };
-
-
     /**
      * Controls the obtainment of all existing verdicts
      * @param  {object}  req body of the request
@@ -80,6 +60,7 @@ class VerdictCtrl {
       else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
     };
 
+
     /**
      * Controls the deletion of a verdict
      * @param  {object}  req body of the request
@@ -97,6 +78,21 @@ class VerdictCtrl {
       }
     };
   }
+
+
+  /**
+   * Method that processes the data obtained in getAll
+   * @param  {object}   data  all verdicts obtained from the database
+   * @return {Verdict[]}      an array containing all the obtained verdicts
+   */
+  static processResult(data) {
+    const result = [];
+    data.forEach((res) => {
+      result.push(new Verdict(res));
+    });
+    return result;
+  }
 }
+
 
 module.exports = new VerdictCtrl();

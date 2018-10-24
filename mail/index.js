@@ -1,26 +1,28 @@
 const nodemailer = require('nodemailer');
 
 
-class MailSender {
+class Mailer {
   constructor() {
     this.transporter = nodemailer.createTransport({
-      host: process.env.MAIL_HOST,
-      port: process.env.MAIL_PORT,
-      secure: false,
+      host: process.env.MAIL_HOST, // 'smtp.ethereal.email',
+      port: process.env.MAIL_PORT, // 587,
+      secure: false, // true for 465, false for other ports
       auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
+        user: process.env.MAIL_USER, // generated ethereal user
+        pass: process.env.MAIL_PASS, // generated ethereal password
       },
     });
-
     this.mailOptions = {
-      from: '"Express App" <expressjs@example.com>',
+      from: '"Testing Mail" <testingmail@example.com>',
     };
-    // Validar que el transporter si tiene una conexión válida
-    // this.transporter.verify()
+
+    // Validar que el transporter tiene una conexion valida
+    // this.transporter.verify();
   }
 
+
   sendMail(options) {
+    console.log('Aqui debe de mandar un correo');
     const mailOptions = {
       ...this.mailOptions,
       ...options,
@@ -29,12 +31,11 @@ class MailSender {
     this.transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         return console.log(error);
-      }
+      } return error;
       console.log('Message sent: %s', info.messageId);
-      return true;
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
     });
   }
 }
 
-
-module.exports = new MailSender();
+module.exports = new Mailer();
