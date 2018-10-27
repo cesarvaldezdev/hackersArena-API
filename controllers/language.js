@@ -75,20 +75,18 @@ class LanguageCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
-  }
-
-
-  /**
-   * Method that processes the data obtained in getAll
-   * @param  {object} data     all languages obtained from the database
-   * @return {Language[]}      an array containing all existing languages
-   */
-  static processResult(data) {
-    const result = [];
-    data.forEach((res) => {
-      result.push(new Language(res));
-    });
-    return result;
+    /**
+     * Method that processes the data obtained in getAll
+     * @param  {object} data     all languages obtained from the database
+     * @return {Language[]}      an array containing all existing languages
+     */
+    this.processResult = (data) => {
+      const result = [];
+      data.forEach((res) => {
+        result.push(new Language(res));
+      });
+      return result;
+    }
   }
 }
 

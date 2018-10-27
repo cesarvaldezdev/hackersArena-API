@@ -78,20 +78,18 @@ class UniversityCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
-  }
-
-
-  /**
-   * Method that processes thedata obtained in getAll
-   * @param  {object} data     all universities obtained from the database
-   * @return {University[]}    an array containing all existing universities
-   */
-  static processResult(data) {
-    const result = [];
-    data.forEach((res) => {
-      result.push(new University(res));
-    });
-    return result;
+    /**
+     * Method that processes thedata obtained in getAll
+     * @param  {object} data     all universities obtained from the database
+     * @return {University[]}    an array containing all existing universities
+     */
+    this.processResult = (data) => {
+      const result = [];
+      data.forEach((res) => {
+        result.push(new University(res));
+      });
+      return result;
+    }
   }
 }
 

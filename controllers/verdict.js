@@ -77,20 +77,18 @@ class VerdictCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
-  }
-
-
-  /**
-   * Method that processes the data obtained in getAll
-   * @param  {object}   data  all verdicts obtained from the database
-   * @return {Verdict[]}      an array containing all the obtained verdicts
-   */
-  static processResult(data) {
-    const result = [];
-    data.forEach((res) => {
-      result.push(new Verdict(res));
-    });
-    return result;
+    /**
+     * Method that processes the data obtained in getAll
+     * @param  {object}   data  all verdicts obtained from the database
+     * @return {Verdict[]}      an array containing all the obtained verdicts
+     */
+    this.processResult = (data) => {
+      const result = [];
+      data.forEach((res) => {
+        result.push(new Verdict(res));
+      });
+      return result;
+    }
   }
 }
 

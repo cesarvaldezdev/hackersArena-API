@@ -83,20 +83,18 @@ class UserCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
-  }
-
-
-  /**
-   * Method that processes the data obtained in getAll
-   * @param  {object} data all users obtained from the database
-   * @return {User[]}      an array containing all existing users
-   */
-  static processResult(data) {
-    const result = [];
-    data.forEach((res) => {
-      result.push(new User(res));
-    });
-    return result;
+    /**
+     * Method that processes the data obtained in getAll
+     * @param  {object} data all users obtained from the database
+     * @return {User[]}      an array containing all existing users
+     */
+    this.processResult = (data) => {
+      const result = [];
+      data.forEach((res) => {
+        result.push(new User(res));
+      });
+      return result;
+    }
   }
 }
 
