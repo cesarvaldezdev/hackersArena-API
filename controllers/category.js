@@ -75,6 +75,8 @@ class CategoryCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
+
+
     /**
      * Method that processes the data obtained in getAll
      * @param  {object} data     all categories obtained in database
@@ -86,7 +88,7 @@ class CategoryCtrl {
         result.push(new Category(res));
       });
       return result;
-    }
+    };
   }
 }
 

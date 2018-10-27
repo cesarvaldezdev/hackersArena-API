@@ -81,6 +81,8 @@ class ContestCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
+
+
     /**
      * Methods that processes the data obtained in getAll
      * @param  {object} data   all contests obtained from the database
@@ -92,7 +94,7 @@ class ContestCtrl {
         result.push(new Contest(res));
       });
       return result;
-    }
+    };
   }
 }
 
