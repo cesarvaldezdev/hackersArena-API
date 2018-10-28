@@ -1,3 +1,5 @@
+// FIXME Corregir errores de linter
+// FIXME agregar documentacion a clase y métodos
 const { Contest } = require('../models');
 
 class ContestCtrl {
@@ -18,9 +20,11 @@ class ContestCtrl {
   }
 
   async getAll(req, res) {
+    // FIXME Agregar manejo de errores
     let data = await Contest.getAll();
     data = this.processResult(data);
     if (data.length === 0) {
+      // FIXME los mensajes de las respuestas del API deben ser en ingles
       res.status(400).send({message: 'No existen elementos que cumplan con la peticion'});
     }else{
       res.status(200).send({data});
@@ -28,14 +32,17 @@ class ContestCtrl {
   }
 
   async get(req, res) {
+    // FIXME Agregar manejo de errores
     let data = await Contest.get(req.params.contestId);
     if (data.length === 0) {
+      // FIXME los mensajes de las respuestas del API deben ser en ingles
       res.status(400).send({message: 'No se encontro el elemento'});
     }
     res.send({data});
   }
 
   async create(req, res) {
+    // FIXME Agregar manejo de errores
     let data = await new Contest({
                 name: req.body.name,
                 start: req.body.start,
@@ -46,13 +53,17 @@ class ContestCtrl {
                 deadTime:req.body.deadTime,
                 medal:req.body.medal})
                 .save();
+    // FIXME los mensajes de las respuestas del API deben ser en ingles
+    // FIXME NO utilizar condicionales en una sola linea
     if(data===0) res.status(201).send({message: 'Guardado correctamente'});
     else if (data===1) res.status(400).send({message: 'No se pudo guardar correctamente'});
   }
 
   async delete(req, res) {
+    // FIXME Agregar manejo de errores
     let data = await new Contest({alias: req.params.contestId}).delete();
     if(data === 0){
+      // FIXME los mensajes de las respuestas del API deben ser en ingles
       res.status(200).send({ message: 'Eliminado correctamente' });
     } else if (data === 1) {
       res.status(400).send({ error: 'No se pudo eliminar' });

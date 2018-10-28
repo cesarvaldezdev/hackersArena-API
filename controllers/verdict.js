@@ -1,3 +1,5 @@
+// FIXME Corregir errores de linter
+// FIXME agregar documentacion a clase y métodos
 const { Verdict } = require('../models');
 
 class VerdictCtrl {
@@ -18,7 +20,9 @@ class VerdictCtrl {
   }
 
   async getAll(req, res) {
+    // FIXME Agregar manejo de errores
     let data = await Verdict.getAll();
+    // FIXME quitar codigo comentado
     // const json = {
     //   data: data,
     //   total_count: data.length,
@@ -27,6 +31,7 @@ class VerdictCtrl {
     // };
     data = this.processResult(data);
     if (data.length === 0) {
+      // FIXME los mensajes de las respuestas del API deben ser en ingles
       res.status(400).send({message: 'No existen elementos que cumplan con la peticion'});
     }else{
       res.status(200).send({data});
@@ -34,6 +39,7 @@ class VerdictCtrl {
   }
 
   async get(req, res) {
+    // FIXME Agregar manejo de errores
     let data = await Verdict.get(req.params.verdictId);
     if (data.length === 0) {
       res.status(400).send({message: 'No se encontro el elemento'});
@@ -42,15 +48,20 @@ class VerdictCtrl {
   }
 
   async create(req, res) {
+    // FIXME Agregar manejo de errores
     let data = await new Verdict({id: req.params.verdictId,type: req.body.type}).save();
+    // FIXME NO utilizar condicionales en una sola linea
+    // FIXME los mensajes de las respuestas del API deben ser en ingles
     if(data===0) res.status(201).send({message: 'Guardado correctamente'});
     else if (data===1) res.status(400).send({message: 'No se pudo guardar correctamente'})
 
   }
 
   async delete(req, res) {
+    // FIXME Agregar manejo de errores
     let data = await new Verdict({id: req.params.verdictId}).delete();
     if(data === 0){
+      // FIXME los mensajes de las respuestas del API deben ser en ingles
       res.status(200).send({ message: 'Eliminado correctamente' });
     } else if (data === 1) {
       res.status(400).send({ error: 'No se pudo eliminar' });

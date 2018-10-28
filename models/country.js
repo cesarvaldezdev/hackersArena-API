@@ -1,3 +1,7 @@
+// FIXME Corregir errores de linter
+// FIXME agregar documentacion a clase y métodos
+// FIXME para el manejo de estados 0, 1 y 2 sería mejor usar una constante definida con un nombre mas claro
+
 const db = require('../db');
 /**
  * [Country : The class for the countries of each user]

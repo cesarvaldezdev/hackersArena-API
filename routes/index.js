@@ -1,3 +1,4 @@
+// FIXME Corregir errores de linter
 const router = require('express').Router();
 const verdictsRouter = require('./verdicts');
 const usersRouter = require('./users');

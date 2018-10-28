@@ -13,6 +13,7 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello, world!').end();
 });
 
+// FIXME deben incluir el manejo de env
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
