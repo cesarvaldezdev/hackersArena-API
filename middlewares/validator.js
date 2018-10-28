@@ -1,5 +1,8 @@
 // FIXME Corregir errores de linter
 // FIXME agregar documentacion a clases y métodos
+/**
+ * The middleware that validates inputs
+ */
 class Validator {
   static get regex() {
     return {
@@ -54,5 +57,6 @@ class Validator {
     Object.keys(error.details).length ? next(error) : next();
   }
 }
+
 
 module.exports = Validator;

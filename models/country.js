@@ -3,78 +3,127 @@
 // FIXME para el manejo de estados 0, 1 y 2 sería mejor usar una constante definida con un nombre mas claro
 
 const db = require('../db');
+
+
 /**
- * [Country : The class for the countries of each user]
- * @param {[int]} id        [id of the country]
- * @param {[string]} name   [name of the country]
- * @param {[int]} id_flag    [id of the imagen of the flag]
+ * Class that models a country a user can belong to
+ * It is stored as a catalog in the database
  */
 class Country {
-  constructor({id, name, id_flag}) {
+  /**
+   * Method that initializes a Country object
+   * @param {number} id     the unique number that identifies the country (system created)
+   * @param {string} name   the name of the country i.e 'Palestine'
+   * @param {number} idFlag the id of the image of country's flag
+   */
+  constructor({
+    id, name, idFlag,
+  }) {
     this.id = id;
     this.name = name;
-    this.id_flag = id_flag;
+    this.id_flag = idFlag;
   }
 
-  // Regresa todos los elementos que cumplen con las restricciones establecidas
+
+  /**
+   * Returns all existing countries in the database
+   * @return {Promise} returns an array containing all existing countries
+   * @throws {event}   returns the error
+   */
   static async getAll() {
-    try{
-      const data = await db.selectAll('Country','','','id',true,20,0);
+    try {
+      const data = await db.selectAll('Country', '', '', 'id', true, 20, 0);
       const response = [];
       data.forEach((res) => {
         response.push(new Country(res));
       });
       return response;
-    }catch(e){
+    } catch (e) {
       throw e;
     }
   }
-  // Regresa un solo elemento que cumple con las restricciones establecidas
+
+
+  /**
+   * Returns an element if it matches the request
+   * @param  {number}  countryId the unique id that identifies the element (param in the url)
+   * @return {Promise}           returns the requested object
+   * @throws {event}             returns an error
+   */
   static async get(countryId) {
-    try{
-      const data = await db.selectOne('Country', '',[{attr:'id',oper:'=',val:countryId}]);
+    try {
+      const data = await db.selectOne('Country', '', [{ attr: 'id', oper: '=', val: countryId }]);
       return data.length !== 0 ? new Country(data[0]) : data;
-    }catch(e){
+    } catch (e) {
       throw e;
     }
   }
-  // Actualiza el elemento en la tabla si este ya existe, sino lo crea
-  async save(){
-    try{
+
+
+  /**
+   * Updates the element that matches request, if none match, it creates it
+   * @return {Promise} returns 0 if it exists
+   *                           1 if it failed
+   * @throws {event}   returns an error
+   */
+  async save() {
+    try {
       if (this.id !== undefined && (await this.exists()).length !== 0) return this.update();
       if (await db.insert('Country', this)) return 0;
       return 1;
-    }catch(e){
+    } catch (e) {
       throw e;
     }
   }
-  // Actualiza el elemento
+
+
+  /**
+   * Updates an element if it matches request
+   * @return {Promise} returns 0 if the element was updated,
+   *                           1 if it failed
+   * @throws {event}   returns an error
+   */
   async update() {
-    try{
+    try {
       if (this.id !== undefined && await db.update('Country', this, [{ attr: 'id', oper: '=', val: this.id }])) return 0;
       return 1;
-    }catch(e){
+    } catch (e) {
       throw e;
     }
   }
-  // Elimina el elemento en la tabla por indice
+
+
+  /**
+   * Deletes an element if it matches the request
+   * @return {Promise} returns a 0 if the country is deleted,
+   *                             1 if the country could not be deleted,
+   *                             2 if it can't be found
+   * @throws {event}   returns an error
+   */
   async delete() {
-    try{
+    try {
       if (this.id !== undefined && (await this.exists()).length !== 0) {
         if (this.id !== undefined && await db.delete('Country', [{ attr: 'id', oper: '=', val: this.id }]) !== undefined) return 0;
         return 1;
       }
       return 2;
-    }catch(e){
+    } catch (e) {
       throw e;
     }
   }
-  // Verifica que el elemento exista
+
+
+  /**
+   * Verifies that the element exists
+   * @return {Promise} returns the country if it exists,
+   *                           an empty array if it fails
+   * @throws {event}   returns an error
+   */
   async exists() {
     try {
       if (this.id !== undefined) {
-        const result = await db.selectOne('Country','',[{attr: 'id',oper: '=',val: this.id}]);
-        if(result)return result;
+        const result = await db.selectOne('Country', '', [{ attr: 'id', oper: '=', val: this.id }]);
+        if (result) return result;
       }
       return [];
     } catch (e) {
@@ -82,5 +131,6 @@ class Country {
     }
   }
 }
+
 
 module.exports = Country;
