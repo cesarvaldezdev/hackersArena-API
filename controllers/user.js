@@ -12,11 +12,11 @@ class UserCtrl {
    * Binds all methods so they don't lose context
    */
   constructor() {
-    /*this.getAll = this.getAll.bind(this);
+    this.getAll = this.getAll.bind(this);
     this.get = this.get.bind(this);
     this.create = this.create.bind(this);
     this.delete = this.delete.bind(this);
-    this.processResult = this.processResult.bind(this);*/
+    this.processResult = this.processResult.bind(this);
   }
 
 
