@@ -1,3 +1,5 @@
+// FIXME Corregir errores de linter
+// FIXME agregar documentacion a clase y métodos
 const { Contest } = require('../models');
 
 
@@ -17,6 +19,7 @@ class ContestCtrl {
      * @return {Promise}     returns data concerning the obtainment
      */
     this.getAll = async (req, res) => {
+      // FIXME Agregar manejo de errores
       let data = await Contest.getAll();
       data = this.processResult(data);
       if (data.length === 0) {
@@ -34,6 +37,7 @@ class ContestCtrl {
      * @return {Promise}     returns data concerning the obtainment
      */
     this.get = async (req, res) => {
+      // FIXME Agregar manejo de errores
       const data = await Contest.get(req.params.contestId);
       if (data.length === 0) {
         res.status(400).send({ message: 'Item not found' });
@@ -49,6 +53,7 @@ class ContestCtrl {
      * @return {Promise}     returns data concerning the creation
      */
     this.create = async (req, res) => {
+      // FIXME Agregar manejo de errores
       const data = await new Contest({
         name: req.body.name,
         start: req.body.start,
@@ -60,6 +65,7 @@ class ContestCtrl {
         medal: req.body.medal,
       })
         .save();
+      // FIXME No utilizar condicionales de una sola linea, tabular correctamente
       if (data === 0) res.status(201).send({ message: 'Item saved' });
       else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
     };
@@ -72,6 +78,7 @@ class ContestCtrl {
      * @return {Promise}     returns data concerning the deletion
      */
     this.delete = async (req, res) => {
+      // FIXME Agregar manejo de errores
       const data = await new Contest({ alias: req.params.contestId }).delete();
       if (data === 0) {
         res.status(200).send({ message: 'Item deleted' });

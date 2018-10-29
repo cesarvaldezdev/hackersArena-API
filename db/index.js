@@ -1,3 +1,5 @@
+// FIXME Agregar documentacion a clase y metodos
+
 const process = require('process');
 // const crypto = require('crypto');
 const Knex = require('knex');
