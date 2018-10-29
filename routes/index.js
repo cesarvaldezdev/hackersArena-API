@@ -17,7 +17,7 @@ const solutionsRouter = require('./solutions');
 const universitiesRouter = require('./universities');
 const usersRouter = require('./users');
 const verdictsRouter = require('./verdicts');
-//const mailer = require('../mail');
+// const mailer = require('../mail');
 
 router.get('/', (req, res) => res.send('Hackers Arena v1.0'));
 // router.get('/', (req, res) =>{

@@ -82,6 +82,8 @@ class LanguageCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
+
+
     /**
      * Method that processes the data obtained in getAll
      * @param  {object} data     all languages obtained from the database
@@ -93,7 +95,7 @@ class LanguageCtrl {
         result.push(new Language(res));
       });
       return result;
-    }
+    };
   }
 }
 

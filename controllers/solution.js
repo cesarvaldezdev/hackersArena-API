@@ -93,6 +93,8 @@ class SolutionCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
+
+
     /**
      * Method that processes the data obtained in getAll
      * @param  {object} data     all solutions obtained from the databse
@@ -104,7 +106,7 @@ class SolutionCtrl {
         result.push(new Solution(res));
       });
       return result;
-    }
+    };
   }
 }
 

@@ -90,6 +90,8 @@ class ProblemCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
+
+
     /**
      * Method that processes the data obtained in getAll
      * @param  {object} data   all problems obtained from the database
@@ -101,7 +103,7 @@ class ProblemCtrl {
         result.push(new Problem(res));
       });
       return result;
-    }
+    };
   }
 }
 

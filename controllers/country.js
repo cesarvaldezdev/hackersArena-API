@@ -83,6 +83,8 @@ class CountryCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
+
+
     /**
      * Method that processes the data obtained in getAll
      * @param  {object} data    all countries obtained from the database
@@ -94,7 +96,7 @@ class CountryCtrl {
         result.push(new Country(res));
       });
       return result;
-    }
+    };
   }
 }
 

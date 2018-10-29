@@ -85,6 +85,8 @@ class UniversityCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
+
+
     /**
      * Method that processes thedata obtained in getAll
      * @param  {object} data     all universities obtained from the database
@@ -96,7 +98,7 @@ class UniversityCtrl {
         result.push(new University(res));
       });
       return result;
-    }
+    };
   }
 }
 
