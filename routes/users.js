@@ -33,7 +33,8 @@ router.post('/', (req, res, next) => {
 
 /* PUT */
 // FIXME falta validar el parametro
-// FIXME put es intencionado para ediciones y para para creaciones, por lo cual al parecer el metodo del controlador esta mal
+// FIXME put es intencionado para ediciones y para para creaciones,
+// por lo cual al parecer el metodo del controlador esta mal
 router.put('/:userAlias', [(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
@@ -50,7 +51,7 @@ router.put('/:userAlias', [(req, res, next) => {
 }], UserCtrl.create);
 
 
-/* DELETE*/
+/* DELETE */
 // FIXME falta validar el parametro
 router.delete('/:userAlias', UserCtrl.delete);
 
