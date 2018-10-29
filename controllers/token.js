@@ -1,4 +1,7 @@
+const bcrypt = require('bcrypt');
 const { Token } = require('../models');
+
+const saltRounds = 10;
 
 class TokenCtrl {
   constructor() {
@@ -9,7 +12,7 @@ class TokenCtrl {
     this.processResult = this.processResult.bind(this);
   }
 
-  processResult(data) {
+  static processResult(data) {
     const result = [];
     data.forEach((res) => {
       result.push(new Token(res));
@@ -27,21 +30,22 @@ class TokenCtrl {
     }
   }
 
-  async get(req, res) {
-    let data = await Token.get(req.params.token);
+  static async get(req, res) {
+    const data = await Token.get(req.params.token);
     if (data.length === 0) {
       res.status(400).send({ message: 'Couldnt find token' });
     }
     res.send({ data });
   }
 
-  async create(req, res) {
-    let data = await new Token({
-      token: req.params.token,
-      createdAt: req.params.createdAt,
-      expires: req.params.expires,
-      type: req.params.type,
-      status: req.params.status,
+  static async create(req, res, tokenType) {
+    const myToken = bcrypt.hashSync(`${req.params.aliasUser}${new Date()}`, saltRounds);
+    const data = await new Token({
+      token: myToken,
+      createdAt: new Date(),
+      expires: 12,
+      type: tokenType,
+      status: 1,
       aliasUser: req.params.aliasUser,
     }).save();
     if (data === 0) res.status(201).send({ message: 'Token saved!' });
@@ -49,8 +53,8 @@ class TokenCtrl {
     else if (data === 2) res.status(400).send({ message: 'The user doesnt exist' });
   }
 
-  async delete(req, res) {
-    let data = await new Token ({ token: req.params.token }).delete();
+  static async delete(req, res) {
+    const data = await new Token({ token: req.params.token }).delete();
     if (data === 0) {
       res.status(200).send({ message: 'Deleted token!' });
     } else if (data === 1) {

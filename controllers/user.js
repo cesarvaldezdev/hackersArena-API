@@ -12,11 +12,11 @@ class UserCtrl {
    * Binds all methods so they don't lose context
    */
   constructor() {
-    this.getAll = this.getAll.bind(this);
+    /*this.getAll = this.getAll.bind(this);
     this.get = this.get.bind(this);
     this.create = this.create.bind(this);
     this.delete = this.delete.bind(this);
-    this.processResult = this.processResult.bind(this);
+    this.processResult = this.processResult.bind(this);*/
   }
 
 
@@ -73,23 +73,22 @@ class UserCtrl {
    * @return {Promise}     returns data concerning the creation
    */
   static async create(req, res) {
-    bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-      const data = new User({
-        alias: req.body.alias,
-        name: req.body.name,
-        lastName: req.body.lastName,
-        score: req.body.score,
-        email: req.body.email,
-        password: hash,
-        idUniversity: req.body.idUniversity,
-        idCountry: req.body.idCountry,
-      })
-        .save();
-      if (data === 0) res.status(201).send({ message: 'Item saved' });
-      else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
-      else if (data === 2) res.status(400).send({ message: 'Oops! Country not found' });
-      else if (data === 3) res.status(400).send({ message: 'Oops! University not found' });
-    });
+    const passhash = bcrypt.hashSync(req.body.password, saltRounds);
+    const data = new User({
+      alias: req.body.alias,
+      name: req.body.name,
+      lastName: req.body.lastName,
+      score: req.body.score,
+      email: req.body.email,
+      password: passhash,
+      idUniversity: req.body.idUniversity,
+      idCountry: req.body.idCountry,
+    })
+      .save();
+    if (data === 0) res.status(201).send({ message: 'Item saved' });
+    else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
+    else if (data === 2) res.status(400).send({ message: 'Oops! Country not found' });
+    else if (data === 3) res.status(400).send({ message: 'Oops! University not found' });
   }
 
 
