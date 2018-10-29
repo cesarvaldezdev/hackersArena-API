@@ -9,7 +9,7 @@ app.enable('trust proxy');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(router);
-app.use(auth);
+// app.use(auth);
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello, world!').end();
