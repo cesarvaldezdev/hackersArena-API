@@ -1,3 +1,5 @@
+// FIXME Corregir errores de linter
+// FIXME agregar documentacion a clase y métodos
 const { Verdict } = require('../models');
 
 
@@ -17,6 +19,7 @@ class VerdictCtrl {
      * @return {Promise}     returns data concerning the obtainment
      */
     this.getAll = async (req, res) => {
+      // FIXME Agregar manejo de errores
       let data = await Verdict.getAll();
       // const json = {
       //   data: data,
@@ -40,6 +43,7 @@ class VerdictCtrl {
      * @return {Promise}     return data concerning the obtainment
      */
     this.get = async (req, res) => {
+      // FIXME Agregar manejo de errores
       const data = await Verdict.get(req.params.verdictId);
       if (data.length === 0) {
         res.status(400).send({ message: 'Item not found' });
@@ -55,7 +59,9 @@ class VerdictCtrl {
      * @return {Promise}     returns data concerning the creation
      */
     this.create = async (req, res) => {
+      // FIXME Agregar manejo de errores
       const data = await new Verdict({ id: req.params.verdictId, type: req.body.type }).save();
+      // FIXME No utilizar condicionales de una sola linea
       if (data === 0) res.status(201).send({ message: 'Item saved' });
       else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
     };
@@ -68,6 +74,7 @@ class VerdictCtrl {
      * @return {Promise}     returns data concerning the deletion
      */
     this.delete = async (req, res) => {
+      // FIXME Agregar manejo de errores
       const data = await new Verdict({ id: req.params.verdictId }).delete();
       if (data === 0) {
         res.status(200).send({ message: 'Item deleted' });

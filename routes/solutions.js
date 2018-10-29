@@ -9,6 +9,7 @@ const middlewares = require('../middlewares');
 /* GET */
 // Get all solutions
 router.get('/', SolutionCtrl.getAll);
+// FIXME falta validar el parametro
 // Get a solution by id
 router.get('/:solutionId', SolutionCtrl.get);
 
@@ -31,6 +32,8 @@ router.post('/', (req, res, next) => {
 
 
 /* PUT */
+// FIXME falta validar el parametro
+// FIXME put es intencionado para ediciones y para para creaciones, por lo cual al parecer el metodo del controlador esta mal
 router.put('/:solutionId', [(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
@@ -48,6 +51,7 @@ router.put('/:solutionId', [(req, res, next) => {
 
 
 /* DELETE */
+// FIXME falta validar el parametro
 router.delete('/:solutionId', SolutionCtrl.delete);
 
 

@@ -1,3 +1,5 @@
+// FIXME Corregir errores de linter
+// FIXME agregar documentacion a clases y métodos
 /**
  * The middleware that validates inputs
  */
@@ -13,6 +15,7 @@ class Validator {
       email: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     };
   }
+  // FIXME arreglar para mantener funciones en multiples lineas
   static datetime(data){ return (Validator.regex.datetime.test(data));}
 
   static word(data){ return (Validator.regex.word.test(data));}

@@ -1,3 +1,5 @@
+// FIXME Corregir errores de linter
+// FIXME agregar documentacion a clase y métodos
 const { User } = require('../models');
 
 
@@ -17,6 +19,7 @@ class UserCtrl {
      * @return {Promise}     returns data concerning the obtainment
      */
     this.getAll = async (req, res) => {
+      // FIXME Agregar manejo de errores
       let data = await User.getAll();
       data = this.processResult(data);
       if (data.length === 0) {
@@ -34,6 +37,7 @@ class UserCtrl {
      * @return {Promise}     returns data concerning the obtainment
      */
     this.get = async (req, res) => {
+      // FIXME Agregar manejo de errores
       const data = await User.get(req.params.userAlias);
       if (data.length === 0) {
         res.status(400).send({ message: 'Item not found' });
@@ -49,6 +53,7 @@ class UserCtrl {
      * @return {Promise}     returns data concerning the creation
      */
     this.create = async (req, res) => {
+      // FIXME Agregar manejo de errores
       const data = await new User({
         alias: req.body.alias,
         name: req.body.name,
@@ -60,6 +65,7 @@ class UserCtrl {
         idCountry: req.body.idCountry,
       })
         .save();
+      // FIXME No utilizar condicionales de una sola linea
       if (data === 0) res.status(201).send({ message: 'Item saved' });
       else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
       else if (data === 2) res.status(400).send({ message: 'Oops! Country not found' });
@@ -74,6 +80,7 @@ class UserCtrl {
      * @return {Promise}     returns data concerning the deletion
      */
     this.delete = async (req, res) => {
+      // FIXME Agregar manejo de errores
       const data = await new User({ alias: req.params.userAlias }).delete();
       if (data === 0) {
         res.status(200).send({ message: 'Item deleted' });

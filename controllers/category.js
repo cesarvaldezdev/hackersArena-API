@@ -1,3 +1,5 @@
+// FIXME Corregir errores de linter
+// FIXME agregar documentacion a clase y métodos
 const { Category } = require('../models');
 
 
@@ -54,6 +56,7 @@ class CategoryCtrl {
         name: req.body.name,
       })
         .save();
+      // FIXME NO utilizar condicionales en una sola linea, tabular correctamente
       if (data === 0) res.status(201).send({ message: 'Item saved' });
       else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
     };

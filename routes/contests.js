@@ -9,6 +9,7 @@ const middlewares = require('../middlewares');
 /* GET */
 // Get all contests
 router.get('/', ContestCtrl.getAll);
+// FIXME falta validar el parametro
 // Get a contest by id
 router.get('/:contestId', ContestCtrl.get);
 
@@ -31,6 +32,8 @@ router.post('/', (req, res, next) => {
 
 
 /* PUT */
+// FIXME falta validar el parametro
+// FIXME put es intencionado para ediciones y para para creaciones, por lo cual al parecer el metodo del controlador esta mal
 router.put('/:contestId', [(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
@@ -48,6 +51,7 @@ router.put('/:contestId', [(req, res, next) => {
 
 
 /* DELETE */
+// FIXME falta validar el parametro
 router.delete('/:contestId', ContestCtrl.delete);
 
 
