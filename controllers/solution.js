@@ -86,20 +86,18 @@ class SolutionCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
-  }
-
-
-  /**
-   * Method that processes the data obtained in getAll
-   * @param  {object} data     all solutions obtained from the databse
-   * @return {Solution[]}      an array containing all existing solutions
-   */
-  static processResult(data) {
-    const result = [];
-    data.forEach((res) => {
-      result.push(new Solution(res));
-    });
-    return result;
+    /**
+     * Method that processes the data obtained in getAll
+     * @param  {object} data     all solutions obtained from the databse
+     * @return {Solution[]}      an array containing all existing solutions
+     */
+    this.processResult = (data) => {
+      const result = [];
+      data.forEach((res) => {
+        result.push(new Solution(res));
+      });
+      return result;
+    }
   }
 }
 

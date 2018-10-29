@@ -75,20 +75,18 @@ class CategoryCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
-  }
-
-
-  /**
-   * Method that processes the data obtained in getAll
-   * @param  {object} data     all categories obtained in database
-   * @return {Category[]}      an array containing all existing categories
-   */
-  static processResult(data) {
-    const result = [];
-    data.forEach((res) => {
-      result.push(new Category(res));
-    });
-    return result;
+    /**
+     * Method that processes the data obtained in getAll
+     * @param  {object} data     all categories obtained in database
+     * @return {Category[]}      an array containing all existing categories
+     */
+    this.processResult = (data) => {
+      const result = [];
+      data.forEach((res) => {
+        result.push(new Category(res));
+      });
+      return result;
+    }
   }
 }
 

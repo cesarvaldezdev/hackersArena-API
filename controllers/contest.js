@@ -81,20 +81,18 @@ class ContestCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
-  }
-
-
-  /**
-   * Methods that processes the data obtained in getAll
-   * @param  {object} data   all contests obtained from the database
-   * @return {Contest[]}     an array containing all existing contests
-   */
-  static processResult(data) {
-    const result = [];
-    data.forEach((res) => {
-      result.push(new Contest(res));
-    });
-    return result;
+    /**
+     * Methods that processes the data obtained in getAll
+     * @param  {object} data   all contests obtained from the database
+     * @return {Contest[]}     an array containing all existing contests
+     */
+    this.processResult = (data) => {
+      const result = [];
+      data.forEach((res) => {
+        result.push(new Contest(res));
+      });
+      return result;
+    }
   }
 }
 
