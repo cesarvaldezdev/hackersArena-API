@@ -90,6 +90,8 @@ class UserCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
+
+
     /**
      * Method that processes the data obtained in getAll
      * @param  {object} data all users obtained from the database
@@ -101,7 +103,7 @@ class UserCtrl {
         result.push(new User(res));
       });
       return result;
-    }
+    };
   }
 }
 

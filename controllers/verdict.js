@@ -84,6 +84,8 @@ class VerdictCtrl {
         res.status(404).send({ error: 'Item not found' });
       }
     };
+
+
     /**
      * Method that processes the data obtained in getAll
      * @param  {object}   data  all verdicts obtained from the database
@@ -95,7 +97,7 @@ class VerdictCtrl {
         result.push(new Verdict(res));
       });
       return result;
-    }
+    };
   }
 }
 
