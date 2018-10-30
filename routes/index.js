@@ -17,6 +17,8 @@ const usersRouter = require('./users');
 const verdictsRouter = require('./verdicts');
 // const mailer = require('../mail');
 
+
+/* Page placeholder */
 router.get('/', (req, res) => res.send('Hackers Arena v1.0'));
 // router.get('/', (req, res) =>{
 //   let mailOptions = {
@@ -27,6 +29,7 @@ router.get('/', (req, res) => res.send('Hackers Arena v1.0'));
 //   };
 //   mailer.sendMail(mailOptions);
 // });
+
 
 /* Router association */
 router.use('/categories', categoriesRouter);

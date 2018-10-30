@@ -4,10 +4,16 @@ const { Category } = require('../models');
 
 
 /**
+ * ========================================================
+ *                     CategoryCtrl
+ * ========================================================
  * The controller that manages categories
  */
 class CategoryCtrl {
   /**
+   * ======================================================
+   *                    constructor
+   * ======================================================
    * Method that initializes the CategoryCtrl object
    * Binds all methods so they don't lose context
    */
@@ -30,6 +36,9 @@ class CategoryCtrl {
 
 
     /**
+     * ====================================================
+     *                       get
+     * ====================================================
      * Controls the obtainment of a category
      * @param  {object}  req body of the request
      * @param  {object}  res body of the response
@@ -45,6 +54,9 @@ class CategoryCtrl {
 
 
     /**
+     * ====================================================
+     *                       create
+     * ====================================================
      * Controls the creation of a category
      * @param  {object}  req body of a request
      * @param  {object}  res body of a response
@@ -56,13 +68,18 @@ class CategoryCtrl {
         name: req.body.name,
       })
         .save();
-      // FIXME NO utilizar condicionales en una sola linea, tabular correctamente
-      if (data === 0) res.status(201).send({ message: 'Item saved' });
-      else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
+      if (data === 0) {
+        res.status(201).send({ message: 'Item saved' });
+      } else if (data === 1) {
+        res.status(400).send({ message: 'Oops! Trouble saving' });
+      }
     };
 
 
     /**
+     * ====================================================
+     *                       delete
+     * ====================================================
      * Controls the deletion of a category
      * @param  {object}  req body of the request
      * @param  {object}  res body of the response
@@ -81,6 +98,9 @@ class CategoryCtrl {
 
 
     /**
+     * ====================================================
+     *                   processResult
+     * ====================================================
      * Method that processes the data obtained in getAll
      * @param  {object} data     all categories obtained in database
      * @return {Category[]}      an array containing all existing categories
@@ -95,5 +115,5 @@ class CategoryCtrl {
   }
 }
 
-
+// Export a 'global' instance of CategoryCtrl
 module.exports = new CategoryCtrl();
