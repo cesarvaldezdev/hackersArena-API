@@ -7,8 +7,11 @@ const middlewares = require('../middlewares');
 
 
 /* POST */
+// Get all categories
 router.get('/', CountryCtrl.getAll);
+
 // FIXME falta validar el parametro
+// Get category by id
 router.get('/:countryId', CountryCtrl.get);
 
 router.post('/', (req, res, next) => {
