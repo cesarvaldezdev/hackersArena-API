@@ -18,9 +18,7 @@ class Country {
    * @param {string} name   the name of the country i.e 'Palestine'
    * @param {number} idFlag the id of the image of country's flag
    */
-  constructor({
-    id, name, idFlag,
-  }) {
+  constructor({ id, name, idFlag }) {
     this.id = id;
     this.name = name;
     this.idFlag = idFlag;
