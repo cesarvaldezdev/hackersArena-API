@@ -1,3 +1,5 @@
+// FIXME Corregir errores de linter
+// FIXME agregar documentacion a clases y métodos
 /**
  * The middleware that validates inputs
  */
@@ -13,21 +15,23 @@ class Validator {
       email: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     };
   }
-  static datetime(data){ return (Validator.regex.datetime.test(data));}
 
-  static word(data){ return (Validator.regex.word.test(data));}
+  // FIXME arreglar para mantener funciones en multiples lineas
+  static datetime(data) { return (Validator.regex.datetime.test(data)); }
 
-  static language(data){ return (Validator.regex.language.test(data));}
+  static word(data) { return (Validator.regex.word.test(data)); }
 
-  static alias(data){ return (Validator.regex.alias.test(data));}
+  static language(data) { return (Validator.regex.language.test(data)); }
 
-  static password(data){ return (Validator.regex.password.test(data));}
+  static alias(data) { return (Validator.regex.alias.test(data)); }
 
-  static required(data){ return data !== undefined && data !== null && data.length;}
+  static password(data) { return (Validator.regex.password.test(data)); }
 
-  static email(data){ return (Validator.regex.email.test(data));}
+  static required(data) { return data !== undefined && data !== null && data.length; }
 
-  static number(data){ return (Validator.regex.number.test(data));}
+  static email(data) { return (Validator.regex.email.test(data)); }
+
+  static number(data) { return (Validator.regex.number.test(data)); }
 
   static validate(req, res, next, rules) {
     const error = {

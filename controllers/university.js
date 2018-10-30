@@ -1,3 +1,5 @@
+// FIXME Corregir errores de linter
+// FIXME agregar documentacion a clase y métodos
 const { University } = require('../models');
 
 
@@ -10,95 +12,93 @@ class UniversityCtrl {
    * Binds all methods so they don't lose context
    */
   constructor() {
-    this.getAll = this.getAll.bind(this);
-    this.get = this.get.bind(this);
-    this.create = this.create.bind(this);
-    this.delete = this.delete.bind(this);
-    this.processResult = this.processResult.bind(this);
-  }
+    /**
+     * Controls the obtainment of all existing universities
+     * @param  {object}  req body of the request
+     * @param  {object}  res body of the response
+     * @return {Promise}     returns data concerning the obtainment
+     */
+    this.getAll = async (req, res) => {
+      // FIXME Agregar manejo de errores
+      let data = await University.getAll();
+      data = this.processResult(data);
+      if (data.length === 0) {
+        res.status(400).send({ message: 'No items satisfy the petition' });
+      } else {
+        res.status(200).send({ data });
+      }
+    };
 
 
-  /**
-   * Method that processes thedata obtained in getAll
-   * @param  {object} data     all universities obtained from the database
-   * @return {University[]}    an array containing all existing universities
-   */
-  static processResult(data) {
-    const result = [];
-    data.forEach((res) => {
-      result.push(new University(res));
-    });
-    return result;
-  }
+    /**
+     * Controls the obtainment of a university
+     * @param  {object}  req body of the request
+     * @param  {object}  res body of the response
+     * @return {Promise}     returns data concerning the obtainment
+     */
+    this.get = async (req, res) => {
+      // FIXME Agregar manejo de errores
+      const data = await University.get(req.params.universityId);
+      if (data.length === 0) {
+        res.status(400).send({ message: 'Item not found' });
+      }
+      res.send({ data });
+    };
 
 
-  /**
-   * Controls the obtainment of all existing universities
-   * @param  {object}  req body of the request
-   * @param  {object}  res body of the response
-   * @return {Promise}     returns data concerning the obtainment
-   */
-  async getAll(req, res) {
-    let data = await University.getAll();
-    data = this.processResult(data);
-    if (data.length === 0) {
-      res.status(400).send({ message: 'No items satisfy the petition' });
-    } else {
-      res.status(200).send({ data });
-    }
-  }
+    /**
+     * Controls the creation of a university
+     * @param  {object}  req body of a request
+     * @param  {object}  res body of a response
+     * @return {Promise}     returns data concerning the creation
+     */
+    this.create = async (req, res) => {
+      // FIXME Agregar manejo de errores
+      const data = await new University({
+        id: req.params.universityId,
+        name: req.body.name,
+        idLogo: req.body.idLogo,
+        idCountry: req.body.idCountry,
+      })
+        .save();
+      // FIXME No utilizar condicionales de una sola linea
+      if (data === 0) res.status(201).send({ message: 'Item saved' });
+      else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
+      else if (data === 2) res.status(400).send({ message: 'Oops! Country not found' });
+    };
 
 
-  /**
-   * Controls the obtainment of a university
-   * @param  {object}  req body of the request
-   * @param  {object}  res body of the response
-   * @return {Promise}     returns data concerning the obtainment
-   */
-  static async get(req, res) {
-    const data = await University.get(req.params.universityId);
-    if (data.length === 0) {
-      res.status(400).send({ message: 'Item not found' });
-    }
-    res.send({ data });
-  }
+    /**
+     * Controls the deletion of a university
+     * @param  {object}  req body of a request
+     * @param  {object}  res body of a response
+     * @return {Promise}     [description]
+     */
+    this.delete = async (req, res) => {
+      // FIXME Agregar manejo de errores
+      const data = await new University({ id: req.params.universityId }).delete();
+      if (data === 0) {
+        res.status(200).send({ message: 'Item deleted' });
+      } else if (data === 1) {
+        res.status(400).send({ error: 'Oops! Trouble deleting' });
+      } else if (data === 2) {
+        res.status(404).send({ error: 'Item not found' });
+      }
+    };
 
 
-  /**
-   * Controls the creation of a university
-   * @param  {object}  req body of a request
-   * @param  {object}  res body of a response
-   * @return {Promise}     returns data concerning the creation
-   */
-  static async create(req, res) {
-    const data = await new University({
-      id: req.params.universityId,
-      name: req.body.name,
-      idLogo: req.body.idLogo,
-      idCountry: req.body.idCountry,
-    })
-      .save();
-    if (data === 0) res.status(201).send({ message: 'Item saved' });
-    else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
-    else if (data === 2) res.status(400).send({ message: 'Oops! Country not found' });
-  }
-
-
-  /**
-   * Controls the deletion of a university
-   * @param  {object}  req body of a request
-   * @param  {object}  res body of a response
-   * @return {Promise}     [description]
-   */
-  static async delete(req, res) {
-    const data = await new University({ id: req.params.universityId }).delete();
-    if (data === 0) {
-      res.status(200).send({ message: 'Item deleted' });
-    } else if (data === 1) {
-      res.status(400).send({ error: 'Oops! Trouble deleting' });
-    } else if (data === 2) {
-      res.status(404).send({ error: 'Item not found' });
-    }
+    /**
+     * Method that processes thedata obtained in getAll
+     * @param  {object} data     all universities obtained from the database
+     * @return {University[]}    an array containing all existing universities
+     */
+    this.processResult = (data) => {
+      const result = [];
+      data.forEach((res) => {
+        result.push(new University(res));
+      });
+      return result;
+    };
   }
 }
 
