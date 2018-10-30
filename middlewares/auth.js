@@ -56,7 +56,7 @@ class Auth {
      * @return {[type]}        [description]
      */
     this.verifyToken = (req, res, next) => {
-      // Get auth header value.authorizati.authorization
+      // Get auth header value.authorization
       const bearerHeader = req.headers['.authorization'];
 
       // Check if bearer is undefined
@@ -74,9 +74,14 @@ class Auth {
         next();
       } else {
         // Forbidden
-        res.sendStatus(403);
+        res.status(403).json({
+          ok: false,
+          err: {
+            message: 'Forbidden',
+          },
+        });
       }
-    }
+    };
   }
 
 
