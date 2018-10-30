@@ -67,6 +67,7 @@ class UserCtrl {
         password: passhash,
         idUniversity: req.body.idUniversity,
         idCountry: req.body.idCountry,
+        status: 0,
       })
         .save();
       // FIXME No utilizar condicionales de una sola linea

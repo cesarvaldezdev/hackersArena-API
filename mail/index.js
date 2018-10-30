@@ -13,7 +13,7 @@ class Mailer {
       },
     });
     this.mailOptions = {
-      from: '"Testing Mail" <testingmail@example.com>',
+      from: '"HackersArena" <testingmail@example.com>',
     };
 
     // Validar que el transporter tiene una conexion valida
@@ -22,8 +22,7 @@ class Mailer {
 
 
   sendMail(options) {
-    console.log('Aqui debe de mandar un correo');
-    const mailOptions = {
+    let mailOptions = { //const
       ...this.mailOptions,
       ...options,
     };
@@ -35,7 +34,7 @@ class Mailer {
       console.log('Message sent: %s', info.messageId);
       console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
       /* LINTER QUICKFIX */
-      return info;
+      return true;//info
     });
   }
 }
