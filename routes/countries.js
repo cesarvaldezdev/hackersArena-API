@@ -31,7 +31,7 @@ router.put('/:countryId', [(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
       name: 'word,required',
-      id_flag: 'number,required',
+      idFlag: 'number,required',
     },
   });
 }], CountryCtrl.create);
