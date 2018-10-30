@@ -14,3 +14,4 @@ exports.Language = require('./language');
 exports.Country = require('./country');
 exports.Contest = require('./contest');
 exports.Category = require('./category');
+exports.Token = require('./token');

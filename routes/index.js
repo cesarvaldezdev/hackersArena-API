@@ -3,7 +3,7 @@
  * @see https://www.npmjs.com/package/router
  */
 const router = require('express').Router();
-
+const middlewares = require('../middlewares')
 
 /* Router initialization */
 const categoriesRouter = require('./categories');
@@ -15,19 +15,23 @@ const solutionsRouter = require('./solutions');
 const universitiesRouter = require('./universities');
 const usersRouter = require('./users');
 const verdictsRouter = require('./verdicts');
-// const mailer = require('../mail');
+const authRouter = require('./auth');
+const mailer = require('../mail');
 
 
 /* Page placeholder */
-router.get('/', (req, res) => res.send('Hackers Arena v1.0'));
-// router.get('/', (req, res) =>{
+router.get('/', (req, res) => { res.status(200).send('Hackers Arena v1.0'); });
+
+// router.get('/email', (req, res) =>{
+
 //   let mailOptions = {
 //     to: 'pancho@mail.com',
 //     subject: 'Hello testing',
-//     text: `algunaUrlVaAqui/${token}`,
+//     text: `localhost:8080/register/${req.body.token}`,
 //     html: '<b>Hello World</b>',
 //   };
 //   mailer.sendMail(mailOptions);
+//   res.status(200).send('HackersArena API');
 // });
 
 
@@ -41,6 +45,7 @@ router.use('/solutions', solutionsRouter);
 router.use('/users', usersRouter);
 router.use('/universities', universitiesRouter);
 router.use('/verdicts', verdictsRouter);
+router.use('/', authRouter);
 
 
 module.exports = router;
