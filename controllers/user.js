@@ -1,7 +1,8 @@
 // FIXME Corregir errores de linter
 // FIXME agregar documentacion a clase y métodos
-const { User } = require('../models');
+const bcrypt = require('bcrypt');
 
+const { User } = require('../models');
 
 /**
  * The controller that manages users
@@ -54,17 +55,18 @@ class UserCtrl {
      */
     this.create = async (req, res) => {
       // FIXME Agregar manejo de errores
-      const data = await new User({
-        alias: req.params.userAlias,
+      const passhash = bcrypt.hashSync(req.body.password, process.env.SALT_ROUNDS);
+      const data = new User({
+        alias: req.body.alias,
         name: req.body.name,
         lastName: req.body.lastName,
         score: req.body.score,
         email: req.body.email,
-        password: req.body.password,
+        password: passhash,
         idUniversity: req.body.idUniversity,
         idCountry: req.body.idCountry,
-      })
-        .save();
+        status: 0,
+      }).save();
       // FIXME No utilizar condicionales de una sola linea
       if (data === 0) res.status(201).send({ message: 'Item saved' });
       else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });

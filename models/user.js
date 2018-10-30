@@ -22,7 +22,7 @@ class User {
    * @param {number} idCountry    the if of country of residence of the user
    */
   constructor({
-    alias, name, lastName, score, email, password, idUniversity, idCountry,
+    alias, name, lastName, score, email, password, idUniversity, idCountry, status,
   }) {
     this.alias = alias;
     this.name = name;
@@ -32,6 +32,7 @@ class User {
     this.password = password;
     this.idUniversity = idUniversity;
     this.idCountry = idCountry;
+    this.status = status;
   }
 
 

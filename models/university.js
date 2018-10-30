@@ -73,7 +73,7 @@ class University {
    */
   async save() {
     try {
-      if ((await db.selectOne('Country', '', [{ attr: 'id', oper: '=', val: this.id_Country }])).length !== 0) {
+      if ((await db.selectOne('Country', '', [{ attr: 'id', oper: '=', val: this.idCountry }])).length !== 0) {
         if (this.id !== undefined && (await this.exists()).length !== 0) return this.update();
         if (await db.insert('University', this)) return 0;
         return 1;

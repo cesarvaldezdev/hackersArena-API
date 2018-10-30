@@ -1,2 +1,9 @@
-exports.validator = require('./validator');
-exports.errorHandler = require('./errorHandler');
+const validator = require('./validator');
+const errorHandler = require('./errorHandler');
+const auth = require('./auth');
+
+module.exports = {
+  validator,
+  errorHandler,
+  auth,
+};
