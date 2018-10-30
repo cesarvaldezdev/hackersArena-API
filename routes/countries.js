@@ -6,7 +6,7 @@ const { CountryCtrl } = require('../controllers');
 const middlewares = require('../middlewares');
 
 
-/* POST */
+/* GET */
 // Get all categories
 router.get('/', CountryCtrl.getAll);
 
@@ -38,6 +38,8 @@ router.put('/:countryId', [(req, res, next) => {
 
 
 // FIXME falta validar el parametro
+
+/* POST */
 router.delete('/:countryId', CountryCtrl.delete);
 
 

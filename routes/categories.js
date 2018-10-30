@@ -12,6 +12,7 @@ const middlewares = require('../middlewares');
 /* GET */
 // Get all categories
 router.get('/', CategoryCtrl.getAll);
+
 // FIXME falta validar el parametro
 // Get category by id
 router.get('/:categoryId', CategoryCtrl.get);
@@ -28,13 +29,13 @@ router.post('/', (req, res, next) => {
 
 
 /* PUT */
-router.put('/:categoryId', [(req, res, next) => {
-  middlewares.validator.validate(req, res, next, {
-    body: {
-      name: 'word,required',
-    },
-  });
-}], CategoryCtrl.create);
+// router.put('/:categoryId', [(req, res, next) => {
+//   middlewares.validator.validate(req, res, next, {
+//     body: {
+//       name: 'word,required',
+//     },
+//   });
+// }], CategoryCtrl.create);
 
 
 // FIXME falta validar el parametro

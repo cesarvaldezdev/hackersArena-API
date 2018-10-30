@@ -90,8 +90,8 @@ class Category {
 
   /**
    * Deletes an element if it matches the request
-   * @return {Promise} returns a 0 if the verdict is deleted,
-   *                             1 if the verdict could not be deleted,
+   * @return {Promise} returns a 0 if the category is deleted,
+   *                             1 if the category could not be deleted,
    *                             2 if it can't be found
    * @throws {event}   returns an error
    */
