@@ -41,55 +41,92 @@ class Contest {
 
 
   /**
-   * [getAll description]
-   * @return {Promise} [description]
+   * Returns all existing contests in the database
+   * @return {Promise} returns an array containing all existing categories
+   * @throws {event}   returns the error
    */
   static async getAll() {
-    const data = processResult(await db.selectAll('Contest', '', '', 'id', true, 10, 0));
-    return data;
+    try {
+      const data = await db.selectAll('Contest', '', '', 'id', true, 20, 0);
+      const response = [];
+      data.forEach((res) => {
+        response.push(new Contest(res));
+      });
+      return response;
+    } catch (e) {
+      throw e;
+    }
   }
 
 
   /**
-   * [get description]
-   * @param  {[type]}  contestId [description]
-   * @return {Promise}           [description]
+   * Returns an element if it matches the request
+   * @param  {number}  contestId the unique id that identifies the element (param in the url)
+   * @return {Promise}           returns the requested object
+   * @throws {event}             returns an error
    */
   static async get(contestId) {
-    const data = await db.selectOne('Contest', '', [{ attr: 'id', oper: '=', val: contestId }]);
-    return data.length !== 0 ? new Contest(data[0]) : data;
+    try {
+      const data = await db.selectOne('Contest', '', [{ attr: 'id', oper: '=', val: contestId }]);
+      return data.length !== 0 ? new Contest(data[0]) : data;
+    } catch (e) {
+      throw e;
+    }
   }
 
 
   /**
-   * [create description]
-   * @param  {[type]}  type [description]
-   * @return {Promise}      [description]
+   * Updates the element that matches request, if none match, it creates it
+   * @return {Promise} returns 0 if it exists
+   *                           1 if it failed
+   * @throws {event}   returns an error
    */
-  static async create({ type }) {
-    const response = await db.insert('Contest', { name, start, end });
-    const id = response.insertId;
-    if (id > 0) {
-      return new Contest({
-        id, name, start, end,
-      });
+  async save() {
+    try {
+      if (this.id !== undefined && (await this.exists()).length !== 0) return this.update();
+      if (await db.insert('Contest', this)) return 0;
+      return 1;
+    } catch (e) {
+      throw e;
     }
-    return [];
+  }
+
+
+  /**
+   * Deletes an element if it matches the request
+   * @return {Promise} returns a 0 if the contest is deleted,
+   *                             1 if the contest could not be deleted,
+   *                             2 if it can't be found
+   * @throws {event}   returns an error
+   */
+  async update() {
+    try {
+      if (this.id !== undefined && await db.update('Contest', this, [{ attr: 'id', oper: '=', val: this.id }])) return 0;
+      return 1;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+
+  /**
+   * Verifies that the element exists
+   * @return {Promise} returns the contest if it exists,
+   *                           an empty array if it fails
+   * @throws {event}   returns an error
+   */
+  async delete() {
+    try {
+      if (this.id !== undefined && (await this.exists()).length !== 0) {
+        if (this.id !== undefined && await db.delete('Contest', [{ attr: 'id', oper: '=', val: this.id }]) !== undefined) return 0;
+        return 1;
+      }
+      return 2;
+    } catch (e) {
+      throw e;
+    }
   }
 }
 
-
-/**
- * [processResult description]
- * @param  {[type]} data [description]
- * @return {[type]}      [description]
- */
-function processResult(data) {
-  const result = [];
-  data.forEach((res) => {
-    result.push(new Contest(res));
-  });
-  return result;
-}
 
 module.exports = Contest;

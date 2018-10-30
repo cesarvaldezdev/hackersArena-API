@@ -57,7 +57,7 @@ class CountryCtrl {
       const data = await new Country({
         id: req.params.countryId,
         name: req.body.name,
-        id_flag: req.body.id_flag,
+        idFlag: req.body.idFlag,
       })
         .save();
       // FIXME No utilizar condicionales de una sola linea, tabular correctamente

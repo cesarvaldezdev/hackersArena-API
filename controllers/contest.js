@@ -55,6 +55,7 @@ class ContestCtrl {
     this.create = async (req, res) => {
       // FIXME Agregar manejo de errores
       const data = await new Contest({
+        id: req.params.contestId,
         name: req.body.name,
         start: req.body.start,
         end: req.body.end,

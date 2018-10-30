@@ -55,7 +55,7 @@ class UserCtrl {
     this.create = async (req, res) => {
       // FIXME Agregar manejo de errores
       const data = await new User({
-        alias: req.body.alias,
+        alias: req.params.userAlias,
         name: req.body.name,
         lastName: req.body.lastName,
         score: req.body.score,
