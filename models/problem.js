@@ -23,10 +23,10 @@ class Problem {
    * @param {number} idCategory the id of the category the problem belongs to
    */
   constructor({
-    id, docId, testTime, testMemory, attempts, solved, aliasUser, idCategory,
+    id, idDoc, testTime, testMemory, attempts, solved, aliasUser, idCategory,
   }) {
     this.id = id;
-    this.idDoc = docId;
+    this.idDoc = idDoc;
     this.testTime = testTime;
     this.testMemory = testMemory;
     this.attempts = attempts;
@@ -81,8 +81,8 @@ class Problem {
    */
   async save() {
     try {
-      if ((await db.selectOne('User', '', [{ attr: 'alias', oper: '=', val: `'${this.alias_User}'` }])).length !== 0) {
-        if ((await db.selectOne('Category', '', [{ attr: 'id', oper: '=', val: this.id_Category }])).length !== 0) {
+      if ((await db.selectOne('User', '', [{ attr: 'alias', oper: '=', val: `'${this.aliasUser}'` }])).length !== 0) {
+        if ((await db.selectOne('Category', '', [{ attr: 'id', oper: '=', val: this.idCategory }])).length !== 0) {
           if (this.id !== undefined && (await this.exists()).length !== 0) return this.update();
           if (await db.insert('Problem', this)) return 0;
           return 1;

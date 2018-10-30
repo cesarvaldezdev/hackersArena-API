@@ -85,10 +85,10 @@ class Solution {
    */
   async save() {
     try {
-      if ((await db.selectOne('Verdict', '', [{ attr: 'id', oper: '=', val: this.id_Verdict }])).length !== 0) {
-        if ((await db.selectOne('User', '', [{ attr: 'alias', oper: '=', val: `'${this.alias_User}'` }])).length !== 0) {
-          if ((await db.selectOne('Problem', '', [{ attr: 'id', oper: '=', val: this.id_Problem }])).length !== 0) {
-            if ((await db.selectOne('Language', '', [{ attr: 'id', oper: '=', val: this.id_Language }])).length !== 0) {
+      if ((await db.selectOne('Verdict', '', [{ attr: 'id', oper: '=', val: this.idVerdict }])).length !== 0) {
+        if ((await db.selectOne('User', '', [{ attr: 'alias', oper: '=', val: `'${this.aliasUser}'` }])).length !== 0) {
+          if ((await db.selectOne('Problem', '', [{ attr: 'id', oper: '=', val: this.idProblem }])).length !== 0) {
+            if ((await db.selectOne('Language', '', [{ attr: 'id', oper: '=', val: this.idLanguage }])).length !== 0) {
               if (this.id !== undefined && (await this.exists()).length !== 0) return this.update();
               if (await db.insert('Solution', this)) return 0;
               return 1; // Can't be saved

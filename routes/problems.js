@@ -18,13 +18,13 @@ router.get('/:problemId', ProblemCtrl.get);
 router.post('/', (req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
-      id_doc: 'number,required',
+      idDoc: 'number,required',
       testTime: 'number,required',
       testMemory: 'number,required',
       attempts: 'number,required',
       solved: 'number,required',
-      alias_User: 'alias,required',
-      id_Category: 'number,required',
+      aliasUser: 'alias,required',
+      idCategory: 'number,required',
     },
   });
 }, ProblemCtrl.create);
@@ -37,13 +37,13 @@ router.post('/', (req, res, next) => {
 router.put('/:problemId', [(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
-      id_doc: 'number,required',
+      idDoc: 'number,required',
       testTime: 'number,required',
       testMemory: 'number,required',
       attempts: 'number,required',
       solved: 'number,required',
-      alias_User: 'alias,required',
-      id_Category: 'number,required',
+      aliasUser: 'alias,required',
+      idCategory: 'number,required',
     },
   });
 }], ProblemCtrl.create);

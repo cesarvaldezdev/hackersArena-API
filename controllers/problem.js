@@ -56,13 +56,13 @@ class ProblemCtrl {
       // FIXME Agregar manejo de errores
       const data = await new Problem({
         id: req.params.problemId,
-        id_doc: req.body.id_doc,
+        idDoc: req.body.idDoc,
         testTime: req.body.testTime,
         testMemory: req.body.testMemory,
         attempts: req.body.attempts,
         solved: req.body.solved,
-        aliasUser: req.body.alias_User,
-        idCategory: req.body.id_Category,
+        aliasUser: req.body.aliasUser,
+        idCategory: req.body.idCategory,
       })
         .save();
       // FIXME No utilizar condicionales de una sola linea
