@@ -1,14 +1,18 @@
 const db = require('../db');
 /**
- * [Class for the Solution]
- * @param {[type]} token         [Our token]
- * @param {[type]} createdAt     [date of the token]
- * @param {[type]} expires       [when the token expires]
- * @param {[type]} type          [type of the token]
- * @param {[type]} status        [status of the token, 1=active 0= not active]
- * @param {[type]} aliasUser       [id of the user of the token]
+ * This class manages the tokens that we will create at every session,
+ * if the user wants to registrate or if the user need to recover a password.
  */
 class Token {
+  /**
+   * Constructor of the token
+   * @param {string} token         [Our token]
+   * @param {date} createdAt     [date of the token]
+   * @param {number} expires       [when the token expires]
+   * @param {string} type          [type of the token]
+   * @param {number} status        [status of the token, 1=active 0= not active]
+   * @param {string} aliasUser       [id of the user of the token]
+   */
   constructor(token, createdAt, expires, type, status, aliasUser) {
     this.token = token;
     this.createdAt = createdAt;
@@ -25,6 +29,7 @@ class Token {
       if (this.expires + this.createdAt < new Date().now) {
         return data.length !== 0 ? new Token(data[0]) : data;
       }
+      return data;
     } catch (e) {
       throw e;
     }
