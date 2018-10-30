@@ -18,7 +18,7 @@ const verdictsRouter = require('./verdicts');
 const authRouter = require('./auth');
 const mailer = require('../mail');
 
-router.get('/', (req, res) => {res.status(200).send('Hackers Arena v1.0');});
+router.get('/', (req, res) => { res.status(200).send('Hackers Arena v1.0'); });
 
 // router.get('/email', (req, res) =>{
 //   let mailOptions = {

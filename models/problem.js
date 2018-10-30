@@ -23,16 +23,16 @@ class Problem {
    * @param {number} idCategory the id of the category the problem belongs to
    */
   constructor({
-    id, idDoc, testTime, testMemory, attempts, solved, aliasUser, idCategory,
+    id, timeLimit, memoryLimit, attempts, solved, aliasUser, idCategory, status,
   }) {
     this.id = id;
-    this.idDoc = idDoc;
-    this.testTime = testTime;
-    this.testMemory = testMemory;
+    this.timeLimit = timeLimit;
+    this.memoryLimit = memoryLimit;
     this.attempts = attempts;
     this.solved = solved;
     this.aliasUser = aliasUser;
     this.idCategory = idCategory;
+    this.status = status;
   }
 
 
