@@ -28,11 +28,15 @@ class Token {
   // Regresa un token
   static async get(token) {
     try {
-      const data = await db.selectOne('Token', '', [{ attr: 'token', oper: '=', val: token }]);
-      if (this.expires + this.createdAt < new Date().now) {
-        return data.length !== 0 ? new Token(data[0]) : data;
+      //console.log(token.params.token);
+      const data = await db.selectOne('Token', '', [{ attr: 'token', oper: '=', val: `'${token}'` }]);
+      const nt = new Token(data[0]);
+      var dateNow = new Date();
+      if (nt.expires > dateNow) {
+        return nt;
       }
-      return data;
+      nt.status=0;
+      return nt;
     } catch (e) {
       throw e;
     }
@@ -65,6 +69,15 @@ class Token {
     }
   }
 
+  async update() {
+    try {
+      if (this.id !== undefined && await db.update('Token', this, [{ attr: 'id', oper: '=', val: this.id }])) return 0;
+      return 1;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   // Elimina un token
   async delete() {
     try {
@@ -82,7 +95,7 @@ class Token {
   async exists() {
     try {
       if (this.token !== undefined) {
-        const result = await db.selectOne('Token', '', [{ attr: 'id', oper: '=', val: this.token }]);
+        const result = await db.selectOne('Token', '', [{ attr: 'id', oper: '=', val: this.id }]);
         if (result) return result;
       }
       return [];

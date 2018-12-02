@@ -15,3 +15,7 @@ exports.Country = require('./country');
 exports.Contest = require('./contest');
 exports.Category = require('./category');
 exports.Token = require('./token');
+exports.Role = require('./role');
+exports.Allow = require('./allow');
+exports.UserRole = require('./userrole');
+exports.RoleAllow = require('./roleallow');

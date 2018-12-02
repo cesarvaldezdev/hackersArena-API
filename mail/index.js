@@ -13,7 +13,7 @@ class Mailer {
       },
     });
     this.mailOptions = {
-      from: '"Testing Mail" <testingmail@example.com>',
+      from: '"Hackers Arena" <testingmail@example.com>',
     };
 
     // Validar que el transporter tiene una conexion valida
@@ -22,7 +22,6 @@ class Mailer {
 
 
   sendMail(options) {
-    console.log('Aqui debe de mandar un correo');
     const mailOptions = {
       ...this.mailOptions,
       ...options,

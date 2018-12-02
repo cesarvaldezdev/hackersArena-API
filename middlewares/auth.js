@@ -20,170 +20,209 @@ class Auth {
    * @param  {Function} next next funtion to execute next
    * @return {Promise}       returns a created user
    */
-   static async register(req, res, next) {
-     try{
-       var salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
-       const passhash = bcrypt.hashSync(req.body.password, salt);
-       const user = new User({
-         alias: req.body.alias,
-         name: req.body.name,
-         lastName: req.body.lastName,
-         score: req.body.score,
-         email: req.body.email,
-         password: passhash,
-         idUniversity: req.body.idUniversity,
-         idCountry: req.body.idCountry,
-         status: 0,
-       });
-       const data = await user.save();
+   constructor() {
 
-       if(data === 0){
-         const hash = bcrypt.hashSync(`${user.name}${new Date()}`, salt);
-         var dateNow = new Date();
-         var dateThen = new Date();
-         dateThen.setHours(dateThen.getHours() + 12); //12 HRS (4 - 23 only)
-         const tok = new Token({
-           token: hash,
-           createdAt: dateNow,
-           expires: dateThen,
-           type: 'Email Token',
-           status: 1,
-           aliasUser: user.alias,
+
+     this.registerUser = async (req, res) => {
+       try{
+         if((await User.get(req.body.alias)).length !== 0){
+           res.status(401).send({ error: 'This alias is already in use' });
+         }
+         var salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
+         const passhash = bcrypt.hashSync(req.body.password, salt);
+         const user = new User({
+           alias: req.body.alias,
+           name: req.body.name,
+           lastName: req.body.lastName,
+           score: req.body.score,
+           email: req.body.email,
+           password: passhash,
+           idUniversity: req.body.idUniversity,
+           idCountry: req.body.idCountry,
+           status: 0,
          });
-         const dataToken = await tok.save();
-         if (dataToken === 0) {
-           req.body.message = { token: hash };
-           let mailOptions = {
-             to: user.email,
-             subject: 'Confirm Account',
-             text: `localhost:8080/register/${tok.token}`,
-             html: '<a href="`${tok.token}`" >link text</a>',
-           };
-           mailer.sendMail(mailOptions);
-           // res.send({data: {hash,},}).status(201); // Sucesfully created
-         }else {req.body.message = { token: "NaN" };}
-       } else {
-         res.status(401).send({ error: 'Invalid user' });
+         const data = await user.save();
+         if(data === 0){
+           const hash = bcrypt.hashSync(`${user.alias}${new Date()}`, salt);
+           var dateNow = new Date();
+           var dateThen = new Date();
+           dateThen.setHours(dateThen.getHours() + 12); //12 HRS (4 - 23 only)
+           const tok = new Token({
+             token: hash,
+             createdAt: dateNow,
+             expires: dateThen,
+             type: 'Email',
+             status: 1,
+             aliasUser: user.alias,
+           });
+           const dataToken = await tok.save();
+
+           if (dataToken === 0) {
+             let newHash = hash.replace("/","!");
+             let str = `${newHash}`;
+             let mailOptions = {
+               to: user.email,
+               subject: 'Confirm Account',
+               text: `http://hackersarena00.appspot.com/register/${newHash}`,
+               html: '<a href="http://hackersarena00.appspot.com/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
+             };
+             mailer.sendMail(mailOptions);
+             res.status(201).send({data: {token:newHash,}, message: "Sucesfully created"});
+           }else {
+             res.status(401).send({ error: 'Something has gone wrong' }); //Can't save token
+           }
+         } else {
+           res.status(401).send({ error: 'Invalid user' });
+         }
+       } catch(e){
+         throw e;
        }
-       next();
-     } catch(e){
-       return next(e);
+     }
+
+     this.confirmUser = async (req, res) =>{
+       try{
+         let hash = req.params.token.replace("!","/");
+         const data = await Token.get(hash);
+         if (data.length !== 0) {
+           const user = await User.get(data.aliasUser);
+           if(user.length === 0){
+             res.status(401).send({ message: 'User not found' });
+           }else{
+             user.status = 1;
+             const dataUser = await user.save();
+             if(dataUser === 0){
+                 res.status(201).send({ message: 'User created!' });
+             }else{
+               res.status(401).send({ error: 'Something has gone wrong' });
+             }
+           }
+         } else {
+           res.status(401).send({ error: 'Invalid or inactive token' });
+         }
+       }catch(e){
+         throw e;
+       }
+     }
+
+     this.login = async (req, res) =>{
+       try{
+         const user = await User.get(req.body.alias);
+         var salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
+         // if(req.body.token !== undefined){
+         //   const token = await Token.get(req.body.token);
+         //   if (token.length !== 0 && token.status === 1) {
+         //     // go to home page, alredy logged
+         //     res.status(200).send({ message: "You're already logged!" });
+         //   }else{
+         //     // go to loggin page
+         //     res.status(400).send({ message: "The session has expired!" });
+         //   }
+         // }
+         if (user.length === 0) {
+           res.status(400).send({ message: 'User doesnt exist' });
+         } else if (user.status === 1) {
+           if (await bcrypt.compareSync(req.body.password, user.password)) {
+             const hash = bcrypt.hashSync(`${user.alias}${new Date()}`, salt);
+             var dateNow = new Date();
+             var dateThen = new Date();
+             dateThen.setHours(dateThen.getHours() + 12); //12 HRS (4 - 23 only)
+             const tok = new Token({
+               token: hash,
+               createdAt: dateNow,
+               expires: dateThen,
+               type: 'Session',
+               status: 1,
+               aliasUser: user.alias,
+             });
+             const dataToken = await tok.save();
+             if(dataToken === 0){
+               res.status(200).send({data: {token:hash,}, message: 'Session started'});
+             }else{
+               res.status(401).send({ error: 'Something has gone wrong' }); //Can't save token
+             }
+           } else {
+             // Passwords dont match
+             res.status(400).send({ message: 'Incorrect password' });
+           }
+         } else{
+           const hash = bcrypt.hashSync(`${user.alias}${new Date()}`, salt);
+           var dateNow = new Date();
+           var dateThen = new Date();
+           dateThen.setHours(dateThen.getHours() + 12); //12 HRS (4 - 23 only)
+           const tok = new Token({
+             token: hash,
+             createdAt: dateNow,
+             expires: dateThen,
+             type: 'Email',
+             status: 1,
+             aliasUser: user.alias,
+           });
+           const dataToken = await tok.save();
+
+           if (dataToken === 0) {
+             let newHash = hash.replace("/","!");
+             let str = `${newHash}`;
+             let mailOptions = {
+               to: user.email,
+               subject: 'Confirm Account',
+               text: `http://hackersarena00.appspot.com/register/${newHash}`,
+               html: '<a href="http://hackersarena00.appspot.com/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
+             };
+             mailer.sendMail(mailOptions);
+             res.status(201).send({data: {token:newHash,}, message: "Activate your account first, an email has been sent to you"});
+           }else {
+             res.status(401).send({ error: 'Something has gone wrong' }); //Can't save token
+           }
+         }
+       }catch(e){
+         //return error(e);
+         throw e;
+       }
+     }
+
+      this.logout = async (req, res) =>{
+        const token = await Token.get(req.body.token);
+        if (token.length !== 0 && token.status === 1) {
+          // Change status to 0
+          token.status = 0;
+          const dataToken = await token.save();
+          console.log(dataToken);
+          if(dataToken === 0){
+            res.status(200).send({ message: 'Correct Logout' });
+          }else{
+            res.status(401).send({ error: 'Something has gone wrong' });
+          }
+        }else{
+          res.status(200).send({ message: 'You need to loggin first' });
+        }
+        next();
+      }
+
+      this.session = async (req, res, next) =>{
+       const token = await Token.get(req.body.token);
+       if (token.length !== 0 && token.status === 1) { // Verification of status token is made in model
+         // Status is active
+         next();
+       } else {
+         // Status is inactive
+         res.status(401).send({ error: 'Inactive token.' }); // Loggin needed
+       }
+     }
+
+     this.recover = async (req, res) =>{
+       try{
+         const user = await User.get(req.body.alias);
+         if(user.length === 0){
+           res.status(400).send({ message: 'User doesnt exist' });
+         }else{
+           //Pos aqui hace algo
+         }
+       }catch(e){
+         throw(e);
+       }
      }
    }
 
-
-  static async confirm(req, res) {
-    const data = await TokenCtrl.get(req.body.token);
-    if (data) { // Confirmation token exists
-      const user = await UserCtrl.get(data.aliasUser);
-      // Crear el token con el nombre del usuario+la fecha actual
-      user.status = 1;
-      const dataUser = await user.save();
-      if(dataUser === 0){
-          res.status(201).send({ message: 'User created!' }); // Sucessfully created
-      }else{
-        res.status(401).send({ error: 'Something has gone wrong' });
-      }
-      next();
-    } else {
-      // Token not match
-      res.status(401).send({ error: 'Invalid or inactive token' });
-    }
-  }
-
-
-  // static async confirm(req, res, next) {
-  //   const data = await TokenCtrl.get(req.params.emailToken);
-  //   if (data) { // Confirmation token exists
-  //     // Crear el token con el nombre del usuario+la fecha actual
-  //     const hash = bcrypt.hashSync(`${user.name}${new Date()}`, process.env.SALT_ROUNDS);
-  //     // TokenCtrl.create({
-  //     //   token: hash,
-  //     //   createdAt: new Date(),
-  //     //   duration: 12,
-  //     //   type: 'FirstLogin',
-  //     //   active: 1,
-  //     //   aliasUser: user.aliasUser,
-  //     // });
-  //     // res.send({
-  //     //   data: {
-  //     //     hash,
-  //     //   },
-  //   // })
-  //     const user = new User({User.});
-  //     res.status(201).send({ message: 'Email confirmed!' }); // Sucessfully created
-  //     next();
-  //   } else {
-  //     // Token not match
-  //     res.status(401).send({ error: 'Invalid token' });
-  //   }
-  // }
- //
- //  /**
- //   * This metod allows to login to the page if the user and password match,
- //   * then creates a token for the started session.
- //   * @param  {object}   req body of the request
- //   * @param  {object}   res body of the response
- //   * @param  {Function} next next funtion to execute next
- //   * @return {Promise}       returns a the started session
- //   */
- //  static async login(req, res, next) {
- //    const user = User.get(req.params.userAlias);
- //    const token = Token.get(req.params.userAlias);
- //    if (token.status === 1) {
- //      // go to home page, alredy logged
- //    }
- //    if (user.length === 0) {
- //      // user not found
- //      res.status(400).send({ message: 'User doesnt exist' });
- //    } else {
- //      if (bcrypt.compareSync(req.params.userPassword, user.password)) {
- //        TokenCtrl.create(req, res, 'Login');
- //        res.status(200).send({ message: 'Session started' });
- //      } else {
- //        // Passwords dont match
- //        res.status(400).send({ message: 'Incorrect password' });
- //      }
- //      next();
- //    }
- //  }
- //
- //  /**
- //   * This metod ends the active session of a user by changing the
- //   * token status to 0.
- //   * @param  {object}   req body of the request
- //   * @param  {object}   res body of the response
- //   * @param  {Function} next next funtion to execute next
- //   * @return {Promise}       returns the ended session
- //   */
- //  static async logout(req, res, next) {
- //    const token = Token.get(req.params.aliasUser);
- //    if (token.status === 1) {
- //      // Change status to 0
- //    } else {
- //      // Status alredy 0
- //    }
- //    res.status(200).send({ message: 'Logout' });
- //    next();
- //  }
- //
- //  /**
- //   * This metod verify if the session is still active,
- //   * if it is, allows to continue in the page.
- //   * @param  {object}   req body of the request
- //   * @param  {object}   res body of the response
- //   * @param  {Function} next next funtion to execute next
- //   * @return {Promise}       returns a created user
- //   */
- //  static async session(req, res, next) {
- //    const token = Token.get(req.aliasUser);
- //    if (token.status === 1) {
- //      next();
- //    } else {
- //      // Status is inactive
- //      res.status(401).send({ error: 'Inactive token. ' });
- //    }
- //  }
 }
 
-module.exports = Auth;
+module.exports = new Auth();
