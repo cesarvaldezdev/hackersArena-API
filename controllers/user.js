@@ -21,8 +21,19 @@ class UserCtrl {
      */
     this.getAll = async (req, res) => {
       // FIXME Agregar manejo de errores
-      let data = await User.getAll();
-      data = this.processResult(data);
+      let ini = 0;
+      let fin = process.env.INCREMENT_QUERIES;
+      let data = [];
+      let cont = true;
+      while(cont){
+        let pagina = await User.getAll(ini,fin);
+        ini += parseInt(process.env.INCREMENT_QUERIES);
+        fin += parseInt(process.env.INCREMENT_QUERIES);
+        if(pagina.length === 0) cont =false;
+        else data.push(pagina);
+      }
+      //let data = await User.getAll();
+      //data = this.processResult(data);
       if (data.length === 0) {
         res.status(400).send({ message: 'No items satisfy the petition' });
       } else {

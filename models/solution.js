@@ -43,9 +43,9 @@ class Solution {
    * @return {Promise} returns an array containing all existing solutions
    * @throws {event}   returns the error
    */
-  static async getAll() {
+  static async getAll(ini,fin) {
     try {
-      const data = await db.selectAll('Solution', '', '', 'id', true, 20, 0);
+      const data = await db.selectAll('Solution', '', '', 'id', false, fin, ini);
       const response = [];
       data.forEach((res) => {
         response.push(new Solution(res));

@@ -41,12 +41,14 @@ class User {
    * @return {Promise} returns an array containing all existing userAlias
    * @throws {event}   returns the error
    */
-  static async getAll() {
+  static async getAll(ini,fin) {
     try {
-      const data = await db.selectAll('User', '', '', 'alias', true, 20, 0);
+      const data = await db.selectAll('User', '', '', 'score', false, fin, ini);
       const response = [];
       data.forEach((res) => {
-        response.push(new User(res));
+        const u = new User(res);
+        u.password = undefined;
+        response.push(u);
       });
       return response;
     } catch (e) {

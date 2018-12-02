@@ -41,9 +41,9 @@ class Problem {
    * @return {Promise} returns an array containing all existing verdicts
    * @throws {event}   returns the error
    */
-  static async getAll() {
+  static async getAll(ini,fin) {
     try {
-      const data = await db.selectAll('Problem', '', '', 'id', true, 20, 0);
+      const data = await db.selectAll('Problem', '', '', 'id', true, fin, ini);
       const response = [];
       data.forEach((res) => {
         response.push(new Problem(res));
