@@ -58,8 +58,7 @@ class CountryCtrl {
         id: req.params.countryId,
         name: req.body.name,
         idFlag: req.body.idFlag,
-      })
-        .save();
+      }).save();
       // FIXME No utilizar condicionales de una sola linea, tabular correctamente
       if (data === 0) res.status(201).send({ message: 'Item saved' });
       else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });

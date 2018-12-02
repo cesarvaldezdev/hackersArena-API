@@ -36,7 +36,7 @@ class University {
    */
   static async getAll() {
     try {
-      const data = await db.selectAll('University', '', '', 'id', true, 20, 0);
+      const data = await db.selectAll('University', '', '', 'id', true, 200, 0);
       const response = [];
       data.forEach((res) => {
         response.push(new University(res));

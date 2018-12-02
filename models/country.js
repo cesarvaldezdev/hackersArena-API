@@ -32,7 +32,7 @@ class Country {
    */
   static async getAll() {
     try {
-      const data = await db.selectAll('Country', '', '', 'id', true, 20, 0);
+      const data = await db.selectAll('Country', '', '', 'id', true, 200, 0);
       const response = [];
       data.forEach((res) => {
         response.push(new Country(res));

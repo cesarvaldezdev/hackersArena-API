@@ -36,7 +36,7 @@ class UserRole {
    */
   static async getAll() {
     try {
-      const data = await db.selectAll('UserRoles', '', '', 'aliasUser', true, 20, 0);
+      const data = await db.selectAll('UserRoles', '', '', 'aliasUser', true, 200, 0);
       const response = [];
       data.forEach((res) => {
         response.push(new UserRole(res));

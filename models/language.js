@@ -31,7 +31,7 @@ class Language {
    */
   static async getAll() {
     try {
-      const data = await db.selectAll('Language', '', '', 'id', true, 20, 0);
+      const data = await db.selectAll('Language', '', '', 'id', true, 30, 0);
       const response = [];
       data.forEach((res) => {
         response.push(new Language(res));

@@ -37,7 +37,7 @@ class RoleAllow {
    */
   static async getAll() {
     try {
-      const data = await db.selectAll('RoleAllows', '', '', 'idRole', true, 20, 0);
+      const data = await db.selectAll('RoleAllows', '', '', 'idRole', true, 100, 0);
       const response = [];
       data.forEach((res) => {
         response.push(new RoleAllow(res));
