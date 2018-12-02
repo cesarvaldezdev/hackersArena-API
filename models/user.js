@@ -73,6 +73,16 @@ class User {
   }
 
 
+  static async getByEmail(userEmail) {
+    try {
+      const data = await db.selectOne('User', '', [{ attr: 'email', oper: '=', val: `'${userEmail}'` }]);
+      return data.length !== 0 ? new User(data[0]) : data;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+
   /**
    * Updates the element in the table if it already exists, otherwise it creates it
    * @return {Promise} returns 0 if the user was saved,

@@ -27,62 +27,67 @@ class Auth {
        try{
          if((await User.get(req.body.alias)).length !== 0){
            res.status(401).send({ error: 'This alias is already in use' });
-         }
-         var salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
-         const passhash = bcrypt.hashSync(req.body.password, salt);
-         const user = new User({
-           alias: req.body.alias,
-           name: req.body.name,
-           lastName: req.body.lastName,
-           score: req.body.score,
-           email: req.body.email,
-           password: passhash,
-           idUniversity: req.body.idUniversity,
-           idCountry: req.body.idCountry,
-           status: 0,
-         });
-         const data = await user.save();
-         if(data === 0){
-           const hash = bcrypt.hashSync(`${user.alias}${new Date()}`, salt);
-           var dateNow = new Date();
-           var dateThen = new Date();
-           dateThen.setHours(dateThen.getHours() + 12); //12 HRS (4 - 23 only)
-           const tok = new Token({
-             token: hash,
-             createdAt: dateNow,
-             expires: dateThen,
-             type: 'Email',
-             status: 1,
-             aliasUser: user.alias,
-           });
-           const dataToken = await tok.save();
+         }else{
+           if((await User.getByEmail(req.body.email)).length !== 0){
+             res.status(401).send({ error: 'This email is already in use' });
+           }else{
+             var salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
+             const passhash = bcrypt.hashSync(req.body.password, salt);
+             const user = new User({
+               alias: req.body.alias,
+               name: req.body.name,
+               lastName: req.body.lastName,
+               score: req.body.score,
+               email: req.body.email,
+               password: passhash,
+               idUniversity: req.body.idUniversity,
+               idCountry: req.body.idCountry,
+               status: 0,
+             });
+             const data = await user.save();
+             if(data === 0){
+               const hash = bcrypt.hashSync(`${user.alias}${new Date()}`, salt);
+               var dateNow = new Date();
+               var dateThen = new Date();
+               dateThen.setHours(dateThen.getHours() + 12); //12 HRS (4 - 23 only)
+               const tok = new Token({
+                 token: hash,
+                 createdAt: dateNow,
+                 expires: dateThen,
+                 type: 'Email',
+                 status: 1,
+                 aliasUser: user.alias,
+               });
+               const dataToken = await tok.save();
 
-           if (dataToken === 0) {
-             let newHash = hash.replace("/","!");
-             let str = `${newHash}`;
-             let mailOptions = {
-               to: user.email,
-               subject: 'Confirm Account',
-               text: `http://hackersarena00.appspot.com/register/${newHash}`,
-               html: '<a href="http://hackersarena00.appspot.com/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
-             };
-             mailer.sendMail(mailOptions);
+               if (dataToken === 0) {
+                 let newHash = hash.replace("/","!");
+                 let str = `${newHash}`;
+                 let mailOptions = {
+                   to: user.email,
+                   subject: 'Confirm Account',
+                   text: `http://hackersarena00.appspot.com/register/${newHash}`,
+                   html: '<a href="http://hackersarena00.appspot.com/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
+                 };
+                 mailer.sendMail(mailOptions);
 
-             const userRoleData = await new UserRole({
-               aliasUser: user.alias,
-               idRole: 1,
-             }).save;
+                 const userRoleData = await new UserRole({
+                   aliasUser: user.alias,
+                   idRole: 1,
+                 }).save;
 
-             if(userRoleData === 0){
-              res.status(201).send({data: {token:newHash,}, message: "Sucesfully created"});
-            }else{
-              res.status(401).send({ error: 'Something has gone wrong with your Role' }); //Can't save UserRole
-            }
-           }else {
-             res.status(401).send({ error: 'Something has gone wrong' }); //Can't save token
+                 if(userRoleData === 0){
+                  res.status(201).send({data: {token:newHash,}, message: "Sucesfully created"});
+                }else{
+                  res.status(401).send({ error: 'Something has gone wrong with your Role' }); //Can't save UserRole
+                }
+               }else {
+                 res.status(401).send({ error: 'Something has gone wrong' }); //Can't save token
+               }
+             } else {
+               res.status(401).send({ error: 'Invalid user' });
+             }
            }
-         } else {
-           res.status(401).send({ error: 'Invalid user' });
          }
        } catch(e){
          throw e;
