@@ -81,9 +81,12 @@ class ProblemCtrl {
      */
     this.delete = async (req, res) => {
       // FIXME Agregar manejo de errores
-      const data = await new Problem({ id: req.params.problemId }).delete();
+      //const data = await new Problem({ id: req.params.problemId }).delete();
+      const problem = await Problem.get(req.params.problemId);
+      problem.status = 0;
+      const data = await problem.save();
       if (data === 0) {
-        res.status(200).send({ message: 'Deleted succesfully' });
+        res.status(200).send({ message: 'Problem disabled' });
       } else if (data === 1) {
         res.status(400).send({ error: 'Oops! Trouble deleting' });
       } else if (data === 2) {

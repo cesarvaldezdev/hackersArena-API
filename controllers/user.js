@@ -56,8 +56,8 @@ class UserCtrl {
     this.create = async (req, res) => {
       // FIXME Agregar manejo de errores
       const passhash = bcrypt.hashSync(req.body.password, process.env.SALT_ROUNDS);
-      const data = new User({
-        alias: req.body.alias,
+      const data = await new User({
+        alias: req.params.userAlias,
         name: req.body.name,
         lastName: req.body.lastName,
         score: req.body.score,
@@ -83,9 +83,12 @@ class UserCtrl {
      */
     this.delete = async (req, res) => {
       // FIXME Agregar manejo de errores
-      const data = await new User({ alias: req.params.userAlias }).delete();
+      //const data = await new User({ alias: req.params.userAlias }).delete();
+      const user = await User.get(req.params.userAlias);
+      user.status = 0;
+      const data = await user.save();
       if (data === 0) {
-        res.status(200).send({ message: 'Item deleted' });
+        res.status(200).send({ message: 'User disabled' });
       } else if (data === 1) {
         res.status(400).send({ error: 'Oops! Trouble deleting' });
       } else if (data === 2) {
