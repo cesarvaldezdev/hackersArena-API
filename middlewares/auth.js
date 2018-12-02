@@ -200,13 +200,15 @@ class Auth {
 
       this.session = async (req, res, next) =>{
        const token = await Token.get(req.body.token);
-       if (token.length !== 0 && token.status === 1) { // Verification of status token is made in model
-         // Status is active
-         next();
-       } else {
+       if (token.length === 0 || (token.length !== 0 && token.status === 0)) { // Verification of status token is made in model
          // Status is inactive
-         res.status(401).send({ error: 'Inactive token.' }); // Loggin needed
+         res.status(401).send({ error: 'Inactive token' }); // Loggin needed
        }
+       next();
+     }
+
+     this.extraConfirm = async (req, res) => {
+       res.status(200).send({ message: 'Active Session' });
      }
 
      this.recover = async (req, res) =>{

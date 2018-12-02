@@ -42,6 +42,8 @@ router.post('/session', (req, res, next) => {
       token: 'token,required',
     },
   });
-}, middlewares.auth.session);
+}, (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, middlewares.auth.extraConfirm);
 
 module.exports = router;
