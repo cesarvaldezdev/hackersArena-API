@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const { TokenCtrl, UserCtrl } = require('../controllers');
-const { User, Token } = require('../models');
+const { User, Token, UserRole } = require('../models');
 const mailer = require('../mail');
 
 /**
@@ -67,7 +67,17 @@ class Auth {
                html: '<a href="http://hackersarena00.appspot.com/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
              };
              mailer.sendMail(mailOptions);
-             res.status(201).send({data: {token:newHash,}, message: "Sucesfully created"});
+
+             const userRoleData = await new UserRole({
+               aliasUser: user.alias,
+               idRole: 1,
+             }).save;
+
+             if(userRoleData === 0){
+              res.status(201).send({data: {token:newHash,}, message: "Sucesfully created"});
+            }else{
+              res.status(401).send({ error: 'Something has gone wrong with your Role' }); //Can't save UserRole
+            }
            }else {
              res.status(401).send({ error: 'Something has gone wrong' }); //Can't save token
            }
@@ -204,7 +214,7 @@ class Auth {
          // Status is inactive
          res.status(401).send({ error: 'Inactive token' }); // Loggin needed
        }else{
-         next(); 
+         next();
        }
      }
 
