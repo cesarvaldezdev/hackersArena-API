@@ -203,8 +203,9 @@ class Auth {
        if (token.length === 0 || (token.length !== 0 && token.status === 0)) { // Verification of status token is made in model
          // Status is inactive
          res.status(401).send({ error: 'Inactive token' }); // Loggin needed
+       }else{
+         next(); 
        }
-       next();
      }
 
      this.extraConfirm = async (req, res) => {
