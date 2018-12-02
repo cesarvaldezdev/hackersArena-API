@@ -19,8 +19,15 @@ router.post('/', (req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
       name: 'language,required',
+
+      token: 'token,required',
     },
   });
+  req.body.allowQuery = 'C_Languages';
+}, (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
 }, LanguageCtrl.create);
 
 
@@ -32,14 +39,32 @@ router.put('/:languageId', [(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
       name: 'language,required',
+
+      token: 'token,required',
     },
   });
-}], LanguageCtrl.create);
+  req.body.allowQuery = 'C_Languages';
+}], (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
+}, LanguageCtrl.create);
 
 
 /* DELETE */
 // FIXME falta validar el parametro
-router.delete('/:languageId', LanguageCtrl.delete);
+router.delete('/:languageId',(req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      token: 'token,required',
+    },
+  });
+  req.body.allowQuery = 'D_Languages';
+}, (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
+},LanguageCtrl.delete);
 
 
 module.exports = router;

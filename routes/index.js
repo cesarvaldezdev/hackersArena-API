@@ -16,20 +16,14 @@ const universitiesRouter = require('./universities');
 const usersRouter = require('./users');
 const verdictsRouter = require('./verdicts');
 const authRouter = require('./auth');
-const mailer = require('../mail');
+//const mailer = require('../mail');
+const rolesRouter = require('./roles');
+const allowsRouter = require('./allows');
+const userRolesRouter = require('./userroles');
+const roleAllowsRouter = require('./roleallows');
+//const judgeRouter = require('./judge');
 
 router.get('/', (req, res) => { res.status(200).send('Hackers Arena v1.0'); });
-
-// router.get('/email', (req, res) =>{
-//   let mailOptions = {
-//     to: 'pancho@mail.com',
-//     subject: 'Hello testing',
-//     text: `localhost:8080/register/${req.body.token}`,
-//     html: '<b>Hello World</b>',
-//   };
-//   mailer.sendMail(mailOptions);
-//   res.status(200).send('HackersArena API');
-// });
 
 /* Router association */
 router.use('/categories', categoriesRouter);
@@ -41,6 +35,11 @@ router.use('/solutions', solutionsRouter);
 router.use('/users', usersRouter);
 router.use('/universities', universitiesRouter);
 router.use('/verdicts', verdictsRouter);
+router.use('/roles', rolesRouter);
+router.use('/allows', allowsRouter);
+router.use('/userroles', userRolesRouter);
+router.use('/roleallows', roleAllowsRouter);
+//router.use('/judge', judgeRouter);
 router.use('/', authRouter);
 
 

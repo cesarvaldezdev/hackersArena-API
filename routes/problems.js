@@ -25,8 +25,15 @@ router.post('/', (req, res, next) => {
       aliasUser: 'alias,required',
       idCategory: 'number,required',
       status: 'number,required',
+
+      token: 'token,required',
     },
   });
+  req.body.allowQuery = 'C_Problems';
+}, (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
 }, ProblemCtrl.create);
 
 
@@ -44,14 +51,32 @@ router.put('/:problemId', [(req, res, next) => {
       aliasUser: 'alias,required',
       idCategory: 'number,required',
       status: 'number,required',
+
+      token: 'token,required',
     },
   });
-}], ProblemCtrl.create);
+  req.body.allowQuery = 'C_Problems';
+}], (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
+}, ProblemCtrl.create);
 
 
 /* DELETE */
 // FIXME falta validar el parametro
-router.delete('/:problemId', ProblemCtrl.delete);
+router.delete('/:problemId',(req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      token: 'token,required',
+    },
+  });
+  req.body.allowQuery = 'D_Problems';
+}, (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
+}, ProblemCtrl.delete);
 
 
 module.exports = router;

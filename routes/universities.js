@@ -21,8 +21,15 @@ router.post('/', (req, res, next) => {
       name: 'word,required',
       idLogo: 'number,required',
       idCountry: 'number,required',
+
+      token: 'token,required',
     },
   });
+  req.body.allowQuery = 'C_Universities';
+}, (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
 }, UniversityCtrl.create);
 
 
@@ -36,14 +43,32 @@ router.put('/:universityId', [(req, res, next) => {
       name: 'word,required',
       idLogo: 'number,required',
       idCountry: 'number,required',
+
+      token: 'token,required',
     },
   });
-}], UniversityCtrl.create);
+  req.body.allowQuery = 'C_Universities';
+}], (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
+}, UniversityCtrl.create);
 
 
 /* DELETE */
 // FIXME falta validar el parametro
-router.delete('/:universityId', UniversityCtrl.delete);
+router.delete('/:universityId', (req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      token: 'token,required',
+    },
+  });
+  req.body.allowQuery = 'D_Universities';
+}, (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
+}, UniversityCtrl.delete);
 
 
 module.exports = router;

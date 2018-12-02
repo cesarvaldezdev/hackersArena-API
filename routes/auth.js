@@ -2,50 +2,46 @@ const router = require('express').Router();
 const middlewares = require('../middlewares');
 
 router.post('/register', (req, res, next) => {
-  middlewares.auth.register(req, res, next);
-  }, (req, res) => {
-    if (req.body.message.token) {
-      res.header('Authorization', `Bearer ${req.body.message.token}`);
-    }
-    res.status(200).send({ message: req.body.message });
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      alias: 'alias,required',
+      name: 'word,required',
+      lastName: 'word,required',
+      email: 'email,required',
+      password: 'password,required',
+      idUniversity: 'number,required',
+      idCountry: 'number,required',
+      token: 'token',
+    },
   });
+}, middlewares.auth.registerUser);
 
+router.get('/register/:token', middlewares.auth.confirmUser);
 
-// router.post('/register', middlewares.auth.register);
-router.get('/register/:token', middlewares.auth.confirm);
+router.post('/login', (req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      alias: 'alias,required',
+      password: 'password,required',
+      token: 'token',
+    },
+  });
+}, middlewares.auth.login);
 
-// router.get('/register/:token', (req, res, next) => {
-//   middlewares.auth.confirm(req, res, next);
-//   }, (req, res) => {
-//     if (false) {
-//       console.log("algo");
-//     }
-//     res.status(200).send({ message: req.body.message });
-//   });
+router.post('/logout', (req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      token: 'token,required',
+    },
+  });
+}, middlewares.auth.logout);
 
-
-
-
-// router.post('/login', middlewares.auth.login);
-// router.post('/logout', middlewares.auth.logout);
-//
-// router.post('/login', (req, res, next) => {
-//   middlewares.auth.login(req, res, next);
-// }, (req, res) => {
-//   if (req.body.message.token) {
-//     res.header('Authorization', `Bearer ${req.body.message.token}`);
-//   }
-//   res.status(200).send({ message: req.body.message });
-// });
-//
-// router.get('/logout',
-//   [
-//     middlewares.auth.isLogged,
-//   ],
-//   (req, res, next) => {
-//     middlewares.auth.logout(req, res, next);
-//   }, (req, res) => {
-//     res.status(200).send({ message: req.body.message });
-//   });
+router.post('/session', (req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      token: 'token,required',
+    },
+  });
+}, middlewares.auth.session);
 
 module.exports = router;

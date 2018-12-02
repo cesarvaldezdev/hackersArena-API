@@ -19,8 +19,16 @@ router.post('/', (req, res, next) => {
     body: {
       name: 'word,required',
       idFlag: 'number,required',
+
+      token: 'token,required',
+      //allowQuery: 11,
     },
   });
+  req.body.allowQuery = 'C_Countries';//11;
+}, (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
 }, CountryCtrl.create);
 
 
@@ -32,15 +40,33 @@ router.put('/:countryId', [(req, res, next) => {
     body: {
       name: 'word,required',
       idFlag: 'number,required',
+
+      token: 'token,required',
     },
   });
-}], CountryCtrl.create);
+  req.body.allowQuery = 'C_Countries';
+}], (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
+}, CountryCtrl.create);
 
 
 // FIXME falta validar el parametro
 
 /* POST */
-router.delete('/:countryId', CountryCtrl.delete);
+router.delete('/:countryId', (req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      token: 'token,required',
+    },
+  });
+  req.body.allowQuery = 'D_Countries';
+}, (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
+}, CountryCtrl.delete);
 
 
 module.exports = router;

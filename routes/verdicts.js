@@ -19,8 +19,15 @@ router.post('/', (req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
       type: 'word,required',
+
+      token: 'token,required',
     },
   });
+  req.body.allowQuery = 'C_Verdicts';
+}, (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
 }, VerdictCtrl.create);
 
 
@@ -32,13 +39,31 @@ router.put('/:verdictId', [(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
       type: 'word,required',
+
+      token: 'token,required',
     },
   });
-}], VerdictCtrl.create);
+  req.body.allowQuery = 'C_Verdicts';
+}], (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
+}, VerdictCtrl.create);
 
 /* DELETE */
 // FIXME falta validar el parametro
-router.delete('/:verdictId', VerdictCtrl.delete);
+router.delete('/:verdictId', (req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      token: 'token,required',
+    },
+  });
+  req.body.allowQuery = 'D_Verdicts';
+}, (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
+},VerdictCtrl.delete);
 
 
 module.exports = router;

@@ -23,19 +23,16 @@ router.post('/', (req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
       name: 'word,required',
+
+      token: 'token,required',
     },
   });
+  req.body.allowQuery = 'C_Categories';
+}, (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
 }, CategoryCtrl.create);
-
-
-/* PUT */
-// router.put('/:categoryId', [(req, res, next) => {
-//   middlewares.validator.validate(req, res, next, {
-//     body: {
-//       name: 'word,required',
-//     },
-//   });
-// }], CategoryCtrl.create);
 
 
 // FIXME falta validar el parametro
@@ -45,14 +42,32 @@ router.put('/:categoryId', [(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
       name: 'word,required',
+
+      token: 'token,required',
     },
   });
-}], CategoryCtrl.create);
+  req.body.allowQuery = 'C_Categories';
+}], (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
+}, CategoryCtrl.create);
 
 // FIXME falta validar el parametro
 
 /* POST */
-router.delete('/:categoryId', CategoryCtrl.delete);
+router.delete('/:categoryId', (req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      token: 'token,required',
+    },
+  });
+  req.body.allowQuery = 'D_Categories';
+}, (req, res, next) => {
+  middlewares.auth.session(req,res,next);
+}, (req, res, next) => {
+  middlewares.permission.check(req,res,next);
+},CategoryCtrl.delete);
 
 
 module.exports = router;

@@ -35,25 +35,27 @@ router.post('/', (req, res, next) => {
 // FIXME falta validar el parametro
 // FIXME put es intencionado para ediciones y para para creaciones,
 // por lo cual al parecer el metodo del controlador esta mal
-router.put('/:solutionId', [(req, res, next) => {
-  middlewares.validator.validate(req, res, next, {
-    body: {
-      date: 'datetime,required',
-      time: 'number,required',
-      memory: 'number,required',
-      size: 'number,required',
-      aliasUser: 'alias,required',
-      idProblem: 'number,required',
-      idLanguage: 'number,required',
-      idVerdict: 'number,required',
-    },
-  });
-}], SolutionCtrl.create);
 
+// router.put('/:solutionId', [(req, res, next) => {
+//   middlewares.validator.validate(req, res, next, {
+//     body: {
+//       date: 'datetime,required',
+//       time: 'number,required',
+//       memory: 'number,required',
+//       size: 'number,required',
+//       aliasUser: 'alias,required',
+//       idProblem: 'number,required',
+//       idLanguage: 'number,required',
+//       idVerdict: 'number,required',
+//     },
+//   });
+// }], SolutionCtrl.create);
+//
 
 /* DELETE */
 // FIXME falta validar el parametro
-router.delete('/:solutionId', SolutionCtrl.delete);
+
+// router.delete('/:solutionId', SolutionCtrl.delete);
 
 
 module.exports = router;
