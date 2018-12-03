@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const { Token } = require('../models');
 
+// FIXME esta clase y sus metodos deben estar documentados
+
 class TokenCtrl {
   constructor() {
     // this.getAll = this.getAll.bind(this);

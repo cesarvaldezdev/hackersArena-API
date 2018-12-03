@@ -3,6 +3,7 @@ const db = require('../db');
  * This class manages the tokens that we will create at every session,
  * if the user wants to registrate or if the user need to recover a password.
  */
+// FIXME a esta clase le falta su metodo para cambiar el estatus de un token
 class Token {
   /**
    * Constructor of the token

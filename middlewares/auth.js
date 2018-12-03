@@ -20,6 +20,7 @@ class Auth {
    * @param  {Function} next next funtion to execute next
    * @return {Promise}       returns a created user
    */
+  // FIXME el proceso de registro sigue siendo trabajo de user, y ahi se deben usar los metodos de auth para crear el token en caso de ser necesario
    static async register(req, res, next) {
      try{
        var salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
@@ -56,10 +57,10 @@ class Auth {
            let mailOptions = {
              to: user.email,
              subject: 'Confirm Account',
-             text: `localhost:8080/register/${tok.token}`,
+             text: `localhost:8080/register/${tok.token}`, // FIXME las urls no se deben hardcodear, y se deben tomar de configuraciones de entorno
              html: '<a href="`${tok.token}`" >link text</a>',
            };
-           mailer.sendMail(mailOptions);
+           mailer.sendMail(mailOptions); // FIXME el envio de correos debe ser asincrono
            // res.send({data: {hash,},}).status(201); // Sucesfully created
          }else {req.body.message = { token: "NaN" };}
        } else {
@@ -73,7 +74,7 @@ class Auth {
 
 
   static async confirm(req, res) {
-    const data = await TokenCtrl.get(req.body.token);
+    const data = await TokenCtrl.get(req.body.token); // FIXME el token no se debe mandar en el cuerpo del request, siempre deberia ir en las cabeceras
     if (data) { // Confirmation token exists
       const user = await UserCtrl.get(data.aliasUser);
       // Crear el token con el nombre del usuario+la fecha actual

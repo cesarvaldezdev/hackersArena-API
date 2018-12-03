@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 
+// FIXME Esta clase y sus metodos deben estar documentados
 
 class Mailer {
   constructor() {
