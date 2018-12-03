@@ -1,4 +1,9 @@
-class Responses {
+// FIXME agregar documentacion a clase y métodos
+// FIXME para el manejo de estados 0, 1 y 2
+// sería mejor usar una constante definida con un nombre mas claro
+
+
+class Response {
   static notFound(table) {
     const error = {
       message: 'Query results',
@@ -62,4 +67,4 @@ class Responses {
     return error;
   }
 }
-module.exports = Responses;
+module.exports = Response;

@@ -1,64 +1,106 @@
+// FIXME Corregir errores de linter
+// FIXME agregar documentacion a clase y métodos
 const { University } = require('../models');
 
+
+/**
+ * Controller that manages the universities
+ */
 class UniversityCtrl {
+  /**
+   * Method that initializes the UniversityCtrl object
+   * Binds all methods so they don't lose context
+   */
   constructor() {
-    this.getAll = this.getAll.bind(this);
-    this.get = this.get.bind(this);
-    this.create = this.create.bind(this);
-    this.delete = this.delete.bind(this);
-    this.processResult = this.processResult.bind(this);
-  }
+    /**
+     * Controls the obtainment of all existing universities
+     * @param  {object}  req body of the request
+     * @param  {object}  res body of the response
+     * @return {Promise}     returns data concerning the obtainment
+     */
+    this.getAll = async (req, res) => {
+      // FIXME Agregar manejo de errores
+      let data = await University.getAll();
+      data = this.processResult(data);
+      if (data.length === 0) {
+        res.status(400).send({ message: 'No items satisfy the petition' });
+      } else {
+        res.status(200).send({ data });
+      }
+    };
 
-  processResult(data) {
-    const result = [];
-    data.forEach((res) => {
-      result.push(new University(res));
-    });
-    return result;
-  }
 
-  async getAll(req, res) {
-    let data = await University.getAll();
-    data = this.processResult(data);
-    if (data.length === 0) {
-      res.status(400).send({message: 'No existen elementos que cumplan con la peticion'});
-    }else{
-      res.status(200).send({data});
-    }
-  }
+    /**
+     * Controls the obtainment of a university
+     * @param  {object}  req body of the request
+     * @param  {object}  res body of the response
+     * @return {Promise}     returns data concerning the obtainment
+     */
+    this.get = async (req, res) => {
+      // FIXME Agregar manejo de errores
+      const data = await University.get(req.params.universityId);
+      if (data.length === 0) {
+        res.status(400).send({ message: 'Item not found' });
+      }
+      res.send({ data });
+    };
 
-  async get(req, res) {
-    let data = await University.get(req.params.universityId);
-    if (data.length === 0) {
-      res.status(400).send({message: 'No se encontro el elemento'});
-    }
-    res.send({data});
-  }
 
-  async create(req, res) {
-    let data = await new University({
-                id:req.params.universityId,
-                name:req.body.name,
-                id_logo:req.body.id_logo,
-                id_Country:req.body.id_Country
-              })
-              .save();
-    if(data===0) res.status(201).send({message: 'Guardado correctamente'});
-    else if (data===1) res.status(400).send({message: 'No se pudo guardar correctamente'})
-    else if (data===2) res.status(400).send({message: 'No existe el pais que se quiere asignar'})
+    /**
+     * Controls the creation of a university
+     * @param  {object}  req body of a request
+     * @param  {object}  res body of a response
+     * @return {Promise}     returns data concerning the creation
+     */
+    this.create = async (req, res) => {
+      // FIXME Agregar manejo de errores
+      const data = await new University({
+        id: req.params.universityId,
+        name: req.body.name,
+        idLogo: req.body.idLogo,
+        idCountry: req.body.idCountry,
+      })
+        .save();
+      // FIXME No utilizar condicionales de una sola linea
+      if (data === 0) res.status(201).send({ message: 'Item saved' });
+      else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
+      else if (data === 2) res.status(400).send({ message: 'Oops! Country not found' });
+    };
 
-  }
 
-  async delete(req, res) {
-    let data = await new University({id: req.params.universityId}).delete();
-    if(data === 0){
-      res.status(200).send({ message: 'Eliminado correctamente' });
-    } else if (data === 1) {
-      res.status(400).send({ error: 'No se pudo eliminar' });
-    } else if (data === 2) {
-      res.status(404).send({ error: 'No existe el elemento a eliminar' });
-    }
+    /**
+     * Controls the deletion of a university
+     * @param  {object}  req body of a request
+     * @param  {object}  res body of a response
+     * @return {Promise}     [description]
+     */
+    this.delete = async (req, res) => {
+      // FIXME Agregar manejo de errores
+      const data = await new University({ id: req.params.universityId }).delete();
+      if (data === 0) {
+        res.status(200).send({ message: 'Item deleted' });
+      } else if (data === 1) {
+        res.status(400).send({ error: 'Oops! Trouble deleting' });
+      } else if (data === 2) {
+        res.status(404).send({ error: 'Item not found' });
+      }
+    };
+
+
+    /**
+     * Method that processes thedata obtained in getAll
+     * @param  {object} data     all universities obtained from the database
+     * @return {University[]}    an array containing all existing universities
+     */
+    this.processResult = (data) => {
+      const result = [];
+      data.forEach((res) => {
+        result.push(new University(res));
+      });
+      return result;
+    };
   }
 }
+
 
 module.exports = new UniversityCtrl();
