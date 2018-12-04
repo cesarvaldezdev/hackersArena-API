@@ -17,16 +17,33 @@ class Validator {
     };
   }
 
-  // FIXME arreglar para mantener funciones en multiples lineas
-  static token(data) { return (Validator.regex.token.test(data)); }
-  static datetime(data) { return (Validator.regex.datetime.test(data)); }
-  static word(data) { return (Validator.regex.word.test(data)); }
-  static language(data) { return (Validator.regex.language.test(data)); }
-  static alias(data) { return (Validator.regex.alias.test(data)); }
-  static password(data) { return (Validator.regex.password.test(data)); }
-  static required(data) { return data !== undefined && data !== null && data.length; }
-  static email(data) { return (Validator.regex.email.test(data)); }
-  static number(data) { return (Validator.regex.number.test(data)); }
+  static token(data) {
+    return (Validator.regex.token.test(data));
+  }
+  static datetime(data) {
+    return (Validator.regex.datetime.test(data));
+  }
+  static word(data) {
+    return (Validator.regex.word.test(data));
+  }
+  static language(data) {
+    return (Validator.regex.language.test(data));
+  }
+  static alias(data) {
+    return (Validator.regex.alias.test(data));
+  }
+  static password(data) {
+     return (Validator.regex.password.test(data));
+   }
+  static required(data) {
+     return data !== undefined && data !== null && data.length;
+   }
+  static email(data) {
+     return (Validator.regex.email.test(data));
+   }
+  static number(data) {
+     return (Validator.regex.number.test(data));
+   }
 
   static validate(req, res, next, rules) {
     const error = {

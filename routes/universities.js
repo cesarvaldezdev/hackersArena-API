@@ -9,9 +9,15 @@ const middlewares = require('../middlewares');
 /* GET */
 // Get all universities
 router.get('/', UniversityCtrl.getAll);
-// FIXME falta validar el parametro
+
 // Get a university by id
-router.get('/:universityId', UniversityCtrl.get);
+router.get('/:universityId',(req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    params: {
+      universityId: 'number',
+    },
+  });
+}, UniversityCtrl.get);
 
 
 /* POST */
@@ -21,54 +27,37 @@ router.post('/', (req, res, next) => {
       name: 'word,required',
       idLogo: 'number,required',
       idCountry: 'number,required',
-
-      token: 'token,required',
     },
   });
   req.body.allowQuery = 'C_Universities';
-}, (req, res, next) => {
-  middlewares.auth.session(req,res,next);
-}, (req, res, next) => {
-  middlewares.permission.check(req,res,next);
-}, UniversityCtrl.create);
+}, middlewares.auth.session, middlewares.permission.check, UniversityCtrl.create);
 
 
 /* PUT */
-// FIXME falta validar el parametro
-// FIXME put es intencionado para ediciones y para para creaciones,
-// por lo cual al parecer el metodo del controlador esta mal
 router.put('/:universityId', [(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
+    params: {
+      universityId: 'number',
+    },
     body: {
       name: 'word,required',
       idLogo: 'number,required',
       idCountry: 'number,required',
-
-      token: 'token,required',
     },
   });
   req.body.allowQuery = 'C_Universities';
-}], (req, res, next) => {
-  middlewares.auth.session(req,res,next);
-}, (req, res, next) => {
-  middlewares.permission.check(req,res,next);
-}, UniversityCtrl.create);
+}], middlewares.auth.session, middlewares.permission.check, UniversityCtrl.create);
 
 
 /* DELETE */
-// FIXME falta validar el parametro
 router.delete('/:universityId', (req, res, next) => {
   middlewares.validator.validate(req, res, next, {
-    body: {
-      token: 'token,required',
+    params: {
+      universityId: 'number',
     },
   });
   req.body.allowQuery = 'D_Universities';
-}, (req, res, next) => {
-  middlewares.auth.session(req,res,next);
-}, (req, res, next) => {
-  middlewares.permission.check(req,res,next);
-}, UniversityCtrl.delete);
+}, middlewares.auth.session, middlewares.permission.check, UniversityCtrl.delete);
 
 
 module.exports = router;

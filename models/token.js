@@ -30,13 +30,17 @@ class Token {
     try {
       //console.log(token.params.token);
       const data = await db.selectOne('Token', '', [{ attr: 'token', oper: '=', val: `'${token}'` }]);
-      const nt = new Token(data[0]);
-      var dateNow = new Date();
-      if (nt.expires > dateNow) {
+      if(data.length !== 0){
+        const nt = new Token(data[0]);
+        var dateNow = new Date();
+        if (nt.expires > dateNow) {
+          return nt;
+        }
+        nt.status=0;
         return nt;
+      }else{
+        return data;
       }
-      nt.status=0;
-      return nt;
     } catch (e) {
       throw e;
     }

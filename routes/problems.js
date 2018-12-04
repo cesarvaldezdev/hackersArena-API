@@ -9,9 +9,15 @@ const middlewares = require('../middlewares');
 /* GET */
 // Get all problems
 router.get('/', ProblemCtrl.getAll);
-// FIXME falta validar el parametro
+
 // Get a problem by id
-router.get('/:problemId', ProblemCtrl.get);
+router.get('/:problemId', (req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    params: {
+      problemId: 'number',
+    },
+  });
+}, ProblemCtrl.get);
 
 
 /* POST */
@@ -25,24 +31,18 @@ router.post('/', (req, res, next) => {
       aliasUser: 'alias,required',
       idCategory: 'number,required',
       status: 'number,required',
-
-      token: 'token,required',
     },
   });
   req.body.allowQuery = 'C_Problems';
-}, (req, res, next) => {
-  middlewares.auth.session(req,res,next);
-}, (req, res, next) => {
-  middlewares.permission.check(req,res,next);
-}, ProblemCtrl.create);
+}, middlewares.auth.session, middlewares.permission.check, ProblemCtrl.create);
 
 
 /* PUT */
-// FIXME falta validar el parametro
-// FIXME put es intencionado para ediciones y para para creaciones,
-// por lo cual al parecer el metodo del controlador esta mal
 router.put('/:problemId', [(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
+    params: {
+      problemId: 'number',
+    },
     body: {
       timeLimit: 'number,required',
       memoryLimit: 'number,required',
@@ -51,32 +51,21 @@ router.put('/:problemId', [(req, res, next) => {
       aliasUser: 'alias,required',
       idCategory: 'number,required',
       status: 'number,required',
-
-      token: 'token,required',
     },
   });
   req.body.allowQuery = 'C_Problems';
-}], (req, res, next) => {
-  middlewares.auth.session(req,res,next);
-}, (req, res, next) => {
-  middlewares.permission.check(req,res,next);
-}, ProblemCtrl.create);
+}], middlewares.auth.session, middlewares.permission.check, ProblemCtrl.create);
 
 
 /* DELETE */
-// FIXME falta validar el parametro
 router.delete('/:problemId',(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
-    body: {
-      token: 'token,required',
+    params: {
+      problemId: 'number',
     },
   });
   req.body.allowQuery = 'D_Problems';
-}, (req, res, next) => {
-  middlewares.auth.session(req,res,next);
-}, (req, res, next) => {
-  middlewares.permission.check(req,res,next);
-}, ProblemCtrl.delete);
+}, middlewares.auth.session, middlewares.permission.check, ProblemCtrl.delete);
 
 
 module.exports = router;

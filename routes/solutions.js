@@ -9,9 +9,15 @@ const middlewares = require('../middlewares');
 /* GET */
 // Get all solutions
 router.get('/', SolutionCtrl.getAll);
-// FIXME falta validar el parametro
+
 // Get a solution by id
-router.get('/:solutionId', SolutionCtrl.get);
+router.get('/:solutionId',(req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    params: {
+      solutionId: 'number',
+    },
+  });
+}, SolutionCtrl.get);
 
 
 /* POST */
@@ -28,13 +34,11 @@ router.post('/', (req, res, next) => {
       idVerdict: 'number,required',
     },
   });
-}, SolutionCtrl.create);
+  req.body.allowQuery = 'C_Solutions';
+}, middlewares.auth.session, middlewares.permission.check, SolutionCtrl.create);
 
 
 /* PUT */
-// FIXME falta validar el parametro
-// FIXME put es intencionado para ediciones y para para creaciones,
-// por lo cual al parecer el metodo del controlador esta mal
 
 // router.put('/:solutionId', [(req, res, next) => {
 //   middlewares.validator.validate(req, res, next, {
@@ -53,7 +57,6 @@ router.post('/', (req, res, next) => {
 //
 
 /* DELETE */
-// FIXME falta validar el parametro
 
 // router.delete('/:solutionId', SolutionCtrl.delete);
 

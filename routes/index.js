@@ -15,12 +15,13 @@ const solutionsRouter = require('./solutions');
 const universitiesRouter = require('./universities');
 const usersRouter = require('./users');
 const verdictsRouter = require('./verdicts');
-const authRouter = require('./auth');
+//const authRouter = require('./auth');
 //const mailer = require('../mail');
 const rolesRouter = require('./roles');
 const allowsRouter = require('./allows');
 const userRolesRouter = require('./userroles');
 const roleAllowsRouter = require('./roleallows');
+//const driveRouter = require('./drive');
 //const judgeRouter = require('./judge');
 
 router.get('/', (req, res) => { res.status(200).send('Hackers Arena v1.0'); });
@@ -40,7 +41,8 @@ router.use('/allows', allowsRouter);
 router.use('/userroles', userRolesRouter);
 router.use('/roleallows', roleAllowsRouter);
 //router.use('/judge', judgeRouter);
-router.use('/', authRouter);
+//router.use('/drive', driveRouter);
+//router.use('/', authRouter);
 
 
 module.exports = router;

@@ -10,32 +10,19 @@ const middlewares = require('../middlewares');
 /* GET */
 // Get all users
 router.get('/',(req, res, next) => {
-  middlewares.validator.validate(req, res, next, {
-    body: {
-      token: 'token,required',
-    },
-  });
   req.body.allowQuery = 'GA_UserRoles';
-}, (req, res, next) => {
-  middlewares.auth.session(req,res,next);
-}, (req, res, next) => {
-  middlewares.permission.check(req,res,next);
-}, UserRoleCtrl.getAll);
+}, middlewares.auth.session, middlewares.permission.check, UserRoleCtrl.getAll);
 
 
 // Get a user by alias
 router.get('/:aliasUser',(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
-    body: {
-      token: 'token,required',
+    params: {
+      aliasUser: 'alias',
     },
   });
   req.body.allowQuery = 'G_UserRoles';
-}, (req, res, next) => {
-  middlewares.auth.session(req,res,next);
-}, (req, res, next) => {
-  middlewares.permission.check(req,res,next);
-}, UserRoleCtrl.get);
+}, middlewares.auth.session, middlewares.permission.check, UserRoleCtrl.get);
 
 
 /* POST */
@@ -44,16 +31,10 @@ router.post('/', (req, res, next) => {
     body: {
       aliasUser: 'alias,required',
       idRole: 'number,required',
-
-      token: 'token,required',
     },
   });
   req.body.allowQuery = 'C_UserRoles';
-}, (req, res, next) => {
-  middlewares.auth.session(req,res,next);
-}, (req, res, next) => {
-  middlewares.permission.check(req,res,next);
-}, UserRoleCtrl.create);
+}, middlewares.auth.session, middlewares.permission.check, UserRoleCtrl.create);
 
 
 /* DELETE */
@@ -62,16 +43,10 @@ router.post('/delete', (req, res, next) => {
     body: {
       aliasUser: 'alias,required',
       idRole: 'number,required',
-
-      token: 'token,required',
     },
   });
   req.body.allowQuery = 'D_UserRoles';
-}, (req, res, next) => {
-  middlewares.auth.session(req,res,next);
-}, (req, res, next) => {
-  middlewares.permission.check(req,res,next);
-}, UserRoleCtrl.delete);
+}, middlewares.auth.session, middlewares.permission.check, UserRoleCtrl.delete);
 
 
 module.exports = router;

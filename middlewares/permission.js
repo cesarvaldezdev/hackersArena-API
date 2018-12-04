@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 //const { TokenCtrl, UserCtrl } = require('../controllers');
-const { UserRole, RoleAllow, Allow } = require('../models');
+const { UserRole, RoleAllow, Allow, Token } = require('../models');
 
 class Permission {
 
@@ -8,7 +8,7 @@ class Permission {
 
     this.check = async (req,res,next) => {
       try{
-        const aliasUser = (await Token.get(req.body.token)).aliasUser;
+        const aliasUser = (await Token.get(req.headers.token)).aliasUser;
         if(req.params.userAlias !== undefined && aliasUser !== req.params.userAlias){ // Checks permission for user update or delete
           res.status(401).send({ error: 'You only have permission over your own profile' });
         }

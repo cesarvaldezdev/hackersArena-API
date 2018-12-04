@@ -10,33 +10,66 @@ const middlewares = require('../middlewares');
 /* GET */
 // Get all users
 router.get('/', UserCtrl.getAll);
-// FIXME falta validar el parametro
+
 // Get a user by alias
-router.get('/:userAlias', UserCtrl.get);
+router.get('/:userAlias',(req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    params: {
+      userAlias: 'alias',
+    },
+  });
+}, UserCtrl.get);
 
 
 /* POST */
-// router.post('/', (req, res, next) => {
-//   middlewares.validator.validate(req, res, next, {
-//     body: {
-//       alias: 'alias,required',
-//       name: 'word,required',
-//       lastName: 'word,required',
-//       email: 'email,required',
-//       password: 'password,required',
-//       idUniversity: 'number,required',
-//       idCountry: 'number,required',
-//     },
-//   });
-// }, UserCtrl.create);
+// Create a new User
+router.post('/', (req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      alias: 'alias,required',
+      name: 'word,required',
+      lastName: 'word,required',
+      email: 'email,required',
+      password: 'password,required',
+      idUniversity: 'number,required',
+      idCountry: 'number,required',
+    },
+  });
+},middlewares.auth.registerUser);
+
+// Confirm Account
+router.get('/register/:token',(req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    params: {
+      token: 'token',
+    },
+  });
+}, middlewares.auth.confirmUser);
+
+// Login
+router.post('/login', (req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      alias: 'alias,required',
+      password: 'password,required',
+    },
+  });
+}, middlewares.auth.login);
+
+// Logout
+router.post('/logout', middlewares.auth.logout);
+
+// Check session status
+router.post('/session', middlewares.auth.session, middlewares.auth.extraConfirm);
 
 
 /* PUT */
-// FIXME falta validar el parametro
-// FIXME put es intencionado para ediciones y para para creaciones,
-// por lo cual al parecer el metodo del controlador esta mal
+// Edit user
 router.put('/:userAlias', [(req, res, next) => {
   middlewares.validator.validate(req, res, next, {
+    params: {
+      userAlias: 'alias',
+    },
     body: {
       name: 'word,required',
       lastName: 'word,required',
@@ -45,32 +78,21 @@ router.put('/:userAlias', [(req, res, next) => {
       password: 'password,required',
       idUniversity: 'number,required',
       idCountry: 'number,required',
-
-      token: 'token,required',
     },
   });
   req.body.allowQuery = 'C_Users';
-}], (req, res, next) => {
-  middlewares.auth.session(req,res,next);
-}, (req, res, next) => {
-  middlewares.permission.check(req,res,next);
-}, UserCtrl.create);
+}], middlewares.auth.session, middlewares.permission.check, UserCtrl.create);
 
 
 /* DELETE */
-// FIXME falta validar el parametro
 router.delete('/:userAlias', (req, res, next) => {
   middlewares.validator.validate(req, res, next, {
-    body: {
-      token: 'token,required',
+    params: {
+      userAlias: 'alias',
     },
   });
   req.body.allowQuery = 'D_Users';
-}, (req, res, next) => {
-  middlewares.auth.session(req,res,next);
-}, (req, res, next) => {
-  middlewares.permission.check(req,res,next);
-}, UserCtrl.delete);
+}, middlewares.auth.session, middlewares.permission.check, UserCtrl.delete);
 
 
 module.exports = router;
