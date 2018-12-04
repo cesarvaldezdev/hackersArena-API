@@ -66,8 +66,8 @@ class Auth {
                  let mailOptions = {
                    to: user.email,
                    subject: 'Confirm Account',
-                   text: `http://hackersarena00.appspot.com/register/${newHash}`,
-                   html: '<a href="http://hackersarena00.appspot.com/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
+                   text: `http://hackersarena00.appspot.com/users/register/${newHash}`,
+                   html: '<a href="http://hackersarena00.appspot.com/users/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
                  };
                  mailer.sendMail(mailOptions);
 
@@ -123,16 +123,6 @@ class Auth {
        try{
          const user = await User.get(req.body.alias);
          var salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
-         // if(req.body.token !== undefined){
-         //   const token = await Token.get(req.body.token);
-         //   if (token.length !== 0 && token.status === 1) {
-         //     // go to home page, alredy logged
-         //     res.status(200).send({ message: "You're already logged!" });
-         //   }else{
-         //     // go to loggin page
-         //     res.status(400).send({ message: "The session has expired!" });
-         //   }
-         // }
          if (user.length === 0) {
            res.status(400).send({ message: 'User doesnt exist' });
          } else if (user.status === 1) {
@@ -180,8 +170,8 @@ class Auth {
              let mailOptions = {
                to: user.email,
                subject: 'Confirm Account',
-               text: `http://hackersarena00.appspot.com/register/${newHash}`,
-               html: '<a href="http://hackersarena00.appspot.com/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
+               text: `http://hackersarena00.appspot.com/users/register/${newHash}`,
+               html: '<a href="http://hackersarena00.appspot.com/users/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
              };
              mailer.sendMail(mailOptions);
              res.status(201).send({data: {token:newHash,}, message: "Activate your account first, an email has been sent to you"});
@@ -214,7 +204,8 @@ class Auth {
       }
 
       this.session = async (req, res, next) =>{
-       const token = await Token.get(req.body.token);
+       //const token = await Token.get(req.body.token);
+       const token = await Token.get(req.headers.token);
        if (token.length === 0 || (token.length !== 0 && token.status === 0)) { // Verification of status token is made in model
          // Status is inactive
          res.status(401).send({ error: 'Inactive token' }); // Loggin needed

@@ -79,10 +79,15 @@ class UserCtrl {
         status: 0,
       }).save();
       // FIXME No utilizar condicionales de una sola linea
-      if (data === 0) res.status(201).send({ message: 'Item saved' });
-      else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
-      else if (data === 2) res.status(400).send({ message: 'Oops! Country not found' });
-      else if (data === 3) res.status(400).send({ message: 'Oops! University not found' });
+      if (data === 0) {
+        res.status(201).send({ message: 'Item saved' });
+      }else if (data === 1) {
+        res.status(400).send({ message: 'Oops! Trouble saving' });
+      }else if (data === 2) {
+        res.status(400).send({ message: 'Oops! Country not found' });
+      }else if (data === 3) {
+        res.status(400).send({ message: 'Oops! University not found' });
+      }
     };
 
 
