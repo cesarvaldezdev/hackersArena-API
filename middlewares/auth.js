@@ -69,12 +69,14 @@ class Auth {
                    text: `http://hackersarena00.appspot.com/users/register/${newHash}`,
                    html: '<a href="http://hackersarena00.appspot.com/users/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
                  };
-                 mailer.sendMail(mailOptions);
+                 await mailer.sendMail(mailOptions);
 
                  const userRoleData = await new UserRole({
                    aliasUser: user.alias,
                    idRole: 1,
-                 }).save;
+                 }).save();
+
+                 console.log(userRoleData);
 
                  if(userRoleData === 0){
                   res.status(201).send({data: {token:newHash,}, message: "Sucesfully created"});
