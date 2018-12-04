@@ -11,6 +11,7 @@ const middlewares = require('../middlewares');
 // Get all users
 router.get('/',(req, res, next) => {
   req.body.allowQuery = 'GA_RoleAllows';
+  next();
 }, middlewares.auth.session, middlewares.permission.check, RoleAllowCtrl.getAll);
 
 

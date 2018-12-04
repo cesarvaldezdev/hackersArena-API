@@ -10,6 +10,7 @@ const middlewares = require('../middlewares');
 // Get all verdicts
 router.get('/',(req, res, next) => {
   req.body.allowQuery = 'GA_Roles';
+  next();
 }, middlewares.auth.session, middlewares.permission.check, RoleCtrl.getAll);
 
 
