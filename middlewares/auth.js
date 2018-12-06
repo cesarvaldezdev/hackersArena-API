@@ -60,14 +60,16 @@ class Auth {
                });
                const dataToken = await tok.save();
 
+               //console.log(hash);
                if (dataToken === 0) {
-                 let newHash = hash.replace("/","!");
+                 let newHash = hash.replace('/','!');
+                 //console.log(newHash);
                  let str = `${newHash}`;
                  let mailOptions = {
                    to: user.email,
                    subject: 'Confirm Account',
-                   text: `http://hackersarena00.appspot.com/users/register/${newHash}`,
-                   html: '<a href="http://hackersarena00.appspot.com/users/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
+                   text: `http://hackersarena-224603.appspot.com/users/register/${newHash}`,
+                   html: '<a href="http://hackersarena-224603.appspot.com/users/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
                  };
                  await mailer.sendMail(mailOptions);
 
@@ -76,13 +78,14 @@ class Auth {
                    idRole: 1,
                  }).save();
 
-                 console.log(userRoleData);
+                 //console.log(userRoleData);
 
                  if(userRoleData === 0){
                   res.status(201).send({data: {token:newHash,}, message: "Sucesfully created"});
                 }else{
                   res.status(401).send({ error: 'Something has gone wrong with your Role' }); //Can't save UserRole
                 }
+
                }else {
                  res.status(401).send({ error: 'Something has gone wrong' }); //Can't save token
                }
@@ -172,8 +175,8 @@ class Auth {
              let mailOptions = {
                to: user.email,
                subject: 'Confirm Account',
-               text: `http://hackersarena00.appspot.com/users/register/${newHash}`,
-               html: '<a href="http://hackersarena00.appspot.com/users/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
+               text: `http://hackersarena-224603.appspot.com/users/register/${newHash}`,
+               html: '<a href="http://hackersarena-224603.appspot.com/users/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
              };
              mailer.sendMail(mailOptions);
              res.status(201).send({data: {token:newHash,}, message: "Activate your account first, an email has been sent to you"});
