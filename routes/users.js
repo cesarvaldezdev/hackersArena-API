@@ -83,6 +83,25 @@ router.put('/:userAlias', [(req, res, next) => {
   req.body.allowQuery = 'C_Users';
 }], middlewares.auth.session, middlewares.permission.check, UserCtrl.create);
 
+// Add new email
+router.post('/mail/', (req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    body: {
+      aliasUser: 'alias,required',
+      email: 'email,required',
+    },
+  });
+}, middlewares.auth.session, middlewares.auth.addMail);
+
+// Activate new email
+router.get('/mail/:token',(req, res, next) => {
+  middlewares.validator.validate(req, res, next, {
+    params: {
+      token: 'token',
+    },
+  });
+}, middlewares.auth.confirmMail);
+
 
 /* DELETE */
 router.delete('/:userAlias', (req, res, next) => {

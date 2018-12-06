@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const { TokenCtrl, UserCtrl } = require('../controllers');
-const { User, Token, UserRole } = require('../models');
+const { User, Token, UserRole, Email } = require('../models');
 const mailer = require('../mail');
 
 /**
@@ -178,7 +178,7 @@ class Auth {
                text: `http://hackersarena-224603.appspot.com/users/register/${newHash}`,
                html: '<a href="http://hackersarena-224603.appspot.com/users/register/'+str+'"> Click Aqui para verificar tu cuenta :D !! </a>',
              };
-             mailer.sendMail(mailOptions);
+             await mailer.sendMail(mailOptions);
              res.status(201).send({data: {token:newHash,}, message: "Activate your account first, an email has been sent to you"});
            }else {
              res.status(401).send({ error: 'Something has gone wrong' }); //Can't save token
@@ -221,6 +221,57 @@ class Auth {
 
      this.extraConfirm = async (req, res) => {
        res.status(200).send({ message: 'Active Session' });
+     }
+
+     this.addMail = async (req, res) => {
+       try{
+         console.log(req.body.email);
+         const data = await Email.getByEmail(req.body.email);
+         if(data.aliasUser !== req.body.aliasUser && data.length !== 0){
+           res.status(401).send({ error: 'This email is already registered' });
+         }else if(data.aliasUser === req.body.aliasUser && data.status === 1){
+           res.status(200).send({ message: 'You already have this email registered in your account' });
+         }else{
+           const dataE = await new Email({
+             aliasUser: req.body.aliasUser,
+             email: req.body.email,
+             status: 0,
+           }).save();
+           if (dataE === 0) {
+             let mailOptions = {
+               to: req.body.email,
+               subject: 'Confirm New Email',
+               text: `http://hackersarena-224603.appspot.com/users/mail/${req.body.email}`,
+               html: '<a href="http://hackersarena-224603.appspot.com/users/mail/'+req.body.email+'"> Click Aqui para verificar tu nuevo correo !! </a>',
+             };
+             await mailer.sendMail(mailOptions);
+             res.status(201).send({data: {email:req.body.email,}, message: "An email has been sent to you"});
+           }else {
+             res.status(401).send({ error: 'Something has gone wrong' });
+           }
+         }
+       }catch(e){
+         throw(e);
+       }
+     }
+
+     this.confirmMail = async (req, res) => {
+       try{
+         const dataE = await Email.getByEmail(req.params.token);
+         if(dataE.length !== 0){
+           dataE.status = 1;
+           const dataRes = await dataE.save();
+           if(dataRes === 0){
+             res.status(201).send({ message: 'Email added correctly!' });
+           }else{
+             res.status(401).send({ error: 'Something has gone wrong' });
+           }
+         }else{
+           res.status(401).send({ error: 'Something has gone wrong' });
+         }
+       }catch(e){
+         throw(e);
+       }
      }
 
      this.recover = async (req, res) =>{

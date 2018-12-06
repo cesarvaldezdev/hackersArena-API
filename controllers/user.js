@@ -2,7 +2,7 @@
 // FIXME agregar documentacion a clase y métodos
 const bcrypt = require('bcrypt');
 
-const { User } = require('../models');
+const { User, Email } = require('../models');
 
 /**
  * The controller that manages users
@@ -50,10 +50,12 @@ class UserCtrl {
      */
     this.get = async (req, res) => {
       // FIXME Agregar manejo de errores
-      const data = await User.get(req.params.userAlias);
+      let data = await User.get(req.params.userAlias);
       if (data.length === 0) {
         res.status(400).send({ message: 'Item not found' });
       }
+      const extra = await Email.get(req.params.userAlias);
+      data.extraEmails = extra;
       res.send({ data });
     };
 
