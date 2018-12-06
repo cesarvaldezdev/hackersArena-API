@@ -57,7 +57,7 @@ class RoleAllow {
    */
   static async get(idRole) {
     try {
-      const data = await db.selectAll('RoleAllows', '', [{ attr: 'idRole', oper: '=', val: idRole }], 'idRole', true, 20, 0);
+      const data = await db.selectAll('RoleAllows', '', [{ attr: 'idRole', oper: '=', val: idRole }], 'idRole', true, 100, 0);
       if(data.length !== 0){
         const result = [];
         data.forEach((res) => {

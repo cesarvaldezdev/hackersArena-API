@@ -56,7 +56,7 @@ class UserRole {
    */
   static async get(aliasUser) {
     try {
-      const data = await db.selectAll('UserRoles', '', [{ attr: 'aliasUser', oper: '=', val: `'${aliasUser}'` }], 'aliasUser', true, 20, 0);
+      const data = await db.selectAll('UserRoles', '', [{ attr: 'aliasUser', oper: '=', val: `'${aliasUser}'` }], 'aliasUser', true, 200, 0);
       if(data.length !== 0){
         const result = [];
         data.forEach((res) => {
