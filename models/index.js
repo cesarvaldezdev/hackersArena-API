@@ -19,3 +19,4 @@ exports.Role = require('./role');
 exports.Allow = require('./allow');
 exports.UserRole = require('./userrole');
 exports.RoleAllow = require('./roleallow');
+exports.ProblemData = require('./problemdata');

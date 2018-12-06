@@ -1,6 +1,6 @@
 // FIXME Corregir errores de linter
 // FIXME agregar documentacion a clase y métodos
-const { Problem } = require('../models');
+const { Problem, ProblemData } = require('../models');
 
 
 /**
@@ -25,7 +25,7 @@ class ProblemCtrl {
       let data = [];
       let cont = true;
       while(cont){
-        let pagina = await Problem.getAll(ini,fin);
+        let pagina = await Problem.getAll(ini,fin,true);
         ini += parseInt(process.env.INCREMENT_QUERIES);
         fin += parseInt(process.env.INCREMENT_QUERIES);
         if(pagina.length === 0) cont =false;
@@ -52,8 +52,17 @@ class ProblemCtrl {
       const data = await Problem.get(req.params.problemId);
       if (data.length === 0) {
         res.status(400).send({ message: 'Item not found' });
+      }else{
+        const dataP = await ProblemData.get(req.params.problemId);
+        if (dataP.length === 0) {
+          res.status(400).send({ message: 'Problem data not found' });
+        }else{
+          data.description = dataP.description;
+          data.test = dataP.test;
+          data.output = dataP.output;
+          res.status(200).send({ data });
+        }
       }
-      res.send({ data });
     };
 
 
@@ -67,20 +76,48 @@ class ProblemCtrl {
       // FIXME Agregar manejo de errores
       const data = await new Problem({
         id: req.params.problemId,
-        timeLimit: req.body.timeLimit,
-        memoryLimit: req.body.memoryLimit,
-        attempts: req.body.attempts,
-        solved: req.body.solved,
+        timeLimit: 0,//req.body.timeLimit,
+        memoryLimit: 0,//req.body.memoryLimit,
+        attempts: 0,//req.body.attempts,
+        solved: 0,//req.body.solved,
         aliasUser: req.body.aliasUser,
         idCategory: req.body.idCategory,
         status: req.body.status,
-      })
-        .save();
-      // FIXME No utilizar condicionales de una sola linea
-      if (data === 0) res.status(201).send({ message: 'Item saved' });
-      else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
-      else if (data === 2) res.status(400).send({ message: 'Oops! Alias not found' });
-      else if (data === 3) res.status(400).send({ message: 'Oops! Category not found' });
+        title: req.body.title,
+      }).save();
+
+      let idP = req.params.problemId;
+      if(idP === undefined){
+        let idP = await Problem.getAll(0,1,false);
+        if(idP !== undefined){
+          idP = idP[0].id;
+        }else{
+          res.status(400).send({ message: "Oops! Can't save data problem, try again" });
+        }
+      }
+      console.log(idP);
+      console.log(req.body.description);
+      console.log(req.body.test);
+      console.log(req.body.output);
+      const dataP = await new ProblemData({
+        idProblem: idP,
+        description: req.body.description,
+        test: req.body.test,
+        output: req.body.output,
+      }).save();
+      if(dataP !== 0){
+        res.status(400).send({ message: "Oops! Can't save data problem, try again" });
+      }
+
+      if (data === 0) {
+        res.status(201).send({ message: 'Item saved' });
+      }else if (data === 1) {
+        res.status(400).send({ message: 'Oops! Trouble saving' });
+      }else if (data === 2) {
+        res.status(400).send({ message: 'Oops! Alias not found' });
+      }else if (data === 3) {
+        res.status(400).send({ message: 'Oops! Category not found' });
+      }
     };
 
 

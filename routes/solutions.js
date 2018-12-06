@@ -24,14 +24,15 @@ router.get('/:solutionId',(req, res, next) => {
 router.post('/', (req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
-      date: 'datetime,required',
-      time: 'number,required',
-      memory: 'number,required',
-      size: 'number,required',
+      //date: 'datetime,required',
+      //time: 'number,required',
+      //memory: 'number,required',
+      //size: 'number,required',
       aliasUser: 'alias,required',
       idProblem: 'number,required',
       idLanguage: 'number,required',
-      idVerdict: 'number,required',
+      //idVerdict: 'number,required',
+      output: 'token,required',
     },
   });
   req.body.allowQuery = 'C_Solutions';

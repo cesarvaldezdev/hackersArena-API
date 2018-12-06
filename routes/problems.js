@@ -24,13 +24,18 @@ router.get('/:problemId', (req, res, next) => {
 router.post('/', (req, res, next) => {
   middlewares.validator.validate(req, res, next, {
     body: {
-      timeLimit: 'number,required',
-      memoryLimit: 'number,required',
-      attempts: 'number,required',
-      solved: 'number,required',
+      //timeLimit: 'number,required',
+      //memoryLimit: 'number,required',
+      //attempts: 'number,required',
+      //solved: 'number,required',
       aliasUser: 'alias,required',
       idCategory: 'number,required',
       status: 'number,required',
+      title: 'token,required',
+
+      description: 'token,required',
+      test: 'token,required',
+      output: 'token,required',
     },
   });
   req.body.allowQuery = 'C_Problems';
@@ -44,13 +49,18 @@ router.put('/:problemId', [(req, res, next) => {
       problemId: 'number',
     },
     body: {
-      timeLimit: 'number,required',
-      memoryLimit: 'number,required',
-      attempts: 'number,required',
-      solved: 'number,required',
+      //timeLimit: 'number,required',
+      //memoryLimit: 'number,required',
+      //attempts: 'number,required',
+      //solved: 'number,required',
       aliasUser: 'alias,required',
       idCategory: 'number,required',
       status: 'number,required',
+      title: 'token,required',
+
+      description: 'token,required',
+      test: 'token,required',
+      output: 'token,required',
     },
   });
   req.body.allowQuery = 'C_Problems';

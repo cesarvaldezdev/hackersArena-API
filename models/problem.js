@@ -23,7 +23,7 @@ class Problem {
    * @param {number} idCategory the id of the category the problem belongs to
    */
   constructor({
-    id, timeLimit, memoryLimit, attempts, solved, aliasUser, idCategory, status,
+    id, timeLimit, memoryLimit, attempts, solved, aliasUser, idCategory, status, title,
   }) {
     this.id = id;
     this.timeLimit = timeLimit;
@@ -33,6 +33,7 @@ class Problem {
     this.aliasUser = aliasUser;
     this.idCategory = idCategory;
     this.status = status;
+    this.title = title;
   }
 
 
@@ -41,9 +42,9 @@ class Problem {
    * @return {Promise} returns an array containing all existing verdicts
    * @throws {event}   returns the error
    */
-  static async getAll(ini,fin) {
+  static async getAll(ini,fin,bool) {
     try {
-      const data = await db.selectAll('Problem', '', '', 'id', true, fin, ini);
+      const data = await db.selectAll('Problem', '', '', 'id', bool, fin, ini);
       const response = [];
       data.forEach((res) => {
         response.push(new Problem(res));

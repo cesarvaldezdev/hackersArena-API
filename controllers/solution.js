@@ -1,6 +1,6 @@
 // FIXME Corregir errores de linter
 // FIXME agregar documentacion a clase y métodos
-const { Solution } = require('../models');
+const { Solution, ProblemData } = require('../models');
 
 
 /**
@@ -64,26 +64,44 @@ class SolutionCtrl {
      * @return {Promise}     returns data concerning the creation
      */
     this.create = async (req, res) => {
-      // FIXME Agregar manejo de errores
+      const dataS = await ProblemData.get(req.body.idProblem);
+      if(dataS.length === 0){
+        res.status(400).send({ message: 'Oops! Problem not found' });
+        return;
+      }
+      let ver = 1;
+      if(dataS.output !== req.body.output){
+        ver = 2;
+      }
       const data = await new Solution({
         id: req.params.solutionId,
-        date: req.body.date,
-        time: req.body.time,
-        memory: req.body.memory,
-        size: req.body.size,
+        date: new Date(),//req.body.date,
+        time: 0,//req.body.time,
+        memory: 0,//req.body.memory,
+        size: 0,//req.body.size,
         aliasUser: req.body.aliasUser,
         idProblem: req.body.idProblem,
         idLanguage: req.body.idLanguage,
-        idVerdict: req.body.idVerdict,
-      })
-        .save();
-      // FIXME No utilizar condicionales de una sola linea
-      if (data === 0) res.status(201).send({ message: 'Item saved' });
-      else if (data === 1) res.status(400).send({ message: 'Oops! Trouble saving' });
-      else if (data === 2) res.status(400).send({ message: 'Oops! Problem not found' });
-      else if (data === 3) res.status(400).send({ message: 'Oops! Language not found' });
-      else if (data === 4) res.status(400).send({ message: 'Oops! User not found' });
-      else if (data === 5) res.status(400).send({ message: 'Oops! Verdict not found' });
+        idVerdict: ver,//req.body.idVerdict,
+      }).save();
+
+      if (data === 0) {
+        if(ver === 1){
+          res.status(201).send({ message: 'Accepted' });
+        }else{
+          res.status(201).send({ message: 'Wrong Answer' });
+        }
+      }else if (data === 1) {
+        res.status(400).send({ message: 'Oops! Trouble saving' });
+      }else if (data === 2) {
+        res.status(400).send({ message: 'Oops! Problem not found' });
+      }else if (data === 3) {
+        res.status(400).send({ message: 'Oops! Language not found' });
+      }else if (data === 4) {
+        res.status(400).send({ message: 'Oops! User not found' });
+      }else if (data === 5) {
+        res.status(400).send({ message: 'Oops! Verdict not found' });
+      }
     };
 
 

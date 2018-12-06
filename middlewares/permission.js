@@ -19,7 +19,10 @@ class Permission {
         }else{
           res.status(401).send({ error: 'Requested permission does not exist' });
         }
+        //console.log(allowId);
+        //console.log(aliasUser);
         const data = await UserRole.get(aliasUser);
+        //console.log(data);
         let encontrado = false;
         if(data !== undefined && data.length !== 0){
           for (const elem of data){
