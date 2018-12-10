@@ -2,7 +2,7 @@
 // FIXME agregar documentacion a clase y métodos
 const bcrypt = require('bcrypt');
 
-const { User, Email } = require('../models');
+const { User, Email, University, Country, Solution } = require('../models');
 
 /**
  * The controller that manages users
@@ -53,10 +53,21 @@ class UserCtrl {
       let data = await User.get(req.params.userAlias);
       if (data.length === 0) {
         res.status(400).send({ message: 'Item not found' });
+      }else{
+        const extra = await Email.get(req.params.userAlias);
+        data.extraEmails = extra;
+        data.password = undefined;
+        data.country = (await Country.get(data.idCountry)).name;
+        data.university = (await University.get(data.idUniversity)).name;
+        data.solved = 0;
+        data.tried = 0;
+        const sol = await Solution.getByAlias(req.params.userAlias);
+        sol.forEach((elem) => {
+          if(elem.idVerdict === 1) data.solved++;
+          data.tried++;
+        });
+        res.send({ data });
       }
-      const extra = await Email.get(req.params.userAlias);
-      data.extraEmails = extra;
-      res.send({ data });
     };
 
 
@@ -80,7 +91,6 @@ class UserCtrl {
         idCountry: req.body.idCountry,
         status: 0,
       }).save();
-      // FIXME No utilizar condicionales de una sola linea
       if (data === 0) {
         res.status(201).send({ message: 'Item saved' });
       }else if (data === 1) {

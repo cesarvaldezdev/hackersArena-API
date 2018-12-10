@@ -1,6 +1,6 @@
 // FIXME Corregir errores de linter
 // FIXME agregar documentacion a clase y métodos
-const { Solution, ProblemData } = require('../models');
+const { Solution, ProblemData, User, Problem } = require('../models');
 
 
 /**
@@ -52,8 +52,9 @@ class SolutionCtrl {
       const data = await Solution.get(req.params.solutionId);
       if (data.length === 0) {
         res.status(400).send({ message: 'Item not found' });
+      }else{
+        res.send({ data });  
       }
-      res.send({ data });
     };
 
 
@@ -86,11 +87,18 @@ class SolutionCtrl {
       }).save();
 
       if (data === 0) {
+        let problem = await Problem.get(req.body.idProblem);
+        problem.attempts = problem.attempts + 1;
         if(ver === 1){
+          let user = await User.get(req.body.aliasUser);
+          user.score = user.score + 1;
+          await user.save();
+          problem.solved = problem.solved + 1;
           res.status(201).send({ message: 'Accepted' });
         }else{
           res.status(201).send({ message: 'Wrong Answer' });
         }
+        await problem.save();
       }else if (data === 1) {
         res.status(400).send({ message: 'Oops! Trouble saving' });
       }else if (data === 2) {

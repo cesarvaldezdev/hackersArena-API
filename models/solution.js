@@ -73,6 +73,23 @@ class Solution {
   }
 
 
+
+
+  static async getByAlias(alias) {
+    try {
+      const data = await db.selectAll('Solution', '', [{ attr: 'aliasUser', oper: '=', val: `'${alias}'` }], 'id', false, 999999, 0);
+      const response = [];
+      data.forEach((res) => {
+        response.push(new Solution(res));
+      });
+      return response;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+
+
   /**
    * Updates the element that matches request, if none match, it creates it
    * @return {Promise} returns 0 if the solution was saved,
